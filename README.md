@@ -35,7 +35,7 @@ The report is ready to print on A4, with page breaks between sections. It covers
 
 A panel beside the report, outside the print area, explains how to print or save it as a PDF. It also has a **pre-filled `mailto:` link** that sends the headline results to the email address entered in the Profile sheet. Excel cannot attach files without macros, so the user saves the PDF and attaches it themselves. The workbook has no macros, so corporate email filters won't block it.
 
-**Printing / PDF (v1.1 fix):** every workbook now uses plain A4 page setup with defined print areas and margins, and no empty workbook-protection element. The report chart sits fully inside the print area. The recommended way to get a PDF is **File > Save As > PDF (Options > Active sheet)** or **File > Export > Create PDF/XPS**. This uses Excel's own PDF engine and bypasses the Windows "Microsoft Print to PDF" driver.
+**Printing / PDF (v1.2 print-safe build):** the readiness tool no longer contains an embedded chart, data-bar formatting, rich-text cells or sheet protection. Pillar progress is shown as in-cell blocks. Earlier fix (v1.1): every workbook now uses plain A4 page setup with defined print areas and margins, and no empty workbook-protection element. The report chart sits fully inside the print area. The recommended way to get a PDF is **File > Save As > PDF (Options > Active sheet)** or **File > Export > Create PDF/XPS**. This uses Excel's own PDF engine and bypasses the Windows "Microsoft Print to PDF" driver.
 
 ## 2. AI Strategy & Roadmap
 
