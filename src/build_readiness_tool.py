@@ -177,8 +177,8 @@ for part, qs in [("PART A  -  AI USE & INHERENT RISK PROFILE  (AIAF-based: how m
         is_ctx = q["id"].startswith("A")
         style(asx.cell(r, 2, q["id"]), bold=True, align=CC, fillc=LAV)
         style(asx.cell(r, 3, q["topic"] if is_ctx else f'{q["pillar"]}\n\n{q["topic"]}'), size=9, bold=True, color=GT, fillc=LAV)
-        c = asx.cell(r, 4); c.value = q["q"] + "\n\nGuidance: " + q["guide"]
-        c.font = Font(name="Calibri", size=9.5); c.alignment = WT; c.border = B  # plain text (print-safe)
+        rt = CellRichText(TextBlock(InlineFont(b=True, sz=10), q["q"]), TextBlock(InlineFont(sz=8.5, i=True, color="6B6B6B"), "\n\n" + q["guide"]))
+        c = asx.cell(r, 4); c.value = rt; c.alignment = WT; c.border = B
         ans = asx.cell(r, 5)
         if SAMPLE:
             ans.value = qb.cell(a + SAMPLE_ANS[q["id"]], 2).value
@@ -424,7 +424,7 @@ rp.row_dimensions[r].height = 92
 r += 2
 # ----------------------------------------------------------- 2. pillars
 r = section(r, "2. READINESS BY AI READY7 PILLAR")
-th(r, [(2, 3, "Pillar"), (4, 4, "Score"), (5, 5, "Maturity"), (6, 11, "Progress  (each block = 5%;  target 70% = 14 blocks)")])
+th(r, [(2, 3, "Pillar"), (4, 4, "Score"), (5, 5, "Maturity"), (6, 6, "Progress")])
 PT = r
 r += 1
 for p in PILLARS:
@@ -432,7 +432,9 @@ for p in PILLARS:
     merge(rp, r, 2, r, 3, p, size=9.5, bold=True, color=GT, align=WC)
     c = rp.cell(r, 4, f'=IF({CV(f"B{pr}")}="","-",{CV(f"B{pr}")})'); style(c, bold=True, align=CC); c.number_format = "0%"
     style(rp.cell(r, 5, f'=IF({CV(f"C{pr}")}="","-",{CV(f"C{pr}")})'), size=9, bold=True, align=CC)
-    merge(rp, r, 6, r, 11, f'=IF({CV(f"B{pr}")}="","",REPT("\u25a0",ROUND({CV(f"B{pr}")}*20,0))&REPT("\u25a1",MAX(0,14-ROUND({CV(f"B{pr}")}*20,0))))', size=10, bold=False, color=GT, align=Alignment(vertical="center", horizontal="left"))
+    bc = merge(rp, r, 6, r, 6, f'=IF({CV(f"B{pr}")}="",0,{CV(f"B{pr}")})', size=9, bold=True, color=GT, align=Alignment(vertical="center", horizontal="left"))
+    bc.number_format = ';;;'
+    rp.conditional_formatting.add(f"F{r}", DataBarRule(start_type="num", start_value=0, end_type="num", end_value=1, color=GT, showValue=False))
     rp.row_dimensions[r].height = 25
     r += 1
 for k, v in MATF.items():
@@ -441,7 +443,7 @@ for k, v in MATF.items():
 merge(rp, r, 2, r, 3, "OVERALL", size=10, bold=True, color="FFFFFF", fillc=DARK, align=WC)
 c = rp.cell(r, 4, f'=IF({CV("B45")}="","-",{CV("B45")})'); style(c, bold=True, align=CC, fillc=LAV); c.number_format = "0%"
 style(rp.cell(r, 5, f'=IF({CV("B46")}="","-",{CV("B46")})'), bold=True, align=CC, fillc=LAV)
-merge(rp, r, 6, r, 11, f'=IF({CV("B45")}="","",REPT("\u25a0",ROUND({CV("B45")}*20,0))&REPT("\u25a1",MAX(0,14-ROUND({CV("B45")}*20,0))))', size=10, color=GT, fillc=LAV, align=Alignment(vertical="center", horizontal="left"))
+merge(rp, r, 6, r, 6, '="Target 70%"', size=7.5, italic=True, fillc=LAV, align=CC)
 rp.row_dimensions[r].height = 25
 PILLAR_END = r
 # radar chart
@@ -458,7 +460,7 @@ ch.series[1].marker.symbol = "none"
 ch.y_axis.scaling.min = 0; ch.y_axis.scaling.max = 100; ch.y_axis.majorUnit = 25; ch.y_axis.delete = False; ch.x_axis.delete = False
 ch.legend = None
 ch.height = 8.6; ch.width = 9.3
-# native chart removed in print-safe build (see README)
+rp.add_chart(ch, f"G{PT}")
 r += 2
 th(r, [(2, 3, "Pillar"), (4, 11, "Potential risk if the pillar is not strengthened (shown where score < 90%)")])
 r += 1
@@ -777,7 +779,7 @@ wl.row_dimensions[15].height = 30
 
 # =====================================================================  protection, order, finish
 for ws_ in (asx, rp):
-    ws_.protection.sheet = False
+    ws_.protection.sheet = True
     ws_.protection.formatColumns = False; ws_.protection.formatRows = False
     ws_.protection.selectLockedCells = False
 from openpyxl.styles import Protection
