@@ -3,6 +3,7 @@
 Usage: build_readiness_tool.py OUT.xlsx [sample]"""
 import sys, os, math
 import openpyxl
+import printfix
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.formatting.rule import CellIsRule, FormulaRule
@@ -152,13 +153,13 @@ asx.sheet_view.showGridLines = False
 for col, w in zip("ABCDEFGHIJKL", [2, 6, 17, 52, 56, 9, 13, 54, 17, 17, 2, 6]): asx.column_dimensions[col].width = w
 merge(asx, 1, 2, 1, 10, "2. ASSESSMENT  -  15 questions  |  approx. 15 minutes", size=16, bold=True, color="FFFFFF", fillc=GT, align=Alignment(vertical="center", indent=1), border=False)
 asx.row_dimensions[1].height = 34
-merge(asx, 2, 2, 2, 10, "Select the statement in column E that best describes your current state (choose the lower level if unsure - evidence should exist for the level selected). Part A profiles your AI use and inherent risk (based on the NSW AI Assessment Framework). Part B measures readiness across the 7 GT AI Ready7 pillars, mapped to the GT AI RCM v2.0 controls. Results update live below and in the '3. Report' sheet.",
+merge(asx, 2, 2, 2, 10, "Select the statement in column E that best describes your current state (choose the lower level if unsure - evidence should exist for the level selected). Part A profiles your AI use and inherent risk (based on the NSW AI Assessment Framework). Part B measures readiness across the 7 GT AI Ready7 pillars, mapped to the GT AI RCM v2.1 controls. Results update live below and in the '3. Report' sheet.",
       size=9.5, italic=True, color=DARK, border=False)
 asx.row_dimensions[2].height = 44
 # KPI band rows 4-6 (formulas filled after Calc is defined)
 KPI_ROW = 4
 HDR = 8
-heads = ["#", "Area", "Question", "Your response (select from list)", "Score", "Status", "What this means / recommended next step", "Linked controls (GT AI RCM v2.0)", "Requirement type"]
+heads = ["#", "Area", "Question", "Your response (select from list)", "Score", "Status", "What this means / recommended next step", "Linked controls (GT AI RCM v2.1)", "Requirement type"]
 for i, h in enumerate(heads, 2):
     c = asx.cell(HDR, i, h); style(c, bold=True, color="FFFFFF", fillc=GT, align=CC)
 asx.row_dimensions[HDR].height = 30
@@ -250,8 +251,8 @@ cl["C33"] = '=IF(C31="","",IF(AND(B27=4,B29>=3),"Override: significant-effect de
 # pillars
 cl["A36"] = "Pillar"; cl["B36"] = "Score"; cl["C36"] = "Maturity"; cl["D36"] = "Target"; cl["E36"] = "Risk statement"; cl["F36"] = "Service"; cl["G36"] = "Service priority"; cl["H36"] = "Label"
 PR = {}
-SHORT = {"Business Alignment": "Business\nAlignment", "Governance & Ethics": "Governance\n& Ethics", "Training & Development": "Training &\nDevelopment", "Data & Quality": "Data &\nQuality",
-         "Architecture & Technology": "Architecture\n& Technology", "Protect AI Systems": "Protect AI\nSystems", "Protection from AI Threats": "Protection from\nAI Threats"}
+SHORT = {"Business Alignment": "Business", "Governance & Ethics": "Governance", "Training & Development": "Training", "Data & Quality": "Data",
+         "Architecture & Technology": "Architecture", "Protect AI Systems": "Protect AI", "Protection from AI Threats": "AI Threats"}
 for i, p in enumerate(PILLARS):
     rr = 37 + i; PR[p] = rr
     cl.cell(rr, 1, p)
@@ -377,7 +378,7 @@ merge(rp, r, 2, r, 11, f'="Scope: "&IF({P["Scope of assessment"]}="","-",{P["Sco
       size=9, color="404040", border=False, align=WC)
 rp.row_dimensions[r].height = 26
 r = 4
-merge(rp, r, 2, r, 11, f'=IF({CV("B21")}=1,"Framework basis: NSW AI Assessment Framework (inherent risk)  |  GT AI Ready7 (7 pillars)  |  GT AI RCM v2.0 (controls)  |  ISO/IEC 42001, NIST AI RMF, EU AI Act, Bahrain PDPL","ASSESSMENT INCOMPLETE - "&{CV("B20")}&" of {NQ} questions answered. Results below are provisional.")',
+merge(rp, r, 2, r, 11, f'=IF({CV("B21")}=1,"Framework basis: NSW AI Assessment Framework (inherent risk)  |  GT AI Ready7 (7 pillars)  |  GT AI RCM v2.1 (controls)  |  ISO/IEC 42001, NIST AI RMF, EU AI Act, Bahrain PDPL","ASSESSMENT INCOMPLETE - "&{CV("B20")}&" of {NQ} questions answered. Results below are provisional.")',
       size=8.5, italic=True, color="595959", border=False, align=WC)
 rp.conditional_formatting.add("B4", FormulaRule(formula=[f"{CV('$B$21')}=0"], fill=PatternFill("solid", fgColor="E06666"), font=Font(bold=True, color="FFFFFF")))
 r = 6
@@ -423,7 +424,7 @@ rp.row_dimensions[r].height = 92
 r += 2
 # ----------------------------------------------------------- 2. pillars
 r = section(r, "2. READINESS BY AI READY7 PILLAR")
-th(r, [(2, 3, "Pillar"), (4, 4, "Score"), (5, 5, "Maturity"), (6, 7, "Progress to Repeatable (70%)")])
+th(r, [(2, 3, "Pillar"), (4, 4, "Score"), (5, 5, "Maturity"), (6, 6, "Progress")])
 PT = r
 r += 1
 for p in PILLARS:
@@ -431,7 +432,7 @@ for p in PILLARS:
     merge(rp, r, 2, r, 3, p, size=9.5, bold=True, color=GT, align=WC)
     c = rp.cell(r, 4, f'=IF({CV(f"B{pr}")}="","-",{CV(f"B{pr}")})'); style(c, bold=True, align=CC); c.number_format = "0%"
     style(rp.cell(r, 5, f'=IF({CV(f"C{pr}")}="","-",{CV(f"C{pr}")})'), size=9, bold=True, align=CC)
-    bc = merge(rp, r, 6, r, 7, f'=IF({CV(f"B{pr}")}="",0,{CV(f"B{pr}")})', size=9, bold=True, color=GT, align=Alignment(vertical="center", horizontal="left"))
+    bc = merge(rp, r, 6, r, 6, f'=IF({CV(f"B{pr}")}="",0,{CV(f"B{pr}")})', size=9, bold=True, color=GT, align=Alignment(vertical="center", horizontal="left"))
     bc.number_format = ';;;'
     rp.conditional_formatting.add(f"F{r}", DataBarRule(start_type="num", start_value=0, end_type="num", end_value=1, color=GT, showValue=False))
     rp.row_dimensions[r].height = 25
@@ -442,7 +443,7 @@ for k, v in MATF.items():
 merge(rp, r, 2, r, 3, "OVERALL", size=10, bold=True, color="FFFFFF", fillc=DARK, align=WC)
 c = rp.cell(r, 4, f'=IF({CV("B45")}="","-",{CV("B45")})'); style(c, bold=True, align=CC, fillc=LAV); c.number_format = "0%"
 style(rp.cell(r, 5, f'=IF({CV("B46")}="","-",{CV("B46")})'), bold=True, align=CC, fillc=LAV)
-merge(rp, r, 6, r, 7, '="Target: 70% (Repeatable)"', size=8, italic=True, fillc=LAV, align=CC)
+merge(rp, r, 6, r, 6, '="Target 70%"', size=7.5, italic=True, fillc=LAV, align=CC)
 rp.row_dimensions[r].height = 25
 PILLAR_END = r
 # radar chart
@@ -457,9 +458,9 @@ ch.series[1].graphicalProperties.line.solidFill = "00A7B5"; ch.series[1].graphic
 ch.series[0].marker.symbol = "circle"; ch.series[0].marker.graphicalProperties.solidFill = GT
 ch.series[1].marker.symbol = "none"
 ch.y_axis.scaling.min = 0; ch.y_axis.scaling.max = 100; ch.y_axis.majorUnit = 25; ch.y_axis.delete = False; ch.x_axis.delete = False
-ch.legend.position = "b"
-ch.height = 8.4; ch.width = 9.6
-rp.add_chart(ch, f"H{PT}")
+ch.legend = None
+ch.height = 8.6; ch.width = 9.3
+rp.add_chart(ch, f"G{PT}")
 r += 2
 th(r, [(2, 3, "Pillar"), (4, 11, "Potential risk if the pillar is not strengthened (shown where score < 90%)")])
 r += 1
@@ -636,7 +637,7 @@ for role in ["Assessment completed by", "Reviewed by (risk / compliance)", "Exec
 r += 1
 disc = ("Methodology: Part A (4 questions) derives an inherent-risk tier from the NSW AI Assessment Framework risk factors (AI use, decision impact, data sensitivity, oversight & reversibility). "
         "Part B (11 questions) scores readiness 0-100% across the 7 GT AI Ready7 pillars; pillar scores are averaged equally into the overall score and mapped to the AI Ready7 maturity scale. "
-        "Exposure combines tier and maturity. Recommendations reference the GT AI RCM v2.0 controls.  Disclaimer: this is a self-assessment based on the responses provided and has not been independently verified by Grant Thornton. "
+        "Exposure combines tier and maturity. Recommendations reference the GT AI RCM v2.1 controls.  Disclaimer: this is a self-assessment based on the responses provided and has not been independently verified by Grant Thornton. "
         "It is not an audit, certification or legal opinion.  (c) 2026 Grant Thornton Bahrain. All rights reserved.")
 merge(rp, r, 2, r, 11, disc, size=7.5, italic=True, color="595959", border=False, align=WT)
 rp.row_dimensions[r].height = 58
@@ -644,12 +645,14 @@ LAST = r
 # side panel (outside print area)
 style(rp.cell(1, 13, "HOW TO PRINT, SAVE OR EMAIL THIS REPORT"), size=11, bold=True, color="FFFFFF", fillc=GT, align=WC)
 rp.row_dimensions[1].height = 40
-help_txt = ("PRINT: File > Print (this sheet is pre-set to A4 portrait, fit to page width, with page breaks between sections).\n\n"
-            "SAVE AS PDF: File > Save As / Export > PDF and choose 'Active sheet' (Excel for Mac: File > Save As > PDF). Or print to 'Microsoft Print to PDF'.\n\n"
+help_txt = ("SAVE AS PDF (recommended): File > Save As > choose 'PDF' as the file type > Options > 'Active sheet(s)' > Save. Or File > Export > Create PDF/XPS. This uses Excel's built-in PDF engine and does not depend on any printer driver.\n\n"
+            "PRINT: File > Print > 'Print Active Sheets' (A4 portrait, fitted to one page wide, page breaks between sections). Do not choose 'Print Entire Workbook'.\n\n"
+            "IF 'MICROSOFT PRINT TO PDF' SHOWS AN ERROR: the Windows PDF printer driver is failing, not the workbook. Use Save As > PDF above, or select another printer. To repair the driver: Windows 'Turn Windows features on or off' > untick 'Microsoft Print to PDF' > OK > re-tick > OK, then restart Excel.\n\n"
             "EMAIL: save the PDF, then click the link below to open a pre-filled email with your headline results and attach the PDF.\n\n"
             "This panel is outside the print area and will not appear on the printed report.")
 style(rp.cell(2, 13, help_txt), size=9, fillc=LAV, align=WT)
 rp.merge_cells("M2:M4")
+rp.column_dimensions["M"].width = 70
 body = f'"AI readiness "&TEXT({CV("B45")},"0%")&" ("&{CV("B46")}&"); risk tier "&{CV("C32")}&"; exposure "&{CV("B57")}&". Report attached."'
 link = f'"mailto:"&{EMAIL}&"?subject=AI%20Readiness%20Results&body="&SUBSTITUTE(SUBSTITUTE({body},"%","%25")," ","%20")'
 rp["M5"] = f'=IF({CV("B21")}=0,"Complete the assessment to enable email",IF({EMAIL}="","Enter your email address in 1. Profile to enable the email link",HYPERLINK({link},">> Click to email the results summary to "&{EMAIL})))'
@@ -657,11 +660,11 @@ style(rp["M5"], size=10, bold=True, color="0563C1", align=WC)
 rp.row_dimensions[5].height = 36
 rp.print_area = f"A1:K{LAST}"
 rp.page_setup.orientation = "portrait"; rp.page_setup.paperSize = rp.PAPERSIZE_A4
-rp.page_setup.fitToWidth = 1; rp.page_setup.fitToHeight = 0; rp.sheet_properties.pageSetUpPr.fitToPage = True
+rp.page_setup.fitToWidth = 1; rp.page_setup.fitToHeight = 0; rp.sheet_properties.pageSetUpPr.fitToPage = True  # 1 page wide; manual section breaks kept
 rp.page_margins.left = rp.page_margins.right = 0.45; rp.page_margins.top = 0.6; rp.page_margins.bottom = 0.6
 rp.oddFooter.left.text = "GT AI Readiness && Risk Assessment - Confidential"; rp.oddFooter.left.size = 8
-rp.oddFooter.right.text = "Page &P of &N"; rp.oddFooter.right.size = 8
-rp.print_options.horizontalCentered = True
+rp.oddFooter.right.text = "Page &P"; rp.oddFooter.right.size = 8
+rp.print_options.horizontalCentered = False
 
 # =====================================================================  4. Action plan
 ap = wb.create_sheet("4. Action Plan")
@@ -670,7 +673,7 @@ for col, w in zip("ABCDEFGHIJKLM", [2, 6, 26, 9, 10, 22, 58, 22, 18, 12, 13, 30,
 merge(ap, 1, 2, 1, 12, "4. ACTION PLAN & RISK TREATMENT TRACKER", size=16, bold=True, color="FFFFFF", fillc=GT, align=Alignment(vertical="center", indent=1), border=False)
 ap.row_dimensions[1].height = 34
 merge(ap, 2, 2, 2, 12, "Columns B-H update automatically from the assessment. Assign an owner, target date and status (yellow cells) to track remediation. Priority rank 1 = most urgent.", size=9.5, italic=True, color=DARK, border=False)
-for i, h in enumerate(["#", "Area", "Current score", "Priority rank", "Timing", "Recommended action", "Linked controls (RCM v2.0)", "Owner", "Target date", "Status", "Notes / evidence"], 2):
+for i, h in enumerate(["#", "Area", "Current score", "Priority rank", "Timing", "Recommended action", "Linked controls (RCM v2.1)", "Owner", "Target date", "Status", "Notes / evidence"], 2):
     style(ap.cell(4, i, h), bold=True, color="FFFFFF", fillc=GT, align=CC)
 ap.row_dimensions[4].height = 30
 for k, q in enumerate(READINESS):
@@ -698,7 +701,7 @@ mt.row_dimensions[1].height = 34
 blocks = [("How the tool combines three frameworks",
            "1) NSW AI Assessment Framework (AIAF, Digital NSW): lifecycle triggers, inherent-risk questions (AI use, decision impact, data, autonomy / reversibility), Low-Critical risk bands, pattern overrides, oversight pathways and the 8 ethics principles.\n"
            "2) GT AI Ready7: 7 readiness pillars (33 items) and the maturity scale Partial / Informed / Repeatable / Adaptive; findings use AI Ready7 'potential risk' and 'recommended deliverable' language.\n"
-           "3) GT AI RCM v2.0: every readiness question is mapped to the controls that evidence it, so results convert directly into a control-remediation plan."),
+           "3) GT AI RCM v2.1: every readiness question is mapped to the controls that evidence it, so results convert directly into a control-remediation plan."),
           ("Scoring - Part A (inherent risk)",
            "Each answer scores 0-4. Weights: A1 AI use x2, A2 decision impact x3, A3 data sensitivity x2, A4 oversight & reversibility x3 (max 40). Weighted % bands: <25% Low, 25-49% Medium, 50-74% High, >=75% Critical.\n"
            "Overrides (AIAF 'pattern risk'): significant-effect decisions (A2=4) -> minimum High; A2=4 with oversight A4>=3 -> Critical; sensitive data (A3=4) -> minimum Medium."),
@@ -723,7 +726,7 @@ for t in ["Low", "Medium", "High", "Critical"]:
     r += 1
 r += 1
 merge(mt, r, 2, r, 8, "Question-to-framework mapping", size=11, bold=True, color="FFFFFF", fillc=GT2, align=WC); r += 1
-for i, h in enumerate(["#", "Topic", "AI Ready7 pillar / items", "Type", "AIAF principles", "GT AI RCM v2.0 controls", "Key references"], 2):
+for i, h in enumerate(["#", "Topic", "AI Ready7 pillar / items", "Type", "AIAF principles", "GT AI RCM v2.1 controls", "Key references"], 2):
     style(mt.cell(r, i, h), bold=True, color="FFFFFF", fillc=GT, align=CC)
 r += 1
 REFS = {"A1": "AIAF Q2, Q5; EU AI Act Art. 3", "A2": "AIAF Q7, Q8; EU AI Act Annex III", "A3": "AIAF Q4; Bahrain PDPL", "A4": "AIAF Q9, Q10, Q13; EU AI Act Art. 14",
@@ -745,7 +748,7 @@ wl.sheet_view.showGridLines = False
 for col, w in zip("ABCDEFG", [2, 44, 3, 44, 3, 44, 2]): wl.column_dimensions[col].width = w
 merge(wl, 1, 2, 1, 6, "GT AI READINESS & RISK ASSESSMENT TOOL", size=22, bold=True, color="FFFFFF", fillc=GT, align=Alignment(vertical="center", indent=1), border=False)
 wl.row_dimensions[1].height = 52
-merge(wl, 2, 2, 2, 6, "Grant Thornton Bahrain  |  AI Governance, Risk & Compliance  |  Combines the NSW AI Assessment Framework, GT AI Ready7 and the GT AI Risk & Control Matrix v2.0", size=10.5, italic=True, color=GT, border=False)
+merge(wl, 2, 2, 2, 6, "Grant Thornton Bahrain  |  AI Governance, Risk & Compliance  |  Combines the NSW AI Assessment Framework, GT AI Ready7 and the GT AI Risk & Control Matrix v2.1", size=10.5, italic=True, color=GT, border=False)
 wl.row_dimensions[2].height = 22
 cols3 = [
     ("WHEN TO USE THIS TOOL", "- Before or early in your AI journey, to baseline readiness\n- Before scaling AI or deploying AI that affects customers or decisions\n- When AI is discovered in use without assessment (shadow AI)\n"
@@ -770,7 +773,7 @@ style(wl.cell(7, 6, "START HERE"), size=10, bold=True, color=GT, border=False)
 st_ = wl.cell(8, 6, "Go to '1. Profile'  >>"); style(st_, size=12, bold=True, color="FFFFFF", fillc=GT, align=CC); st_.hyperlink = "#'1. Profile'!A1"
 st2 = wl.cell(10, 6, "Go to '2. Assessment'  >>"); style(st2, size=11, bold=True, color=GT, fillc=LAV, align=CC); st2.hyperlink = "#'2. Assessment'!A1"
 st3 = wl.cell(12, 6, "View '3. Report'  >>"); style(st3, size=11, bold=True, color=GT, fillc=LAV, align=CC); st3.hyperlink = "#'3. Report'!A1"
-merge(wl, 15, 2, 15, 6, "This is a self-assessment tool. Results depend on the accuracy of responses and do not constitute an audit, certification or legal advice. Version 1.0 - September 2026." + (" SAMPLE: pre-completed with illustrative responses for Grant Thornton Bahrain, aligned to its AI Ready7 results (Sept 2026)." if SAMPLE else ""),
+merge(wl, 15, 2, 15, 6, "This is a self-assessment tool. Results depend on the accuracy of responses and do not constitute an audit, certification or legal advice. Version 1.1 - September 2026." + (" SAMPLE: pre-completed with illustrative responses for Grant Thornton Bahrain, aligned to its AI Ready7 results (Sept 2026)." if SAMPLE else ""),
       size=8.5, italic=True, color="595959", border=False)
 wl.row_dimensions[15].height = 30
 
@@ -788,5 +791,6 @@ wb.active = 0
 for ws_ in (wl, pf, asx, ap, mt):
     ws_.page_setup.fitToWidth = 1; ws_.page_setup.fitToHeight = 0; ws_.sheet_properties.pageSetUpPr.fitToPage = True
     ws_.page_setup.orientation = "landscape"
+printfix.harden(wb)
 wb.save(OUT)
 print("saved", OUT, "report rows", LAST)

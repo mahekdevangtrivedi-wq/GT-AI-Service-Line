@@ -11,12 +11,12 @@ RAG = {"Low": "#A9D18E", "Medium": "#FFD966", "High": "#F4B183", "Critical": "#E
 plt.rcParams["font.family"] = "DejaVu Sans"
 
 
-def process_diagram(path):
+def process_diagram(path, n_risks=52):
     fig, ax = plt.subplots(figsize=(11, 4.2), dpi=200)
     ax.set_xlim(0, 110); ax.set_ylim(0, 47); ax.axis("off")
     stages = [("0", "Intake &\nContext", "Use-case profile,\nstakeholders, role,\nregulation"),
               ("1", "Screen &\nTier", "Prohibited check,\n10-factor tiering,\nLow to Critical"),
-              ("2", "Identify", "48-risk taxonomy,\nthreat modelling,\nimpact assessment"),
+              ("2", "Identify", f"{n_risks}-risk taxonomy,\nthreat modelling,\nimpact assessment"),
               ("3", "Analyse", "Likelihood x impact\n(6 dimensions),\ninherent rating"),
               ("4", "Evaluate", "Control effectiveness,\nresidual risk vs\nappetite"),
               ("5", "Treat", "Avoid / mitigate /\ntransfer / accept;\nRCM controls"),

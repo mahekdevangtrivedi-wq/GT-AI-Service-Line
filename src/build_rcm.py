@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Builds AI RCM v2.0 (2026 update) from the original RCM + rcm_data."""
+"""Builds AI RCM v2.1 (2026 update) from the original RCM + rcm_data."""
 import math, sys, os, datetime
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -7,7 +7,8 @@ from openpyxl.utils import get_column_letter
 from openpyxl.formatting.rule import CellIsRule, FormulaRule
 from openpyxl.worksheet.datavalidation import DataValidation
 sys.path.insert(0, os.path.dirname(__file__))
-from rcm_data import DOMAINS, EXISTING, NEW, LIBRARY
+import printfix
+from rcm_data import DOMAINS, EXISTING, NEW, LIBRARY, EXTRA_REFS, NEW_V21
 
 SRC = sys.argv[1]
 OUT = sys.argv[2]
@@ -83,7 +84,10 @@ for c in NEW:
     rows.append(dict(domain=c["domain"], id=c["id"], topic=c["topic"], statement=c["statement"], refs=c["refs"],
                      activities=c["activities_txt"], evidence=c["evidence_txt"], tests=c["tests_txt"], iso=c["iso"],
                      add=c["add"], gcc=c["gcc"], r7=c["r7"], app=c["app"], typ=c["typ"], freq=c["freq"],
-                     status="New", notes="New control. Gap addressed: " + c["why"]))
+                     status="New", notes=("New control (v2.1). " if c in NEW_V21 else "New control. ") + "Gap addressed: " + c["why"]))
+for _r in rows:
+    if _r["id"] in EXTRA_REFS:
+        _r["add"] = (_r["add"] + "\n" + EXTRA_REFS[_r["id"]]).strip()
 
 
 def id_key(cid):
@@ -93,8 +97,8 @@ def id_key(cid):
 
 rows.sort(key=lambda x: (DOMAINS.index(x["domain"]), id_key(x["id"])))
 
-# ---------------------------------------------------------------- RCM v2.0 sheet
-ws = wb.create_sheet("RCM v2.0 (2026)", 0)
+# ---------------------------------------------------------------- RCM v2.1 sheet
+ws = wb.create_sheet("RCM v2.1 (2026)", 0)
 cols = [
     ("Domain", 20), ("Control ID", 9), ("Topic", 22), ("Control Statement", 55), ("Control References", 30),
     ("Key control activities", 55), ("Required Evidence", 45), ("Control test plan and procedures", 55),
@@ -156,7 +160,7 @@ dv2 = DataValidation(type="list", formula1='"Effective,Partially effective,Ineff
 ws.add_data_validation(dv1); ws.add_data_validation(dv2)
 dv1.add(f"S2:S{last}"); dv2.add(f"T2:T{last}")
 ws.page_setup.orientation = "landscape"
-ws.page_setup.paperSize = ws.PAPERSIZE_A3
+ws.page_setup.paperSize = ws.PAPERSIZE_A3  # large matrix; other sheets A4
 ws.page_setup.fitToWidth = 1
 ws.page_setup.fitToHeight = 0
 ws.sheet_properties.pageSetUpPr.fitToPage = True
@@ -181,11 +185,11 @@ cv["B3"].font = Font(size=12, italic=True, color=GT)
 n_new = sum(1 for x in rows if x["status"] == "New")
 n_enh = sum(1 for x in rows if x["status"] == "Enhanced")
 info = [
-    ("Version / date", f"v2.0 - {datetime.date(2026, 9, 24).strftime('%d %B %Y')} (supersedes v1.0 'RCM Frameworks')"),
+    ("Version / date", f"v2.1 - {datetime.date(2026, 9, 26).strftime('%d %B %Y')} (supersedes v2.0 of 24 Sept 2026 and v1.0 'RCM Frameworks')"),
     ("Purpose", "Unified AI risk & control matrix used by the GT Bahrain AI GRC service line for AI governance framework design, readiness / gap assessments, ISO/IEC 42001 certification readiness, EU AI Act and Bahrain regulatory compliance reviews, and internal-audit style control testing."),
     ("What changed", f"{len(rows)} controls in {len(DOMAINS)} domains: {n_new} NEW controls (incl. new domain 'Protection from AI-Enabled Threats') and all {n_enh} original controls ENHANCED with 2026 references, Bahrain/GCC regulatory mapping, ISO/IEC 27001:2022 remapping, AI Ready7 linkage and control attributes. See 'Gap Analysis' and 'Change Log'."),
-    ("Sources used for the update", "EU AI Act (Reg. 2024/1689) & GPAI Code of Practice; ISO/IEC 42001, 23894, 42005, 42006, 5338, 22989, 24027/24028/24368, 25059, 5259; ISO/IEC 27001/27002:2022, 27701:2025; NIST AI RMF, AI 600-1, AI 100-2 E2025; OWASP LLM & Agentic Top 10; MITRE ATLAS; ETSI EN 304 223; OECD/UNESCO/IEEE/CoE; Bahrain PDPL, iGA General Policy for the Use of AI (2025), GCC AI Ethics Manual, Bahrain draft AI law, CBB Rulebook, NCSC; KSA/UAE/Qatar regimes; NSW AIAF; SR 11-7 / PRA SS1/23; GT AI Ready7 (7 pillars, 33 items)."),
-    ("Sheet guide", "RCM v2.0 (2026) - the working matrix (filterable; columns R-U for engagement use)\nGap Analysis - every gap identified and how it was resolved\nAI Ready7 Mapping - coverage of each AI Ready7 item by RCM controls\nRegulatory Library - laws, standards and frameworks with status and key dates\nChange Log - change summary per control and mapping corrections\nRCM v1.0 (Original) - unchanged original for traceability"),
+    ("Sources used for the update", "EU AI Act (Reg. 2024/1689) & GPAI Code of Practice; ISO/IEC 42001, 23894, 42005, 42006, 5338, 22989, 24027/24028/24368, 25059, 5259; ISO/IEC 27001/27002:2022, 27701:2025; NIST AI RMF, AI 600-1, AI 100-2 E2025; OWASP LLM & Agentic Top 10; MITRE ATLAS; ETSI EN 304 223; OECD/UNESCO/IEEE/CoE; Bahrain PDPL, iGA General Policy for the Use of AI (2025), GCC AI Ethics Manual, Bahrain draft AI law, CBB Rulebook, NCSC; KSA/UAE/Qatar regimes; NSW AIAF; SR 11-7 / PRA SS1/23; GT AI Ready7 (7 pillars, 33 items). v2.1 adds: ISACA Cybersecurity Recommendations for Securing AI Agents (2026); CWS ISO 42001 Checklist (45 checks); AI Security Audit Checklist v1.0 (85 items)."),
+    ("Sheet guide", "RCM v2.1 (2026) - the working matrix (filterable; columns R-U for engagement use)\nGap Analysis - every gap identified and how it was resolved\nAI Ready7 Mapping - coverage of each AI Ready7 item by RCM controls\nRegulatory Library - laws, standards and frameworks with status and key dates\nChange Log - change summary per control and mapping corrections\nRCM v1.0 (Original) - unchanged original for traceability\nCompanion: GT AI Security & Agent Audit Checklist v2.0 (separate workbook) - item-level audit programme mapped to these controls"),
     ("Column guide (new columns I-Q)", "I  ISO/IEC 27001:2022 Annex A / clause mapping (original references mixed 2013 and 2022 numbering)\nJ  Additional framework references added in this update\nK  Bahrain / GCC regulatory references\nL  AI Ready7 item(s) the control supports (e.g., 2.4 = Governance & Ethics - Risk Assessment)\nM  Applicability: Provider (develops/places AI on market), Deployer (uses AI), Both\nN  Control type: Directive / Preventive / Detective / Corrective\nO  Recommended operating frequency\nP  Update status: New / Enhanced\nQ  Update notes / gap rationale"),
     ("How to use on engagements", "1. Filter by Applicability (Provider / Deployer) and by client jurisdiction.\n2. Scope controls by the client's AI risk tier (RM-5) - Low-tier use cases may apply a reduced set.\n3. Record Control Owner, Implementation Status and Test Result in columns R-T.\n4. Use the test plan (column H) and evidence list (column G) as the audit programme."),
     ("Important note", "Regulatory dates and statuses reflect information available at September 2026. The EU AI Act high-risk timelines are subject to the Digital Omnibus legislative process, and the Bahrain draft AI law is not yet in force. Items marked 'confirm' in the Regulatory Library should be verified against primary sources before client reliance."),
@@ -221,11 +225,20 @@ cv.sheet_properties.tabColor = GT
 # ---------------------------------------------------------------- Gap analysis
 ga = wb.create_sheet("Gap Analysis", 2)
 gcols = [("#", 5), ("Gap Category", 18), ("Source (law / standard / framework)", 36), ("Gap identified in RCM v1.0", 60),
-         ("Resolution in RCM v2.0", 16), ("Priority", 10), ("Regulatory driver date", 22)]
+         ("Resolution in RCM v2.1", 16), ("Priority", 10), ("Regulatory driver date", 22)]
 for i, (h, w) in enumerate(gcols, 1):
     hdr(ga.cell(1, i, h), GT)
     ga.column_dimensions[get_column_letter(i)].width = w
 PRIMARY = {
+    "GL-9": ("Certification readiness", "ISO/IEC 42001 cl.6.1.3; CWS checklist 10-11", "Medium", "-"),
+    "LC-12": ("Emerging risk", "ISACA Securing AI Agents (2026)", "High", "-"),
+    "LC-13": ("Audit checklist coverage", "AI Security Audit Checklist v1.0 s.5.1; CWS 24, 26", "Medium", "-"),
+    "SE-8": ("Emerging risk", "ISACA Securing AI Agents (2026) - memory & secrets", "High", "-"),
+    "SE-9": ("Emerging risk", "ISACA Securing AI Agents (2026) - sandboxing & egress", "High", "-"),
+    "SE-10": ("Emerging risk", "ISACA Securing AI Agents (2026) - PEP & tool gateway", "High", "-"),
+    "OM-4": ("Emerging risk", "ISACA (2026) resilience; Audit Checklist 7.3.3", "High", "-"),
+    "PR-7": ("Good practice / regulatory", "CWS checklist 18-21; Bahrain PDPL retention", "Medium", "In effect"),
+    "CO-4": ("Certification readiness", "ISO/IEC 42001 A.3.3; CWS checklist 44", "Low", "-"),
     "GL-4": ("Regulatory obligation", "EU AI Act Art. 4; iGA AI Policy Pillar 3; AI Ready7 Pillar 3", "High", "2 Feb 2025 (in effect)"),
     "GL-5": ("AI Ready7 coverage", "AI Ready7 1.2, 2.1; NSW AIAF", "High", "-"),
     "GL-6": ("AI Ready7 coverage", "AI Ready7 1.2, 1.3; ISO/IEC 42001 6.2", "Medium", "-"),
@@ -301,7 +314,7 @@ READY7 = [
     ("7", "Protection from AI Threats", [("7.1", "AI-Specific Threat Intelligence"), ("7.2", "Augmented Detection & Security Operations"), ("7.3", "Identity, Behavioural Analytics & Deepfake Defence"), ("7.4", "Automated Incident Response & Vulnerability Management"), ("7.5", "Adversarial Testing & Exposure Management")]),
 ]
 mp = wb.create_sheet("AI Ready7 Mapping", 3)
-mcols = [("AI Ready7 Pillar", 26), ("Item", 7), ("Item Title", 44), ("RCM v1.0 controls", 30), ("RCM v2.0 controls (all)", 40), ("New controls added", 22), ("Coverage v1.0", 13), ("Coverage v2.0", 13)]
+mcols = [("AI Ready7 Pillar", 26), ("Item", 7), ("Item Title", 44), ("RCM v1.0 controls", 30), ("RCM v2.1 controls (all)", 40), ("New controls added", 22), ("Coverage v1.0", 13), ("Coverage v2.1", 13)]
 for i, (h, w) in enumerate(mcols, 1):
     hdr(mp.cell(1, i, h), GT)
     mp.column_dimensions[get_column_letter(i)].width = w
@@ -362,7 +375,8 @@ cl.auto_filter.ref = f"A1:E{len(rows)+1}"
 vh = len(rows) + 3
 cl.cell(vh, 1, "Version history").font = Font(bold=True, color=GT, size=12)
 cl.cell(vh + 1, 1, "v1.0"); cl.cell(vh + 1, 2, "RCM Frameworks (original)"); cl.cell(vh + 1, 5, "44 controls, 12 domains; ISO 42001 / 27001 / 27701, EU AI Act, NIST AI RMF, SOC 2.")
-cl.cell(vh + 2, 1, "v2.0"); cl.cell(vh + 2, 2, "2026 update (this version)"); cl.cell(vh + 2, 5, f"{len(rows)} controls, {len(DOMAINS)} domains; {n_new} new controls, all originals enhanced; see Gap Analysis.")
+cl.cell(vh + 2, 1, "v2.0"); cl.cell(vh + 2, 2, "2026 update (24 Sept 2026)"); cl.cell(vh + 2, 5, f"{len(rows) - len(NEW_V21)} controls, {len(DOMAINS)} domains; {n_new - len(NEW_V21)} new controls, all originals enhanced.")
+cl.cell(vh + 3, 1, "v2.1"); cl.cell(vh + 3, 2, "Agent security & ISO 42001 update (this version)"); cl.cell(vh + 3, 5, f"{len(rows)} controls; +{len(NEW_V21)} controls (" + ", ".join(c["id"] for c in NEW_V21) + ") from ISACA Securing AI Agents (2026), ISO 42001 checklist and AI Security Audit Checklist v1.0; references extended on " + str(len(EXTRA_REFS)) + " controls.")
 
 orig.sheet_properties.tabColor = "A6A6A6"
 for _ws in wb.worksheets:
@@ -372,6 +386,13 @@ for _ws in wb.worksheets:
     if _ws.title != "Cover & Guide":
         _ws.page_setup.orientation = "landscape"
     _ws.page_margins.left = _ws.page_margins.right = 0.4
+    _ws.page_margins.top = _ws.page_margins.bottom = 0.6; _ws.page_margins.header = _ws.page_margins.footer = 0.3
+    if _ws.title != "RCM v2.1 (2026)":
+        _ws.page_setup.paperSize = _ws.PAPERSIZE_A4
+    if _ws.max_row > 1:
+        _ws.print_area = f"A1:{get_column_letter(_ws.max_column)}{_ws.max_row}"
+wb.security = None
 wb.active = 0
+printfix.harden(wb, keep_a3=("RCM v2.1 (2026)",))
 wb.save(OUT)
 print("rows", len(rows), "new", n_new, "enhanced", n_enh)

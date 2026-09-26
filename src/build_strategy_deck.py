@@ -199,15 +199,15 @@ cols = [("WHERE WE ARE", GT, ["AI Ready7 self-assessment (Sept 2026): 61.4% - 'I
                               "Critical gaps: lifecycle AI risk assessment (2.4) and data classification for AI (5.1) - both Not Met", "Strong market pull: Vision 2030, iGA AI Policy (2025), PDPL, CBB, EU AI Act reach"]),
         ("WHERE WE ARE GOING", GT2, ["Vision 2028: trusted AI advisor + AI-enabled firm", "Five strategic pillars: Trusted & Governed AI, AI-Fluent People, The Intelligent Firm, Secure AI Foundations, Market-Leading AI Advisory",
                                    "Target readiness >= 75% ('Repeatable') by end-2027 and >= 85% by end-2028", "Clear AI risk appetite: very low for client-data & compliance risk"]),
-        ("HOW WE WILL GET THERE", TEAL, ["18-month roadmap in three horizons: Foundations (Q4-26 to Q1-27), Scale (2027), Differentiate (2028)", "5 workstreams, 21 activities; 100-day plan ready to start",
-                                        "12 use cases prioritised; 4 launched in Horizon 1", "4 AI service lines packaged into entry offers built on GT tools (RCM v2.0, risk framework, readiness tool)"])]
+        ("HOW WE WILL GET THERE", TEAL, ["18-month roadmap in three horizons: Foundations (Q4-26 to Q1-27), Scale (2027), Differentiate (2028)", f"5 workstreams, {len(GANTT)} activities; 100-day plan ready to start",
+                                        "12 use cases prioritised; 4 launched in Horizon 1", "4 AI service lines packaged into entry offers built on GT tools (RCM v2.1, risk framework, readiness tool, audit checklist)", "AI apps in preparation: AI-powered BCP tool and AI-powered Financial Statements tool"])]
 cw = (CW - 2 * 150000) // 3
 for i, (h, col, items) in enumerate(cols):
     x = L + i * (cw + 150000)
     box(s, x, TOP, cw, 420000, fill=col, text=h, size=13, bold=True, color=WHITE)
     box(s, x, TOP + 420000, cw, 3900000, fill=LAV, text=None)
-    txt(s, x + 60000, TOP + 540000, cw - 120000, 3800000, items, size=13, bullet=True, spacing=12)
-box(s, L, TOP + 4450000, CW, 520000, fill=DARK, text=[[("Decisions requested: ", True), ("approve vision, objectives and risk appetite; appoint AI sponsor and CoE lead; release Horizon 1 resources; endorse quick-win pilots and the service-line launch.", False)]], size=11, color=WHITE)
+    txt(s, x + 60000, TOP + 540000, cw - 120000, 3800000, items, size=12.5, bullet=True, spacing=9)
+box(s, L, TOP + 4450000, CW, 520000, fill=DARK, text=[[("Decisions requested: ", True), ("approve vision, objectives and risk appetite; appoint AI sponsor and CoE lead; release Horizon 1 resources; endorse quick-win pilots, the service-line launch and MVP investment for the AI BCP and Financial Statements apps.", False)]], size=11, color=WHITE)
 NEW.append(s)
 
 # =========================================================== 4 approach
@@ -227,7 +227,7 @@ for i, (n, t, items, out) in enumerate(phases):
     txt(s, x + 60000, TOP + 800000, pw - 120000, 2600000, items, size=13, bullet=True, spacing=10)
     box(s, x, TOP + 3500000, pw, 520000, fill=WHITE, line=GT, text=out, size=10, bold=True, color=GT)
 box(s, L, TOP + 4200000, CW, 700000, fill=DARK,
-    text=[[("GT tools used: ", True), ("GT AI Ready7  |  GT AI Readiness & Risk Assessment Tool  |  GT AI RCM v2.0 (72 controls)  |  GT AI Risk Assessment Framework & Toolkit.  ", False),
+    text=[[("GT tools used: ", True), ("GT AI Ready7  |  GT AI Readiness & Risk Assessment Tool  |  GT AI RCM v2.1 (81 controls)  |  GT AI Security & Agent Audit Checklist  |  GT AI Risk Assessment Framework & Toolkit.  ", False),
            ("Standards: ", True), ("ISO/IEC 42001, ISO/IEC 23894, NIST AI RMF, EU AI Act, Bahrain PDPL, iGA AI Policy.", False)]], size=10.5, color=WHITE, align=PP_ALIGN.LEFT)
 NEW.append(s)
 
@@ -242,7 +242,7 @@ quads = [("Policy & Regulation", ["Bahrain Economic Vision 2030 positions AI as 
                                 "Clients shifting from AI experimentation to scaled, governed deployment"]),
          ("Society & Skills", ["UNESCO AI Readiness Assessment of Bahrain (Nov 2025) - 2nd GCC country assessed", "Recommendations: embed AI ethics, expand capacity building, transparency and public engagement",
                                "National skills initiatives (e.g., AI Academy); competition for AI talent across the GCC"]),
-         ("Technology", ["Hyperscale cloud region in Bahrain and cloud-first policy", "GenAI and agentic AI entering enterprise software (Copilot-class tools)", "AI-enabled threats rising: deepfake fraud, AI-crafted phishing, automated exploitation",
+         ("Technology", ["Hyperscale cloud region in Bahrain and cloud-first policy", "GenAI and agentic AI entering enterprise software; ISACA (2026) cites 3 in 4 companies expected to use agentic AI within two years", "AI-enabled threats rising: deepfake fraud, AI-crafted phishing, automated exploitation",
                           "ISO/IEC 42001 creating an AI assurance and certification market"])]
 qw = (CW - 150000) // 2; qh = 2400000
 for i, (h, items) in enumerate(quads):
@@ -264,7 +264,7 @@ table(s, L, TOP, int(CW * 0.62), comp, [2.2, 3, 2.8, 3.6], size=10.5, rowh=72000
 x2 = L + int(CW * 0.62) + 200000; w2 = R - x2
 box(s, x2, TOP, w2, 420000, fill=GT, text="GT Bahrain's differentiated position", size=12, bold=True, color=WHITE)
 pos = [[("Trust-first: ", True), ("audit, GRC and cyber heritage; AI Ready7 & ISO/IEC 42001-aligned methods", False)],
-       [("Regulation-ready: ", True), ("Bahrain PDPL, CBB, EU AI Act and GCC mapped into one RCM (72 controls)", False)],
+       [("Regulation-ready: ", True), ("Bahrain PDPL, CBB, EU AI Act and GCC mapped into one RCM (81 controls)", False)],
        [("End-to-end: ", True), ("strategy -> governance -> automation -> training -> assurance", False)],
        [("Mid-market & regulated focus: ", True), ("banks, insurers, government, telecom, healthcare, hospitality", False)],
        [("Proof: ", True), ("GT Bahrain as 'client zero' with measured readiness uplift", False)]]
@@ -431,6 +431,32 @@ box(s, L, TOP + 3650000, CW, 850000, fill=DARK, text=[
     size=10.5, color=WHITE, align=PP_ALIGN.LEFT)
 NEW.append(s)
 
+# =========================================================== 17b GT AI apps & tools portfolio
+s = content("GT AI Apps & Tools Portfolio", "Proprietary tools accelerate delivery and differentiate the service lines. Two AI-powered apps are currently in preparation.")
+rows = [["Tool / app", "Purpose", "Service line", "Status", "Next milestone"]] + [list(a) for a in APPS]
+fills = {}
+for i, a in enumerate(APPS, 1):
+    fills[(i, 3)] = {"In preparation": RGBColor(0xFF, 0xE6, 0x99), "Planned": RGBColor(0xE7, 0xE6, 0xE6)}.get(a[3], RGBColor(0xC6, 0xE0, 0xB4))
+table(s, L, TOP, CW, rows, [3.4, 5, 2.3, 1.6, 2.4], size=10.5, rowh=560000, fills=fills)
+box(s, L, TOP + 4100000, CW, 600000, fill=DARK, text=[[("All GT AI apps are governed like client AI: ", True), ("risk-tiered with the GT AI Risk Assessment Framework, secured against the GT AI Security & Agent Audit Checklist, and released only with human-in-charge review of outputs.", False)]],
+    size=10.5, color=WHITE, align=PP_ALIGN.LEFT)
+NEW.append(s)
+
+# =========================================================== 17c AI apps in preparation
+s = content("AI Apps in Preparation - BCP & Financial Statements", "Two AI-powered apps extend the AI-Driven Automation service line into repeatable, scalable products. Status: in preparation (indicative MVP and internal pilot in H1-H2).")
+hw = (CW - 150000) // 2
+for i, (name, blocks) in enumerate(APP_DETAIL):
+    x = L + i * (hw + 150000); col = [TEAL, GT][i]
+    box(s, x, TOP - 60000, hw, 480000, fill=col, text=name, size=14, bold=True, color=WHITE, align=PP_ALIGN.LEFT)
+    box(s, x + hw - 1500000, TOP + 20000, 1420000, 320000, fill=AMBER, text="IN PREPARATION", size=9.5, bold=True, color=DARK, shape=MSO_SHAPE.ROUNDED_RECTANGLE)
+    yy = TOP + 480000
+    for j, (h, t) in enumerate(blocks):
+        hh = 1050000 if j in (1, 3) else 820000
+        box(s, x, yy, 1150000, hh, fill=LAV2, text=h, size=11, bold=True, color=col)
+        box(s, x + 1150000, yy, hw - 1150000, hh, fill=LAV if j % 2 == 0 else WHITE, line=LAV2, text=t, size=10.5, align=PP_ALIGN.LEFT)
+        yy += hh + 40000
+NEW.append(s)
+
 # =========================================================== 18 operating model
 s = content("Operating Model & Governance", "A light, federated model: central CoE for standards and assurance; champions embedded in every service line.")
 bw = 3400000
@@ -454,7 +480,7 @@ NEW.append(s)
 # =========================================================== 19 KPIs
 s = content("KPIs & Value Realisation", "Progress is measured against the AI Ready7 baseline and a balanced set of adoption, value, risk and growth indicators.")
 rows = [["KPI", "Baseline (Sept 2026)", "Target end-2027", "Target end-2028", "Owner"]] + [list(k) for k in KPIS]
-table(s, L, TOP, CW, rows, [4, 2.6, 2.3, 2.3, 2], size=11.5, rowh=480000)
+table(s, L, TOP, CW, rows, [4, 2.6, 2.3, 2.3, 2], size=11, rowh=425000)
 NEW.append(s)
 
 # =========================================================== 20 divider
@@ -462,9 +488,9 @@ NEW.append(divider("Implementation\nRoadmap", 3))
 
 # =========================================================== 21 roadmap on a page
 s = content("Roadmap on a Page", "Three horizons move GT Bahrain from 'Informed' to 'Repeatable' and then to a differentiated, AI-enabled advisory firm.")
-hz = [("HORIZON 1  |  FOUNDATIONS", "Q4 2026 - Q1 2027", GT, ["Strategy, risk appetite, AI policy & CoE", "AI register refresh; risk framework on every use case", "Data classification & DLP for GenAI", "AI literacy for all staff", "Quick wins: drafting, transcription, knowledge assistant", "Launch entry offers; first client pilots"],
+hz = [("HORIZON 1  |  FOUNDATIONS", "Q4 2026 - Q1 2027", GT, ["Strategy, risk appetite, AI policy & CoE", "AI register refresh; risk framework on every use case", "Data classification & DLP for GenAI", "AI literacy for all staff", "Quick wins: drafting, transcription, knowledge assistant", "Entry offers launched; AI BCP & FS apps MVP"],
        "Exit: readiness ~68%; no Not-Met items"),
-      ("HORIZON 2  |  SCALE", "Q2 - Q4 2027", GT2, ["Reference architecture, monitoring & ModelOps", "AI red teaming; deepfake-resilient processes", "Pilots: audit analytics, tax assistant, document review", "Role-based pathways & champions", "Sector campaigns (FS, government, telecom)", "ISO/IEC 42001 AIMS build"],
+      ("HORIZON 2  |  SCALE", "Q2 - Q4 2027", GT2, ["Reference architecture, monitoring & ModelOps", "AI red teaming; agent security baseline", "Pilots: audit analytics, tax assistant, document review", "Pilot & launch AI BCP and Financial Statements apps", "Sector campaigns; role-based pathways", "ISO/IEC 42001 AIMS build"],
        "Exit: readiness >= 75% (Repeatable)"),
       ("HORIZON 3  |  DIFFERENTIATE", "2028", TEAL, ["Scale proven use cases; agentic pilots", "ISO/IEC 42001 certification (optional)", "Client self-assessment portal", "Regional delivery via GT network", "Thought leadership on responsible AI"],
        "Exit: readiness >= 85%; recognised AI advisor")]
@@ -479,7 +505,7 @@ for i, (h, when, col, items, ex) in enumerate(hz):
 NEW.append(s)
 
 # =========================================================== 22 Gantt
-s = content("Detailed Roadmap - Workstreams & Timeline", "18 months, five workstreams, 21 activities (Oct 2026 - Mar 2028).")
+s = content("Detailed Roadmap - Workstreams & Timeline", f"18 months, five workstreams, {len(GANTT)} activities (Oct 2026 - Mar 2028).")
 lab_w = 3500000; gx = L + lab_w; gw = R - gx; months = 18; mw = gw / months
 qlabels = ["Q4 2026", "Q1 2027", "Q2 2027", "Q3 2027", "Q4 2027", "Q1 2028"]
 y0 = TOP - 230000
@@ -536,19 +562,19 @@ NEW.append(s)
 # =========================================================== 25 strategy risks
 s = content("Risks to the Strategy & Mitigations")
 rows = [["Risk", "Mitigation"]] + [list(r) for r in STRAT_RISKS]
-table(s, L, TOP - 250000, CW, rows, [3.5, 8], size=13, rowh=600000)
+table(s, L, TOP - 250000, CW, rows, [3.5, 8], size=12, rowh=540000)
 NEW.append(s)
 
 # =========================================================== 26 next steps
 s = content("Decisions Required & Next Steps")
 dec = ["Approve the AI vision, three strategic objectives and the AI risk appetite", "Appoint the executive AI sponsor and the AI CoE lead", "Release Horizon 1 resources and budget envelope",
-       "Endorse the four Horizon 1 use cases for pilot", "Endorse the AI service-line launch plan and entry offers"]
+       "Endorse the four Horizon 1 use cases for pilot", "Endorse the AI service-line launch plan and entry offers", "Approve MVP investment for the AI BCP and Financial Statements apps"]
 hw = (CW - 150000) // 2
 box(s, L, TOP - 200000, hw, 460000, fill=GT, text="Decisions required from leadership", size=13, bold=True, color=WHITE)
 for i, d in enumerate(dec):
-    yy = TOP + 330000 + i * 720000
-    box(s, L, yy, 520000, 620000, fill=GT2, text=str(i + 1), size=18, bold=True, color=WHITE)
-    box(s, L + 560000, yy, hw - 560000, 620000, fill=LAV, text=d, size=12.5, align=PP_ALIGN.LEFT)
+    yy = TOP + 330000 + i * 690000
+    box(s, L, yy, 520000, 600000, fill=GT2, text=str(i + 1), size=18, bold=True, color=WHITE)
+    box(s, L + 560000, yy, hw - 560000, 600000, fill=LAV, text=d, size=12, align=PP_ALIGN.LEFT)
 nx = ["Week 1-2: leadership review of this strategy and risk appetite", "Week 2: issue interim AI acceptable-use policy", "Week 3: CoE mobilised; 100-day plan kicked off",
       "Week 4: quick-win pilot scoping and baseline KPIs", "Day 100: progress checkpoint to the Steering Committee"]
 x2 = L + hw + 150000

@@ -38,7 +38,7 @@ SWOT = dict(
        "Existing relationships in regulated sectors (banking, telecom, government)",
        "Compliance & data foundations in place (Ready7 2.2, 2.5, 5.3, 5.4 fully met)",
        "Good AI literacy (T&D 69%) and threat defence (70%) baseline",
-       "Four defined AI service lines and proprietary tools (RCM v2.0, risk framework, readiness tool)"],
+       "Four AI service lines, proprietary tools (RCM v2.1, risk framework, readiness tool, security audit checklist) and two AI apps in preparation (BCP, Financial Statements)"],
     W=["Overall AI readiness 'Informed' (61.4%) - below the 'Repeatable' threshold",
        "No consistent lifecycle AI risk assessment (Ready7 2.4 - Not Met)",
        "Data classification & handling for AI not in place (Ready7 5.1 - Not Met)",
@@ -66,7 +66,7 @@ TOWS = [("SO - Lead with trust", "Launch governance-led AI offerings (readiness 
 PILLARS = [("1", "Trusted & Governed AI", "Responsible by design: policy, AI register, lifecycle risk assessment, CoE guardrails, ISO/IEC 42001-aligned AIMS.", "Governance & Ethics; Data & Quality"),
            ("2", "AI-Fluent People", "Every professional AI-literate; specialists, leaders and champions developed through role-based pathways.", "Training & Development"),
            ("3", "The Intelligent Firm", "Prioritised internal use cases in audit, tax, advisory and operations with measured value.", "Business Alignment"),
-           ("4", "Secure AI Foundations", "Reference architecture, protected data, AI security testing, monitoring and deepfake-resilient processes.", "Architecture; Protect AI; AI Threats"),
+           ("4", "Secure AI Foundations", "Reference architecture, protected data, secure-by-default AI agents, AI security testing, monitoring and deepfake-resilient processes.", "Architecture; Protect AI; AI Threats"),
            ("5", "Market-Leading AI Advisory", "Four AI service lines packaged, launched and scaled into priority sectors across Bahrain and the GCC.", "Growth")]
 
 PRINCIPLES = ["Human-in-charge: professionals remain accountable for every AI-assisted output",
@@ -96,7 +96,7 @@ USE_CASES = [
     (5, "Tax research & regulatory Q&A", 4.1, 3.8, "Medium", "H2", "Tax", "Grounded assistant for Bahrain VAT, corporate / top-up tax and GCC tax research with citations."),
     (6, "Contract & document review", 3.8, 3.1, "Medium", "H2", "Advisory / Due diligence", "Clause extraction, risk flagging and summarisation for due diligence and compliance reviews."),
     (7, "Client onboarding / KYC screening", 3.4, 3.0, "High", "H3", "Risk & Quality", "Automated entity screening, adverse-media review and independence checks."),
-    (8, "AI-assisted control testing (RCM)", 3.9, 3.45, "Medium", "H2", "Risk Advisory / AI GRC", "Evidence review and control-test support using the GT AI RCM v2.0 test plans."),
+    (8, "AI-assisted control testing (RCM)", 3.9, 3.45, "Medium", "H2", "Risk Advisory / AI GRC", "Evidence review and control-test support using the GT AI RCM v2.1 test plans and AI security audit checklist."),
     (9, "Finance, timesheet & billing automation", 3.0, 4.0, "Low", "H2", "Operations", "RPA + AI for WIP, billing narratives and expense processing."),
     (10, "Marketing & thought-leadership content", 2.4, 4.7, "Low", "H1", "Marketing", "Drafting of insights, social posts and event content with brand review."),
     (11, "Agentic engagement workflow assistant", 4.3, 2.0, "High", "H3", "Firm-wide", "Multi-step agents orchestrating engagement set-up, requests-for-information and status reporting."),
@@ -104,9 +104,9 @@ USE_CASES = [
 ]
 
 OFFERINGS = [
-    ("AI Governance, Risk & Compliance", ["AI Readiness & Risk Assessment (15-question tool + report)", "AI governance framework, policies & AI register", "RCM v2.0 compliance / gap review (EU AI Act, PDPL, CBB)", "Use-case AI risk & impact assessment", "ISO/IEC 42001 readiness & internal audit"], "Banks & insurers, government, telecom"),
+    ("AI Governance, Risk & Compliance", ["AI Readiness & Risk Assessment (15-question tool + report)", "AI governance framework, policies & AI register", "RCM v2.1 compliance / gap review (EU AI Act, PDPL, CBB)", "Use-case AI risk & impact assessment", "ISO/IEC 42001 readiness & internal audit"], "Banks & insurers, government, telecom"),
     ("AI Strategy & Roadmap", ["AI strategy sprint (6-8 weeks): situational / SWOT, strategy, roadmap", "Use-case discovery & prioritisation workshops", "AI risk appetite & value-realisation framework"], "Mid-to-large corporates, family groups, government"),
-    ("AI-Driven Automation", ["Technology evaluation & selection", "Process automation & optimisation", "AI integration services", "Industry-specific solutions"], "Financial services, healthcare, hospitality"),
+    ("AI-Driven Automation & Apps", ["Technology evaluation & selection", "Process automation & AI integration", "Industry-specific solutions", "AI-powered BCP tool (in preparation)", "AI-powered Financial Statements tool (in preparation)"], "Financial services, SMEs, healthcare, hospitality"),
     ("Training & Awareness", ["AI literacy academy (all staff; EU AI Act Art. 4-aligned)", "Board & leadership AI governance sessions", "Immersive labs & AI-driven gamification", "Deepfake / AI-phishing simulations"], "All sectors; entry offer"),
 ]
 
@@ -117,6 +117,7 @@ KPIS = [("AI Ready7 overall readiness", "61.4% (Informed)", ">= 75% (Repeatable)
         ("Production AI use cases with measured benefits", "0 measured", "6", "10+", "Service-line leaders"),
         ("Time saved in targeted processes", "To be baselined", "10%", "15%", "CoE + Finance"),
         ("AI advisory engagements delivered (proposed)", "Pilot stage", "12", "25", "AI service line lead"),
+        ("GT AI apps (BCP tool, Financial Statements tool)", "2 in preparation", "2 piloted with clients", "2 launched commercially", "AI service line lead"),
         ("Client-data leakage incidents via AI", "-", "0", "0", "CISO / DPO"),
         ("ISO/IEC 42001 status", "Not started", "Certification-ready", "Certified (optional)", "Risk & Quality partner")]
 
@@ -139,10 +140,12 @@ GANTT = [
     ("WS4 Use Cases & Value", "Quick wins: drafting, transcription, knowledge assistant", 1, 5),
     ("WS4 Use Cases & Value", "Pilots: audit analytics, tax assistant, document review", 5, 6),
     ("WS4 Use Cases & Value", "Scale proven use cases; agentic pilots", 11, 7),
-    ("WS5 AI Service Line (GTM)", "Package offerings & tools; pricing approach", 0, 3),
-    ("WS5 AI Service Line (GTM)", "Launch & first pilot clients", 3, 4),
-    ("WS5 AI Service Line (GTM)", "Sector campaigns (FS, government, telecom)", 6, 7),
-    ("WS5 AI Service Line (GTM)", "Regional scale via the GT network", 12, 6),
+    ("WS5 AI Service Line & Apps", "Package offerings & tools; pricing approach", 0, 3),
+    ("WS5 AI Service Line & Apps", "AI apps (BCP, Financial Statements): design & MVP", 1, 6),
+    ("WS5 AI Service Line & Apps", "AI apps: risk assessment, internal pilot & client launch", 7, 7),
+    ("WS5 AI Service Line & Apps", "Launch & first pilot clients", 3, 4),
+    ("WS5 AI Service Line & Apps", "Sector campaigns (FS, government, telecom)", 6, 7),
+    ("WS5 AI Service Line & Apps", "Regional scale via the GT network", 12, 6),
 ]
 
 HUNDRED_DAYS = [
@@ -153,7 +156,7 @@ HUNDRED_DAYS = [
     ("Days 31-60", [("Refresh AI register; tier & assess all AI tools", "AI CoE"),
                     ("Launch AI literacy baseline for all staff", "HR / L&D"),
                     ("Start quick-win pilots (drafting, transcription, knowledge)", "AI CoE + service lines"),
-                    ("Package 3 entry offers and client collateral", "AI service line lead")]),
+                    ("Package entry offers; confirm MVP scope of AI BCP & Financial Statements apps", "AI service line lead")]),
     ("Days 61-100", [("Reference architecture v1 and AI logging", "IT"),
                      ("AI red-team of internal GenAI assistant", "Cyber team"),
                      ("First 3 client pilots of the readiness assessment", "AI service line lead"),
@@ -166,6 +169,7 @@ STRAT_RISKS = [("Low adoption / change resistance", "Visible leadership sponsors
                ("Shortage of AI talent", "Targeted hiring, GTIL expertise sharing, technology partners, upskilling"),
                ("Reputational harm from AI errors", "Human-in-charge sign-off, QA sampling, professional-standards alignment"),
                ("Regulatory change (Bahrain AI law, EU AI Act)", "Obligations register and horizon scanning (RCM RO-5)"),
+               ("Liability from GT AI apps (BCP, financial statements outputs)", "Apps assessed under the GT AI Risk Assessment Framework; qualified professional review of outputs; clear terms of use; independence checks for audit clients"),
                ("Vendor lock-in / platform change", "Multi-model reference architecture, exit clauses, periodic re-evaluation")]
 
 
@@ -178,3 +182,27 @@ USE_CASES = [(u[0], u[1], _w(SUBSCORES[u[0]][0], VALUE_CRIT), _w(SUBSCORES[u[0]]
 
 def quadrant(v, f):
     return "Quick win" if v >= 3.5 and f >= 3.5 else "Strategic bet" if v >= 3.5 else "Fill-in" if f >= 3.5 else "Deprioritise"
+
+
+APPS = [  # name, purpose, service line, status, next milestone
+    ("GT AI Readiness & Risk Assessment Tool", "15-question organisational AI readiness & risk-exposure assessment with auto-generated report", "AI GRC", "Available (v1.1)", "Client pilots in H1"),
+    ("GT AI RCM v2.1 + AI Security & Agent Audit Checklist", "81-control AI risk & control matrix and 125-item security / agent audit programme", "AI GRC / Cyber", "Available", "First engagements in H1"),
+    ("GT AI Risk Assessment Framework & Toolkit", "Use-case tiering, 52-risk taxonomy, register, heat map and sign-off", "AI GRC", "Available (v1.1)", "Embed in AI CoE intake"),
+    ("AI-powered BCP tool", "AI-assisted business impact analysis, BCP / DR plan drafting and tabletop scenarios", "AI Automation / Risk Advisory", "In preparation", "MVP & internal pilot (indicative H1-H2)"),
+    ("AI-powered Financial Statements tool", "AI-assisted preparation and review of IFRS financial statements and disclosures", "AI Automation / Accounting Advisory", "In preparation", "MVP & internal pilot (indicative H1-H2)"),
+    ("Client AI self-assessment portal", "Web version of the readiness tool for lead generation and delivery", "AI GRC", "Planned", "Build in H2"),
+]
+APP_DETAIL = [
+    ("AI-powered BCP Tool", [
+        ("Why", "Business continuity plans are often generic, outdated and slow to build; regulated clients (e.g., CBB licensees) must evidence tested BCM."),
+        ("What it does", "Guided business impact analysis with AI-suggested impacts, RTO / RPO and dependencies; auto-drafted BCP / DR plans aligned to ISO 22301; AI-generated scenarios and tabletop exercises; gap scoring and maintenance reminders."),
+        ("Who for", "Banks & insurers, government entities, telecom, healthcare, hospitality and SMEs; links to Training & Awareness BC gamification."),
+        ("Guardrails", "Risk tier Medium; human validation of BIA and plan content; client data in approved hosting; no autonomous actions; covered by RCM v2.1 controls."),
+    ]),
+    ("AI-powered Financial Statements Tool", [
+        ("Why", "Preparing and reviewing IFRS financial statements is manual and error-prone; AI can speed mapping, drafting and consistency checks."),
+        ("What it does", "Trial-balance import with AI-assisted mapping to statement line items; draft primary statements and notes from GT templates; IFRS disclosure checklist with AI suggestions; tie-outs, anomaly and variance flags."),
+        ("Who for", "SMEs and family groups, non-audit clients, GT accounting-advisory teams; internal review aid for engagement teams."),
+        ("Guardrails", "Risk tier High (financial-reporting impact): qualified accountant review and sign-off mandatory; full audit trail of AI suggestions; independence rules - not offered as a preparation service to audit clients where prohibited (IESBA Code)."),
+    ]),
+]

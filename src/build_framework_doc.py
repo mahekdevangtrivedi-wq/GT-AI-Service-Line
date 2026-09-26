@@ -14,7 +14,7 @@ import diagrams
 
 OUT = sys.argv[1]
 IMG = "/home/user/work/img"; os.makedirs(IMG, exist_ok=True)
-diagrams.process_diagram(f"{IMG}/process.png")
+diagrams.process_diagram(f"{IMG}/process.png", len(TAXONOMY))
 diagrams.heatmap(f"{IMG}/heatmap.png")
 diagrams.lines_of_defence(f"{IMG}/lod.png")
 
@@ -137,7 +137,7 @@ r = p3.add_run("Aligned to ISO/IEC 23894  |  ISO/IEC 42001  |  ISO/IEC 42005  | 
 set_cell_margins(t, 200)
 for _ in range(2): doc.add_paragraph()
 para("Grant Thornton Bahrain  |  AI Governance, Risk & Compliance Service Line", bold=True, color=GT, size=12)
-para("Version 1.0  |  September 2026", size=10.5)
+para("Version 1.1  |  September 2026", size=10.5)
 para("Classification: Internal / Client-ready methodology", italic=True, size=9.5)
 for _ in range(10): doc.add_paragraph()
 para("This framework is a Grant Thornton Bahrain methodology document. It is intended to be tailored to each client's context, risk appetite and regulatory obligations. It does not constitute legal advice.", italic=True, size=8.5, color=RGBColor(0x59, 0x59, 0x59))
@@ -145,8 +145,8 @@ doc.add_page_break()
 
 # ------------------------------------------------------------------ doc control + TOC
 doc.add_heading("Document control", 1)
-table(["Item", "Detail"], [["Document", "GT AI Risk Assessment Framework"], ["Version", "1.0 (initial release)"], ["Date", "24 September 2026"],
-                            ["Owner", "Grant Thornton Bahrain - AI GRC Service Line"], ["Companion artefacts", "GT AI Risk Assessment Toolkit (Excel) - template and worked example\nGT AI RCM v2.0 (2026) - control library referenced by this framework\nGT AI Readiness Assessment Tool - organisation-level readiness"],
+table(["Item", "Detail"], [["Document", "GT AI Risk Assessment Framework"], ["Version", "1.1 - adds agentic-AI security (ISACA 2026), ISO/IEC 42001 checks, AI security audit checklist integration and data classification for AI (v1.0: 24 Sept 2026)"], ["Date", "26 September 2026"],
+                            ["Owner", "Grant Thornton Bahrain - AI GRC Service Line"], ["Companion artefacts", "GT AI Risk Assessment Toolkit (Excel) - template and worked example\nGT AI RCM v2.1 (2026) - control library referenced by this framework\nGT AI Security & Agent Audit Checklist v2.0 - item-level security audit programme\nGT AI Readiness Assessment Tool - organisation-level readiness"],
                             ["Review cycle", "Annually, or earlier on material regulatory change (e.g., EU AI Act Digital Omnibus outcome, Bahrain AI law enactment)"]],
       widths=[4, 13], first_col_bold=True)
 doc.add_heading("Contents", 1)
@@ -160,10 +160,10 @@ para("The GT AI Risk Assessment Framework (GT-AIRAF) provides that method. It co
 bullets([("Proportionality by design - ", "a 10-factor inherent-risk tiering (Low / Medium / High / Critical) determines assessment depth, approval authority and review frequency, so low-risk productivity uses are not slowed down while high-impact systems receive rigorous scrutiny."),
          ("A comprehensive AI risk taxonomy - ", f"{len(TAXONOMY)} risks in {len(CATEGORIES)} categories, spanning governance, legal, fairness, privacy, data, performance, transparency, security, human oversight, third-party, operational and societal risks, including emerging agentic-AI and AI-enabled threat risks."),
          ("Multi-dimensional impact assessment - ", "impacts on individuals and rights are assessed alongside financial, regulatory, operational, reputational and safety/societal impacts, on a common 5x5 scale."),
-         ("Direct link to controls - ", "every risk maps to controls in the GT AI Risk & Control Matrix (RCM v2.0, 72 controls), which in turn map to ISO/IEC 42001, EU AI Act, NIST AI RMF, Bahrain PDPL and CBB requirements."),
+         ("Direct link to controls - ", "every risk maps to controls in the GT AI Risk & Control Matrix (RCM v2.1, 81 controls), which in turn map to ISO/IEC 42001, EU AI Act, NIST AI RMF, Bahrain PDPL and CBB requirements."),
          ("Lifecycle coverage - ", "assessments are triggered at defined lifecycle gates and on material change, with KRIs for continuous monitoring."),
          ("Practical tooling - ", "an Excel toolkit automates tiering, scoring, heat maps, top-risk reporting and sign-off.")])
-callout("How the framework fits the GT AI GRC service line", "Organisation level: the GT AI Readiness Assessment Tool (and AI Ready7) measures capability maturity.  Control level: the GT AI RCM v2.0 defines what 'good' looks like.  Use-case level: this framework assesses and treats risk for each AI system and feeds the AI register, risk register and management reporting.")
+callout("How the framework fits the GT AI GRC service line", "Organisation level: the GT AI Readiness Assessment Tool (and AI Ready7) measures capability maturity.  Control level: the GT AI RCM v2.1 defines what 'good' looks like.  Use-case level: this framework assesses and treats risk for each AI system and feeds the AI register, risk register and management reporting.")
 
 # ------------------------------------------------------------------ 2 purpose scope
 doc.add_heading("2. Purpose, scope and application", 1)
@@ -200,7 +200,7 @@ table(["Reference", "How it is used in GT-AIRAF"],
        ["OWASP Top 10 for LLM / Agentic Applications; MITRE ATLAS; NIST AI 100-2", "Security risk identification and threat modelling for AI systems."],
        ["Bahrain PDPL (Law 30/2018); iGA General Policy for the Use of AI (2025); GCC AI Ethics Manual; CBB Rulebook", "Local legal and regulatory criteria in impact scales, taxonomy and treatment."],
        ["MIT AI Risk Repository; OECD AI Incidents Monitor", "Completeness check of the taxonomy; incident-based likelihood calibration."],
-       ["GT AI Ready7 & GT AI RCM v2.0", "Organisation-level maturity inputs and the control library used for treatment."]],
+       ["GT AI Ready7 & GT AI RCM v2.1", "Organisation-level maturity inputs and the control library used for treatment."]],
       widths=[5.5, 11.5], first_col_bold=True)
 
 # ------------------------------------------------------------------ 4 principles
@@ -266,7 +266,8 @@ doc.add_heading("Stage 2 - Risk identification", 2)
 para("Risks are identified by working systematically through the GT AI risk taxonomy (Section 7), supplemented by:")
 bullets(["structured workshops with the use-case owner, data scientists, IT, risk, privacy, legal and business users;",
          "an AI system impact assessment per ISO/IEC 42005 for High and Critical tiers - covering intended and unintended impacts on individuals, groups and society, and a Fundamental Rights Impact Assessment where EU AI Act Art. 27 applies;",
-         "threat modelling using OWASP LLM / Agentic Top 10 and MITRE ATLAS for systems with external exposure or agent capabilities;",
+         "threat modelling using OWASP LLM / Agentic Top 10 and MITRE ATLAS for systems with external exposure or agent capabilities - for agents, model every stage of the workflow (user input, retrieval, memory, inference, tool calls / APIs, human approvals, output delivery, tenant boundaries and privileged actions) as recommended by ISACA (2026);",
+         "the GT AI Security & Agent Audit Checklist v2.0 (125 items, incl. the ISACA agent section and ISO/IEC 42001 checks) to identify control gaps that raise likelihood ratings;",
          "review of incidents in comparable systems (AI Incident Database, OECD AIM) and vendor documentation (model cards, system cards);",
          "a data-protection impact assessment where personal data is processed (Bahrain PDPL)."])
 para("Each identified risk is recorded as a scenario: cause -> event -> consequence (e.g., 'Indirect prompt injection in a retrieved document causes the assistant to disclose another customer's balance, resulting in a PDPL breach and customer harm').")
@@ -280,7 +281,7 @@ doc.add_picture(f"{IMG}/heatmap.png", width=Cm(10.5))
 doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
 
 doc.add_heading("Stage 4 - Risk evaluation", 2)
-para("Existing controls are identified (using RCM v2.0 control IDs) and their effectiveness rated. The residual score is the inherent score multiplied by the control-effectiveness factor. Residual risk is then compared with the organisation's AI risk appetite (RCM RM-6).")
+para("Existing controls are identified (using RCM v2.1 control IDs) and their effectiveness rated. The residual score is the inherent score multiplied by the control-effectiveness factor. Residual risk is then compared with the organisation's AI risk appetite (RCM RM-6).")
 table(["Control effectiveness", "Factor", "Definition"], [[n, f, d] for n, f, d in CONTROL_EFFECTIVENESS], widths=[3.5, 1.5, 12], size=8.5, first_col_bold=True)
 table(["Residual rating", "Score", "Required response"], [[n, f"{lo}-{hi}", d] for n, lo, hi, d in RATING_BANDS], widths=[3, 1.8, 12.2], size=8.5, first_col_bold=True,
       fills={(0, 0): "C6E0B4", (1, 0): "FFE699", (2, 0): "F4B183", (3, 0): "E06666"})
@@ -303,7 +304,7 @@ bullets([("KRIs: ", "each material risk has at least one key risk indicator with
 
 # ------------------------------------------------------------------ 7 taxonomy
 doc.add_heading("7. GT AI risk taxonomy", 1)
-para(f"The taxonomy contains {len(TAXONOMY)} risks in {len(CATEGORIES)} categories. It consolidates the NIST AI 600-1 generative-AI risks, ISO/IEC 23894 risk sources, EU AI Act requirements, OWASP and MITRE ATLAS security threats and the GT AI Ready7 pillars. Each risk is linked to RCM v2.0 controls and an example KRI in the toolkit.")
+para(f"The taxonomy contains {len(TAXONOMY)} risks in {len(CATEGORIES)} categories. It consolidates the NIST AI 600-1 generative-AI risks, ISO/IEC 23894 risk sources, EU AI Act requirements, OWASP and MITRE ATLAS security threats and the GT AI Ready7 pillars. Each risk is linked to RCM v2.1 controls and an example KRI in the toolkit.")
 catname = dict(CATEGORIES)
 for cid, cname in CATEGORIES:
     doc.add_heading(f"7.{[c[0] for c in CATEGORIES].index(cid)+1} {cname}", 3)
@@ -324,7 +325,9 @@ table(["Requirement", "Low", "Medium", "High", "Critical"],
        ["Human oversight design (RS-1)", "Policy", "Documented", "Documented & tested", "Documented, tested, staffed"],
        ["Legal review", "-", "If flagged", "Yes", "Yes"],
        ["Approval", "Owner", "Function head + Risk", "AI Committee", "ExCo / Board Risk Committee"],
-       ["Staged rollout & kill-switch", "-", "-", "Recommended", "Mandatory"],
+       ["Staged rollout & kill-switch (RCM OM-4)", "-", "-", "Recommended", "Mandatory"],
+       ["GT AI Security & Agent Audit Checklist", "-", "Core sections", "Full (+ agent section if agentic)", "Full + independent auditor"],
+       ["Agentic AI secure-by-default baseline (Appendix D)", "-", "If agentic", "Mandatory if agentic", "Mandatory + red team"],
        ["KRI monitoring", "-", "Periodic", "Continuous", "Continuous + real-time alerting"],
        ["Re-assessment", "24 months", "12 months", "6 months", "Quarterly"]],
       widths=[5.5, 2.3, 2.9, 3, 3.3], size=8, first_col_bold=True)
@@ -334,7 +337,7 @@ doc.add_heading("9. Integration with the GT AI GRC toolset", 1)
 table(["Artefact", "Relationship to this framework"],
       [["GT AI Readiness Assessment Tool", "Organisation-level: identifies capability gaps (e.g., missing inventory, weak monitoring) that increase likelihood ratings across use cases; its inherent-risk questions reuse the tiering factors T1-T3."],
        ["GT AI Ready7", "Pillar maturity scores inform control-effectiveness ratings (e.g., Protect AI Systems maturity informs security controls)."],
-       ["GT AI RCM v2.0", "Control library for treatment; the taxonomy maps each risk to control IDs; control test results inform effectiveness ratings."],
+       ["GT AI RCM v2.1", "Control library for treatment; the taxonomy maps each risk to control IDs; control test results inform effectiveness ratings."],
        ["AI register (RCM GL-8)", "Records tier, residual rating, approval and next review date for every AI system."],
        ["Enterprise risk register", "High and Critical residual AI risks are escalated into the enterprise risk register using common scales."],
        ["ISO/IEC 42001 AIMS", "Framework outputs constitute the documented information required by clauses 6.1.2-6.1.4 and 8.2-8.4."]],
@@ -346,7 +349,7 @@ para("Use case: agentic GenAI customer-service assistant ('Ask Aya') for a CBB-l
 table(["Stage", "Outcome"],
       [["Screening", "No prohibited practice identified."],
        ["Tiering", "Weighted score 74 / 100 - tier HIGH (drivers: autonomy of actions, sensitive financial personal data, customer-facing agentic GenAI, vulnerable customers). Approval: AI Committee; six-monthly review."],
-       ["Identification", "16 applicable taxonomy risks; ISO/IEC 42005 impact assessment and DPIA required."],
+       ["Identification", "18 applicable taxonomy risks (incl. agent memory leakage and kill-switch risks); ISO/IEC 42005 impact assessment, DPIA and the agent section of the GT AI Security & Agent Audit Checklist required."],
        ["Analysis", "Highest inherent risks: prompt injection (16), data leakage (16), unbounded agent actions (15), insecure integration / excessive privilege (15)."],
        ["Evaluation", "4 residual High risks outside appetite before treatment (SEC-01, PRI-02, HUM-03, SEC-04)."],
        ["Treatment", "PII redaction and no-training vendor clauses; prompt-injection filters and content separation; scoped OAuth tokens and BHD 500 limit; human approval for standing-order changes; kill-switch; OWASP red-team before launch; Art. 50 disclosure."],
@@ -357,7 +360,7 @@ table(["Stage", "Outcome"],
 doc.add_heading("Appendix A - Risk register fields", 1)
 table(["Field", "Description"],
       [["Risk ID / category / title", "From the taxonomy or bespoke (BSP-nn)"], ["Scenario", "Cause -> event -> consequence, specific to the use case"],
-       ["Inherent likelihood / impact / score / rating", "Before controls; 1-5 scales; score 1-25"], ["Existing / required controls", "RCM v2.0 control IDs"],
+       ["Inherent likelihood / impact / score / rating", "Before controls; 1-5 scales; score 1-25"], ["Existing / required controls", "RCM v2.1 control IDs"],
        ["Control effectiveness", "Strong / Satisfactory / Needs improvement / Weak-None"], ["Residual score / rating / within appetite", "Inherent x effectiveness factor"],
        ["Treatment option & actions", "Avoid / Mitigate / Transfer / Accept; specific actions"], ["Owner, due date, status", "Accountable individual and tracking"],
        ["KRI", "Indicator, threshold and response"]], widths=[6, 11], first_col_bold=True)
@@ -372,15 +375,35 @@ table(["Term", "Definition"],
        ["KRI", "Key risk indicator - metric providing early warning of increasing risk exposure."],
        ["Hallucination / confabulation", "Generation of plausible but false or unsupported content."],
        ["Prompt injection", "Manipulation of an LLM through crafted input, directly or via content it processes."]], widths=[4.5, 12.5], first_col_bold=True)
-doc.add_heading("Appendix C - Key references", 1)
+doc.add_heading("Appendix D - Secure-by-default baseline for AI agents", 1)
+para("AI agents ingest untrusted content, reason over enterprise data and act through tools and APIs, which gives them a distinct risk profile. For any use case with agent capabilities (tiering factor T2 >= 3 or T8 = 4), the following baseline, adapted from ISACA's Cybersecurity Recommendations for Securing AI Agents (2026), is a minimum requirement before deployment. Each item maps to GT AI RCM v2.1.")
+table(["#", "Baseline requirement", "RCM v2.1"],
+      [["1", "Inventory all agents, tools, models, memory stores and providers", "GL-8"], ["2", "Define trust boundaries and control owners", "LC-8"],
+       ["3", "Use per-agent identity and least privilege", "LC-8, SE-2"], ["4", "Prefer short-lived credentials and federated workload identity", "SE-8"],
+       ["5", "Run tool / code execution in sandboxes and segment networks", "SE-9"], ["6", "Deny outbound access by default", "SE-9"],
+       ["7", "Treat all retrieved content and tool output as untrusted", "SE-6"], ["8", "Protect memory with tenant / session isolation and retention controls", "SE-8"],
+       ["9", "Put all tool actions behind a policy enforcement point", "SE-10"], ["10", "Require human approval for high-risk (destructive, financial, legal, irreversible) actions", "LC-8, RS-1"],
+       ["11", "Log prompts, tool calls, decisions and approvals with redaction", "OM-2"], ["12", "Pin models and dependencies; use SBOM / AI-BOM and signing", "SE-7, LC-13"],
+       ["13", "Integrate secure SDLC and change control for prompts, policies and tool permissions", "LC-12"], ["14", "Add kill switches, rollback and safe-mode operation", "OM-4"],
+       ["15", "Red-team continuously for prompt injection and tool misuse", "AT-4, AA-3"]],
+      widths=[1, 12.5, 3.5], size=8.5)
+doc.add_heading("Appendix E - Data classification and handling for AI", 1)
+para("Data classification drives which AI tools may process which data (RCM LC-1, SE-4, GL-5). The scheme below adapts the ISACA (2026) data classification and handling guide and adds AI-specific rules.")
+table(["Class", "Examples", "Handling", "AI-specific rule"],
+      [["Public", "Website content, press releases, brochures", "Approved systems; protect from unauthorised change", "May be used in any approved AI tool"],
+       ["Internal", "Procedures, org charts, meeting notes, routine email", "Approved company systems only; business-need access", "Approved enterprise AI tools only; no public GenAI"],
+       ["Confidential", "Client records, contracts, financial reports, most personal data", "Encrypted at rest and in transit; role-based, logged access; documented retention", "Enterprise AI with no-training, retention and residency terms; DPIA where personal data; human review of outputs"],
+       ["Restricted / highly sensitive", "Health, special-category data, government IDs, payment data, credentials, keys, M&A", "Tightly controlled systems; strong encryption; MFA; strict need-to-know; shortest retention", "Not permitted in GenAI prompts unless explicitly approved by the AI Committee for a High-tier use case with redaction / tokenisation; never place secrets in prompts"]],
+      widths=[2.6, 4.2, 5, 5.2], size=8)
+doc.add_heading("Appendix F - Key references", 1)
 bullets(["ISO/IEC 23894:2023 Information technology - AI - Guidance on risk management", "ISO/IEC 42001:2023 AI management system; ISO/IEC 42005:2025 AI system impact assessment", "ISO 31000:2018 Risk management - Guidelines",
          "NIST AI 100-1 AI Risk Management Framework (2023); NIST AI 600-1 Generative AI Profile (2024); NIST AI 100-2 E2025 Adversarial Machine Learning", "Regulation (EU) 2024/1689 (Artificial Intelligence Act)",
-         "OWASP Top 10 for LLM Applications 2025; OWASP Top 10 for Agentic Applications; MITRE ATLAS", "Kingdom of Bahrain Law No. 30 of 2018 (Personal Data Protection Law); iGA General Policy for the Use of AI v1.0 (2025); GCC Guiding Manual on the Ethics of AI Use",
+         "OWASP Top 10 for LLM Applications 2025; OWASP Top 10 for Agentic Applications; MITRE ATLAS", "ISACA - Cybersecurity Recommendations for Securing AI Agents (2026)", "CWS ISO 42001 Checklist - 45 checks (2026); AI Security Audit Checklist v1.0", "Kingdom of Bahrain Law No. 30 of 2018 (Personal Data Protection Law); iGA General Policy for the Use of AI v1.0 (2025); GCC Guiding Manual on the Ethics of AI Use",
          "Central Bank of Bahrain Rulebook (HC, RM, OM, BC modules)", "Digital NSW - NSW AI Assessment Framework (AIAF)", "MIT AI Risk Repository; OECD AI Incidents Monitor"])
 
 # ------------------------------------------------------------------ header / footer
 for s in doc.sections:
-    hp = s.header.paragraphs[0]; hp.text = ""; r = hp.add_run("Grant Thornton Bahrain  |  GT AI Risk Assessment Framework v1.0"); r.font.size = Pt(8); r.font.color.rgb = GT
+    hp = s.header.paragraphs[0]; hp.text = ""; r = hp.add_run("Grant Thornton Bahrain  |  GT AI Risk Assessment Framework v1.1"); r.font.size = Pt(8); r.font.color.rgb = GT
     fp = s.footer.paragraphs[0]; fp.text = ""; fp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     r = fp.add_run("Page "); r.font.size = Pt(8)
     field(fp, "PAGE")

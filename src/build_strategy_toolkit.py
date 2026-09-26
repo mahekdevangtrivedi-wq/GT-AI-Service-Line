@@ -7,6 +7,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.formatting.rule import CellIsRule, FormulaRule
 from openpyxl.worksheet.datavalidation import DataValidation
 sys.path.insert(0, os.path.dirname(__file__))
+import printfix
 from strategy_data import *
 
 OUT = sys.argv[1]
@@ -46,6 +47,7 @@ rows = [("1. SWOT & TOWS", "Situational analysis: strengths, weaknesses, opportu
         ("3. Roadmap (Gantt)", "Enter start month (1 = Oct 2026) and duration for each activity; the Gantt bars draw automatically. Track owner and status."),
         ("4. KPI Tracker", "Baseline, targets and actuals for strategy KPIs; RAG status calculates from the actual value where numeric."),
         ("5. Ready7 Traceability", "Maps every AI Ready7 item not fully met to a roadmap response, horizon and workstream."),
+        ("6. AI Apps Pipeline", "Status of GT AI tools and apps, incl. the AI-powered BCP and Financial Statements tools (in preparation)."),
         ("Colour legend", "Yellow = input  |  Purple = header / calculated")]
 for i, (k, v) in enumerate(rows):
     cell(g, 4 + i, 2, k, bold=True, fill=LAV); cell(g, 4 + i, 3, v, align=WT); g.row_dimensions[4 + i].height = 32
@@ -157,9 +159,26 @@ for lab, col in [("Not Met", "F4B183"), ("Some Met", "FFE699"), ("Most Met", "C6
     tr.conditional_formatting.add(f"C5:C{4+len(READY7_ITEMS)}", CellIsRule(operator="equal", formula=[f'"{lab}"'], fill=PatternFill("solid", fgColor=col)))
 for c, w in zip("ABCDEF", [12, 40, 11, 70, 9, 11]): tr.column_dimensions[c].width = w
 
+# ------------------------------------------------ AI apps pipeline
+aa = wb.create_sheet("6. AI Apps Pipeline")
+title(aa, "6. GT AI Apps & Tools Pipeline", "Status of GT proprietary AI tools and apps. AI-powered BCP tool and AI-powered Financial Statements tool are in preparation.", 8)
+hdr(aa, 4, ["Tool / app", "Purpose", "Service line", "Status", "Next milestone", "Owner", "Risk tier (GT framework)", "Notes"])
+tiers = {"AI-powered BCP tool": "Medium", "AI-powered Financial Statements tool": "High"}
+for k, a in enumerate(APPS):
+    r = 5 + k
+    for i, v in enumerate(a, 1): cell(aa, r, i, v, bold=(i == 1))
+    cell(aa, r, 6, "AI service line lead", fill=INPUT); cell(aa, r, 7, tiers.get(a[0], "Low"), fill=INPUT, align=CC)
+    cell(aa, r, 8, "Independence check required for audit clients" if "Financial" in a[0] else None, fill=INPUT)
+    aa.row_dimensions[r].height = 34
+dva = DataValidation(type="list", formula1='"Available,In preparation,Planned,Pilot,Launched,On hold"'); aa.add_data_validation(dva); dva.add(f"D5:D{4+len(APPS)}")
+for lab, col in [("In preparation", "FFE699"), ("Planned", "E7E6E6"), ("Available", "C6E0B4"), ("Launched", "C6E0B4"), ("Pilot", "BDD7EE")]:
+    aa.conditional_formatting.add(f"D5:D{4+len(APPS)}", FormulaRule(formula=[f'LEFT($D5,{len(lab)})="{lab}"'], fill=PatternFill("solid", fgColor=col)))
+for c, w in zip("ABCDEFGH", [40, 60, 26, 16, 30, 20, 14, 34]): aa.column_dimensions[c].width = w
+
 for ws_ in wb.worksheets:
     ws_.sheet_properties.tabColor = GT
     if ws_.title != "3. Roadmap (Gantt)":
         ws_.page_setup.orientation = "landscape"; ws_.page_setup.fitToWidth = 1; ws_.page_setup.fitToHeight = 0; ws_.sheet_properties.pageSetUpPr.fitToPage = True
+printfix.harden(wb)
 wb.save(OUT)
 print("saved", OUT)

@@ -9,6 +9,7 @@ from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.chart import BarChart, Reference
 from openpyxl.workbook.defined_name import DefinedName
 sys.path.insert(0, os.path.dirname(__file__))
+import printfix
 from risk_data import *
 
 OUT = sys.argv[1]
@@ -108,8 +109,8 @@ for col, w in zip("ABCDEFGHI", [11, 16, 26, 22, 22, 22, 22, 22, 22]):
 
 # =========================================================== Reference: Taxonomy
 tx = wb.create_sheet("Taxonomy")
-title(tx, "AI Risk Taxonomy", f"{len(TAXONOMY)} risks in {len(CATEGORIES)} categories. Sources: NIST AI RMF & AI 600-1, ISO/IEC 23894, EU AI Act, OWASP LLM / Agentic Top 10, MITRE ATLAS, MIT AI Risk Repository, GT AI Ready7. RCM IDs refer to GT AI RCM v2.0.", 7)
-tcols = [("Risk ID", 9), ("Category", 26), ("Risk", 34), ("Description / scenario", 60), ("Key sources", 34), ("RCM v2.0 controls", 18), ("Example KRI", 34)]
+title(tx, "AI Risk Taxonomy", f"{len(TAXONOMY)} risks in {len(CATEGORIES)} categories. Sources: NIST AI RMF & AI 600-1, ISO/IEC 23894, EU AI Act, OWASP LLM / Agentic Top 10, MITRE ATLAS, MIT AI Risk Repository, GT AI Ready7. RCM IDs refer to GT AI RCM v2.1; agent risks draw on ISACA Securing AI Agents (2026).", 7)
+tcols = [("Risk ID", 9), ("Category", 26), ("Risk", 34), ("Description / scenario", 60), ("Key sources", 34), ("RCM v2.1 controls", 18), ("Example KRI", 34)]
 for i, (h, w) in enumerate(tcols, 1):
     hdr(tx.cell(4, i, h)); tx.column_dimensions[get_column_letter(i)].width = w
 catname = dict(CATEGORIES)
@@ -242,7 +243,7 @@ tr.cell(S + 5, 3).font = Font(bold=True, size=12)
 rg = wb.create_sheet("4. Risk Register", 3)
 title(rg, "4. AI Risk Register", "Mark each taxonomy risk as applicable (Yes/No), tailor the scenario, rate inherent likelihood & impact, assess existing control effectiveness and define treatment. Scores, ratings and heat map update automatically. Add bespoke risks in the blank rows at the bottom.", 20)
 rcols = [("Applicable?", 9), ("Risk ID", 8), ("Category", 18), ("Risk", 26), ("Scenario (tailor to use case)", 44), ("Likelihood", 12), ("Impact", 12),
-         ("Inherent score", 8), ("Inherent rating", 10), ("Existing / required controls (RCM v2.0)", 20), ("Control effectiveness", 14),
+         ("Inherent score", 8), ("Inherent rating", 10), ("Existing / required controls (RCM v2.1)", 20), ("Control effectiveness", 14),
          ("Residual score", 8), ("Residual rating", 10), ("Within appetite?", 9), ("Treatment", 10), ("Treatment actions", 40), ("Risk owner", 16), ("Due date", 11), ("Status", 12), ("KRI", 28)]
 for i, (h, w) in enumerate(rcols, 1):
     hdr(rg.cell(4, i, h)); rg.column_dimensions[get_column_letter(i)].width = w
@@ -261,6 +262,8 @@ EX = {  # example ratings: id -> (L, I, CE, treatment, actions, owner, status)
     "HUM-03": (3, 5, "Needs improvement", "Mitigate", "Human approval for standing-order changes; kill-switch; full action logging.", "Head of Digital Engineering", "In progress"),
     "TPR-02": (3, 3, "Satisfactory", "Mitigate", "Obtain model card, SOC 2 and ISO/IEC 42001 evidence; contractual incident notification (24h).", "Procurement", "Treatment planned"),
     "OPS-01": (2, 3, "Satisfactory", "Mitigate", "Fallback to human agents / static FAQ; SLA monitoring.", "IT Operations", "Closed"),
+    "SEC-06": (3, 4, "Needs improvement", "Mitigate", "Isolate conversation memory per customer; TTL 30 days; authorisation check before retrieval.", "Head of Digital Engineering", "In progress"),
+    "OPS-04": (2, 4, "Satisfactory", "Mitigate", "Global and per-action kill switch; fallback to human agents; semi-annual test.", "IT Operations", "Treatment planned"),
     "SOC-02": (3, 4, "Satisfactory", "Mitigate", "Complaint tagging for AI interactions; monthly review by Conduct Risk.", "Conduct Risk", "Treatment planned"),
     "SOC-03": (3, 4, "Satisfactory", "Mitigate", "Out-of-band verification for high-risk requests; voice-channel deepfake awareness.", "Fraud Risk", "In progress"),
     "FAI-02": (3, 3, "Needs improvement", "Mitigate", "Evaluate Arabic dialect coverage and accessibility for elderly users; expand test set.", "Data Science Lead", "Treatment planned"),
@@ -411,12 +414,12 @@ hm.sheet_properties.pageSetUpPr.fitToPage = True
 
 # =========================================================== Guide
 gd = wb.create_sheet("Guide", 0)
-title(gd, "GT AI Risk Assessment Toolkit" + (" - Worked Example" if EXAMPLE else ""), "Companion to the GT AI Risk Assessment Framework (v1.0, 2026). Grant Thornton Bahrain - AI Governance, Risk & Compliance.", 3)
+title(gd, "GT AI Risk Assessment Toolkit" + (" - Worked Example" if EXAMPLE else ""), "Companion to the GT AI Risk Assessment Framework (v1.1, 2026). Grant Thornton Bahrain - AI Governance, Risk & Compliance.", 3)
 gd.column_dimensions["A"].width = 4; gd.column_dimensions["B"].width = 30; gd.column_dimensions["C"].width = 100
 steps = [("Step 1 - Use Case Profile", "Document context: purpose, owners, lifecycle stage, organisation's role, stakeholders, data, vendors and applicable regulation (ISO 31000 cl.6.3; ISO/IEC 42005 cl.6)."),
          ("Step 2 - Prohibited Screen", "Screen against prohibited practices. Any 'Yes' stops the assessment and requires Legal review."),
          ("Step 3 - Risk Tiering", "Rate 10 inherent-risk factors. The weighted score plus override rules produce the tier (Low / Medium / High / Critical), which determines assessment depth, approval authority and review frequency."),
-         ("Step 4 - Risk Register", f"Work through the {len(TAXONOMY)} taxonomy risks: mark applicability, tailor scenarios, rate likelihood & impact, evaluate existing control effectiveness (mapped to RCM v2.0 controls) and plan treatment. Add bespoke risks in rows BSP-01..10."),
+         ("Step 4 - Risk Register", f"Work through the {len(TAXONOMY)} taxonomy risks: mark applicability, tailor scenarios, rate likelihood & impact, evaluate existing control effectiveness (mapped to RCM v2.1 controls) and plan treatment. Add bespoke risks in rows BSP-01..10."),
          ("Step 5 - Heat Map & Summary", "Review the inherent heat map, residual profile, top-10 residual risks and obtain sign-off from the approval authority required by the tier."),
          ("Monitor & review", "Re-assess at the review frequency for the tier or on material change (model/provider change, new data, new purpose, expanded user base, incidents). Track KRIs listed per risk."),
          ("Colour legend", "Yellow = input cell | Purple header = calculated / reference | Green/Amber/Orange/Red = Low / Medium / High / Critical"),
@@ -437,5 +440,6 @@ for ws_ in wb.worksheets:
 order = ["Guide", "1. Use Case Profile", "2. Prohibited Screen", "3. Risk Tiering", "4. Risk Register", "5. Heat Map & Summary", "Taxonomy", "Scales", "Lists"]
 wb._sheets = [wb[n] for n in order]
 wb.active = 0
+printfix.harden(wb)
 wb.save(OUT)
 print("saved", OUT, "register rows", rows_n)
