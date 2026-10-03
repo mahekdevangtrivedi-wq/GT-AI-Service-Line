@@ -151,9 +151,9 @@ GOV = P["Is the organisation a government entity or public-sector body?"]; ROLE 
 asx = wb.create_sheet("2. Assessment")
 asx.sheet_view.showGridLines = False
 for col, w in zip("ABCDEFGHIJKL", [2, 6, 17, 52, 56, 9, 13, 54, 17, 17, 2, 6]): asx.column_dimensions[col].width = w
-merge(asx, 1, 2, 1, 10, "2. ASSESSMENT  -  15 questions  |  approx. 15 minutes", size=16, bold=True, color="FFFFFF", fillc=GT, align=Alignment(vertical="center", indent=1), border=False)
+merge(asx, 1, 2, 1, 10, "2. ASSESSMENT  -  20 questions  |  approx. 20 minutes", size=16, bold=True, color="FFFFFF", fillc=GT, align=Alignment(vertical="center", indent=1), border=False)
 asx.row_dimensions[1].height = 34
-merge(asx, 2, 2, 2, 10, "Select the statement in column E that best describes your current state (choose the lower level if unsure - evidence should exist for the level selected). Part A profiles your AI use and inherent risk (based on the NSW AI Assessment Framework). Part B measures readiness across the 7 GT AI Ready7 pillars, mapped to the GT AI RCM v2.1 controls. Results update live below and in the '3. Report' sheet.",
+merge(asx, 2, 2, 2, 10, "Select the statement in column E that best describes your current state (choose the lower level if unsure - evidence should exist for the level selected). Part A profiles your AI use and inherent risk (based on the NSW AI Assessment Framework). Part B measures readiness across 5 domains (derived from the 7 GT AI Ready7 pillars), mapped to the GT AI RCM v2.1 controls. Results update live below and in the '3. Report' sheet.",
       size=9.5, italic=True, color=DARK, border=False)
 asx.row_dimensions[2].height = 44
 # KPI band rows 4-6 (formulas filled after Calc is defined)
@@ -164,10 +164,11 @@ for i, h in enumerate(heads, 2):
     c = asx.cell(HDR, i, h); style(c, bold=True, color="FFFFFF", fillc=GT, align=CC)
 asx.row_dimensions[HDR].height = 30
 QR = {}  # qid -> row
-SAMPLE_ANS = {"A1": 2, "A2": 2, "A3": 2, "A4": 1, "Q5": 2, "Q6": 2, "Q7": 3, "Q8": 2, "Q9": 2, "Q10": 3, "Q11": 3, "Q12": 2, "Q13": 2, "Q14": 3, "Q15": 2}
+SAMPLE_ANS = {"A1": 2, "A2": 2, "A3": 2, "A4": 1, "Q5": 2, "Q6": 2, "Q7": 2, "Q8": 3, "Q9": 1, "Q10": 2, "Q11": 2, "Q12": 2, "Q13": 2, "Q14": 3,
+              "Q15": 3, "Q16": 3, "Q17": 2, "Q18": 2, "Q19": 2, "Q20": 3}
 r = HDR + 1
 for part, qs in [("PART A  -  AI USE & INHERENT RISK PROFILE  (AIAF-based: how much could go wrong?)", CONTEXT),
-                 ("PART B  -  AI READINESS & CONTROL MATURITY  (AI Ready7 pillars + GT AI RCM: how well is it managed?)", READINESS)]:
+                 ("PART B  -  AI READINESS & CONTROL MATURITY  (5 domains + GT AI RCM: how well is it managed?)", READINESS)]:
     merge(asx, r, 2, r, 10, part, size=11, bold=True, color="FFFFFF", fillc=GT2, align=Alignment(vertical="center", indent=1))
     asx.row_dimensions[r].height = 22
     r += 1
@@ -210,11 +211,11 @@ asx.freeze_panes = f"A{HDR+1}"
 cl = wb.create_sheet("Calc")
 cl["A1"] = "Per-question calculations"
 hdrs = ["QID", "Topic", "Pillar", "Answered", "Value", "Weight/Mult", "Gap", "Priority", "Horizon", "Horizon rank", "Sort key", "Recommendation", "RCM", "Type", "Response", "Status", "Risk"]
-for i, h in enumerate(hdrs, 1): cl.cell(2, i, h)
+for i, h in enumerate(hdrs, 1): cl.cell(199, i, h)
 CR = {}
 TIER = "Calc!$C$32"
 for k, q in enumerate(ALLQ):
-    rr = 3 + k; CR[q["id"]] = rr
+    rr = 200 + k; CR[q["id"]] = rr
     ar = QR[q["id"]]
     cl.cell(rr, 1, q["id"]); cl.cell(rr, 2, q["topic"]); cl.cell(rr, 3, q.get("pillar", "Context"))
     cl.cell(rr, 4, f"=IF('2. Assessment'!L{ar}=\"\",0,1)")
@@ -223,7 +224,7 @@ for k, q in enumerate(ALLQ):
     cl.cell(rr, 16, f"='2. Assessment'!G{ar}")
     if k >= 4:
         mult = 1.5 if ("Mandatory" in q["type"] or "Compliance" in q["type"]) else 1.0
-        extra = f'+IF(AND(OR({TIER}="High",{TIER}="Critical"),OR(A{rr}="Q8",A{rr}="Q9",A{rr}="Q13")),0.5,0)'
+        extra = f'+IF(AND(OR({TIER}="High",{TIER}="Critical"),OR(A{rr}="Q7",A{rr}="Q9",A{rr}="Q11",A{rr}="Q19")),0.5,0)'
         cl.cell(rr, 6, f"={mult}{extra}")
         cl.cell(rr, 7, f'=IF(E{rr}="","",1-E{rr})')
         cl.cell(rr, 8, f'=IF(E{rr}="",-1,G{rr}*F{rr}*100+({NQ}-{k})/100)')
@@ -232,8 +233,8 @@ for k, q in enumerate(ALLQ):
         cl.cell(rr, 11, f'=IF(E{rr}="",-1,J{rr}*1000+H{rr})')
         cl.cell(rr, 12, f"='2. Assessment'!H{QR[q['id']]}")
         cl.cell(rr, 13, q["rcm"]); cl.cell(rr, 14, q["type"]); cl.cell(rr, 17, q["risk"])
-QF, QL = 3, 3 + NQ - 1
-RF, RL = 7, QL   # readiness rows
+QF, QL = 200, 200 + NQ - 1
+RF, RL = 204, QL   # readiness rows
 # completion
 cl["A20"] = "Answered"; cl["B20"] = f"=SUM(D{QF}:D{QL})"
 cl["A21"] = "Complete"; cl["B21"] = f"=IF(B20={NQ},1,0)"
@@ -251,8 +252,8 @@ cl["C33"] = '=IF(C31="","",IF(AND(B27=4,B29>=3),"Override: significant-effect de
 # pillars
 cl["A36"] = "Pillar"; cl["B36"] = "Score"; cl["C36"] = "Maturity"; cl["D36"] = "Target"; cl["E36"] = "Risk statement"; cl["F36"] = "Service"; cl["G36"] = "Service priority"; cl["H36"] = "Label"
 PR = {}
-SHORT = {"Business Alignment": "Business", "Governance & Ethics": "Governance", "Training & Development": "Training", "Data & Quality": "Data",
-         "Architecture & Technology": "Architecture", "Protect AI Systems": "Protect AI", "Protection from AI Threats": "AI Threats"}
+SHORT = {"Strategy & Value": "Strategy", "Governance, Risk & Compliance": "Governance & Risk", "People & Skills": "People",
+         "Data & Technology": "Data & Tech", "AI Security & Threat Risk": "AI Security"}
 for i, p in enumerate(PILLARS):
     rr = 37 + i; PR[p] = rr
     cl.cell(rr, 1, p)
@@ -306,12 +307,9 @@ for i in range(len(READINESS)):
     cl.cell(rr, 3, f'=IFERROR(IF(LARGE($K${RF}:$K${RL},A{rr})<1000,"",IF(INDEX($J${RF}:$J${RL},MATCH(LARGE($K${RF}:$K${RL},A{rr}),$K${RF}:$K${RL},0))<2,"",MATCH(LARGE($K${RF}:$K${RL},A{rr}),$K${RF}:$K${RL},0)+{RF - 1})),"")')
 # services
 for i, (svc, pil, desc) in enumerate(SERVICES):
-    rr = 100 + i
+    rr = 120 + i
     cl.cell(rr, 1, svc); cl.cell(rr, 2, pil); cl.cell(rr, 3, desc)
-    if pil == "Protect AI Systems":
-        sc_ = f'AVERAGE(B{PR["Protect AI Systems"]},B{PR["Protection from AI Threats"]})'
-    else:
-        sc_ = f'B{PR[pil]}'
+    sc_ = f'B{PR[pil]}'
     cl.cell(rr, 4, f'=IFERROR({sc_},"")')
     cl.cell(rr, 5, f'=IF(D{rr}="","",IF(D{rr}<0.5,"Priority",IF(D{rr}<0.7,"Advised",IF(D{rr}<0.9,"Optional","Sustain"))))')
 cl.sheet_state = "hidden"
@@ -354,7 +352,11 @@ def chars(c1, c2):
     return sum(WID[get_column_letter(i)] for i in range(c1, c2 + 1)) * 1.12
 
 
+SECTION_ROWS = []
+
+
 def section(r, text):
+    SECTION_ROWS.append(r)
     merge(rp, r, 2, r, 11, text, size=12, bold=True, color="FFFFFF", fillc=GT, align=Alignment(vertical="center", indent=1), border=False)
     rp.row_dimensions[r].height = 22
     return r + 1
@@ -378,7 +380,7 @@ merge(rp, r, 2, r, 11, f'="Scope: "&IF({P["Scope of assessment"]}="","-",{P["Sco
       size=9, color="404040", border=False, align=WC)
 rp.row_dimensions[r].height = 26
 r = 4
-merge(rp, r, 2, r, 11, f'=IF({CV("B21")}=1,"Framework basis: NSW AI Assessment Framework (inherent risk)  |  GT AI Ready7 (7 pillars)  |  GT AI RCM v2.1 (controls)  |  ISO/IEC 42001, NIST AI RMF, EU AI Act, Bahrain PDPL","ASSESSMENT INCOMPLETE - "&{CV("B20")}&" of {NQ} questions answered. Results below are provisional.")',
+merge(rp, r, 2, r, 11, f'=IF({CV("B21")}=1,"Framework basis: NSW AI Assessment Framework (inherent risk)  |  GT AI Ready7 (5 readiness domains)  |  GT AI RCM v2.1 (controls)  |  ISO/IEC 42001, NIST AI RMF, EU AI Act, Bahrain PDPL","ASSESSMENT INCOMPLETE - "&{CV("B20")}&" of {NQ} questions answered. Results below are provisional.")',
       size=8.5, italic=True, color="595959", border=False, align=WC)
 rp.conditional_formatting.add("B4", FormulaRule(formula=[f"{CV('$B$21')}=0"], fill=PatternFill("solid", fgColor="E06666"), font=Font(bold=True, color="FFFFFF")))
 r = 6
@@ -423,8 +425,8 @@ merge(rp, r, 2, r, 11, f'={CV("B72")}', size=10, color="202020", align=Alignment
 rp.row_dimensions[r].height = 92
 r += 2
 # ----------------------------------------------------------- 2. pillars
-r = section(r, "2. READINESS BY AI READY7 PILLAR")
-th(r, [(2, 3, "Pillar"), (4, 4, "Score"), (5, 5, "Maturity"), (6, 6, "Progress")])
+r = section(r, "2. READINESS BY DOMAIN")
+th(r, [(2, 3, "Domain"), (4, 4, "Score"), (5, 5, "Maturity"), (6, 6, "Progress")])
 PT = r
 r += 1
 for p in PILLARS:
@@ -462,7 +464,7 @@ ch.legend = None
 ch.height = 8.6; ch.width = 9.3
 rp.add_chart(ch, f"G{PT}")
 r += 2
-th(r, [(2, 3, "Pillar"), (4, 11, "Potential risk if the pillar is not strengthened (shown where score < 90%)")])
+th(r, [(2, 3, "Domain"), (4, 11, "Potential risk if the domain is not strengthened (shown where score < 90%)")])
 r += 1
 for p in PILLARS:
     pr = PR[p]
@@ -470,8 +472,7 @@ for p in PILLARS:
     merge(rp, r, 4, r, 11, f'=IF({CV(f"B{pr}")}="","",IF({CV(f"B{pr}")}>=0.9,"Adaptive - maintain current practices.",{CV(f"E{pr}")}))', size=9, align=WC)
     rp.row_dimensions[r].height = 28
     r += 1
-BR1 = r
-rp.row_breaks.append(Break(id=r))
+SECTION_ROWS.append(r + 1)
 r += 1
 # ----------------------------------------------------------- 3. inherent profile
 r = section(r, "3. AI USE & INHERENT RISK PROFILE (AIAF-based)")
@@ -526,8 +527,6 @@ for q in READINESS:
 fd_end = r - 1
 for lab, col in [("Not met", "E06666"), ("Minimal", "F4B183"), ("Partially", "FFE699"), ("Largely", "C6E0B4"), ("Fully", "9BC2E6")]:
     rp.conditional_formatting.add(f"D{fd_start}:D{fd_end}", FormulaRule(formula=[f'ISNUMBER(SEARCH("{lab}",LEFT($D{fd_start},25)))'], fill=PatternFill("solid", fgColor=col)))
-BR3 = r
-rp.row_breaks.append(Break(id=r))
 r += 1
 # ----------------------------------------------------------- 6. top priorities
 r = section(r, "6. TOP 5 PRIORITY ACTIONS")
@@ -562,8 +561,6 @@ for i in range(len(READINESS)):
     r += 1
 for lab, col in [("Immediate", "F4B183"), ("Short", "FFE699"), ("Medium", "C6E0B4")]:
     rp.conditional_formatting.add(f"B{rm_start}:B{r-1}", FormulaRule(formula=[f'LEFT($B{rm_start},{len(lab)})="{lab}"'], fill=PatternFill("solid", fgColor=col)))
-BR4 = r
-rp.row_breaks.append(Break(id=r))
 r += 1
 # ----------------------------------------------------------- 8. regulatory
 r = section(r, "8. REGULATORY & STANDARDS CONSIDERATIONS")
@@ -574,21 +571,21 @@ r += 1
 def sig(qids):
     cond = ",".join(f'{CV(f"E{CR[q]}")}' for q in qids)
     return f'=IF(COUNT({cond})=0,"-",IF(MIN({cond})>=0.75,"On track",IF(MIN({cond})>=0.5,"Partial gap","Significant gap")))'
-REGS = [("Bahrain Personal Data Protection Law (Law No. 30 of 2018)", f'=IF(OR({PDPL}="Yes",N({CV("B28")})>=3),"Yes","Check")', sig(["Q11", "Q7"]),
+REGS = [("Bahrain Personal Data Protection Law (Law No. 30 of 2018)", f'=IF(OR({PDPL}="Yes",N({CV("B28")})>=3),"Yes","Check")', sig(["Q16", "Q8"]),
          "Lawful basis and notice for AI processing; DPIAs; security; data-subject rights incl. objection to automated processing; cross-border transfer rules for AI services hosted outside Bahrain (RCM PR-1 to PR-6)."),
-        ("iGA General Policy for the Use of AI (2025) & GCC Guiding Manual on the Ethics of AI Use", f'=IF({GOV}="Yes","Yes","Reference")', sig(["Q9", "Q10"]),
+        ("iGA General Policy for the Use of AI (2025) & GCC Guiding Manual on the Ethics of AI Use", f'=IF({GOV}="Yes","Yes","Reference")', sig(["Q13", "Q15"]),
          "National AI policy pillars (compliance, adoption, awareness, cooperation) and GCC ethics principles - mandatory reference for government entities and good practice for all (RCM GL-1, GL-4, RS-series)."),
-        ("Central Bank of Bahrain Rulebook (HC, RM, OM, BC modules)", f'=IF({CBB}="Yes","Yes","No")', sig(["Q8", "Q13", "Q15"]),
+        ("Central Bank of Bahrain Rulebook (HC, RM, OM, BC modules)", f'=IF({CBB}="Yes","Yes","No")', sig(["Q11", "Q18", "Q19", "Q14"]),
          "Board oversight, risk management, cyber security, outsourcing and consumer-protection requirements apply to AI; expect model validation for material models and notification of material outsourcing (RCM LC-9, TP-3, AT-3)."),
-        ("EU AI Act (Regulation 2024/1689) - general obligations", f'=IF({EU}="Yes","Yes","No")', sig(["Q7", "Q10"]),
+        ("EU AI Act (Regulation 2024/1689) - general obligations", f'=IF({EU}="Yes","Yes","No")', sig(["Q8", "Q15"]),
          "Extraterritorial reach. Prohibited practices (Art. 5) and AI literacy (Art. 4) apply since Feb 2025; GPAI rules since Aug 2025; transparency (Art. 50) from Aug 2026 (RCM RM-5, GL-4, CO-1, LC-7)."),
-        ("EU AI Act - high-risk AI systems (Annex III)", f'=IF(AND({EU}="Yes",N({CV("B27")})>=3),"Likely",IF({EU}="Yes","Check","No"))', sig(["Q8", "Q9", "Q15"]),
+        ("EU AI Act - high-risk AI systems (Annex III)", f'=IF(AND({EU}="Yes",N({CV("B27")})>=3),"Likely",IF({EU}="Yes","Check","No"))', sig(["Q9", "Q11", "Q13", "Q14"]),
          "Decisions on credit, employment, insurance, essential services etc. may be high-risk: risk management, data governance, logging, human oversight, FRIA and registration (timelines subject to the EU Digital Omnibus outcome) (RCM RO-6)."),
-        ("KSA / UAE / GCC regimes (SDAIA AI Ethics, KSA PDPL, UAE AI Charter, DIFC Regulation 10, QCB AI Guideline)", f'=IF({GCC}="Yes","Yes","No")', sig(["Q7", "Q11"]),
+        ("KSA / UAE / GCC regimes (SDAIA AI Ethics, KSA PDPL, UAE AI Charter, DIFC Regulation 10, QCB AI Guideline)", f'=IF({GCC}="Yes","Yes","No")', sig(["Q8", "Q16"]),
          "Include in the AI obligations register; align data-transfer, ethics and sector AI requirements across GCC operations (RCM RO-5)."),
-        ("ISO/IEC 42001:2023 AI management system", f'=IF({CV("B45")}="","-",IF({CV("B45")}>=0.7,"Ready to plan","Build first"))', sig(["Q7", "Q8", "Q15"]),
+        ("ISO/IEC 42001:2023 AI management system", f'=IF({CV("B45")}="","-",IF({CV("B45")}>=0.7,"Ready to plan","Build first"))', sig(["Q7", "Q9", "Q11", "Q14"]),
          "International certifiable standard for AI governance; demonstrates trustworthy AI to clients and regulators. Recommended once readiness reaches 'Repeatable' (RCM AA-2)."),
-        ("Bahrain draft AI Regulation Law (Shura Council, 2024)", '="Monitor"', sig(["Q7"]),
+        ("Bahrain draft AI Regulation Law (Shura Council, 2024)", '="Monitor"', sig(["Q8"]),
          "Proposed standalone AI law (38 articles) with a new regulator and penalties - not yet in force. Maintain horizon scanning (RCM RO-5).")]
 rg_start = r
 for name, ap, sg, txt in REGS:
@@ -608,7 +605,7 @@ th(r, [(2, 4, "GT AI service line"), (5, 5, "Relevance"), (6, 11, "How we help")
 r += 1
 sv_start = r
 for i, (svc, pil, desc) in enumerate(SERVICES):
-    rr = 100 + i
+    rr = 120 + i
     merge(rp, r, 2, r, 4, svc, size=9, bold=True, color=GT, align=WC)
     style(rp.cell(r, 5, f'={CV(f"E{rr}")}'), size=8.5, bold=True, align=CC)
     merge(rp, r, 6, r, 11, desc, size=8.5, align=WC)
@@ -636,12 +633,27 @@ for role in ["Assessment completed by", "Reviewed by (risk / compliance)", "Exec
     r += 1
 r += 1
 disc = ("Methodology: Part A (4 questions) derives an inherent-risk tier from the NSW AI Assessment Framework risk factors (AI use, decision impact, data sensitivity, oversight & reversibility). "
-        "Part B (11 questions) scores readiness 0-100% across the 7 GT AI Ready7 pillars; pillar scores are averaged equally into the overall score and mapped to the AI Ready7 maturity scale. "
+        "Part B (16 questions) scores readiness 0-100% across 5 domains derived from the GT AI Ready7 pillars; domain scores are averaged equally into the overall score and mapped to the AI Ready7 maturity scale. "
         "Exposure combines tier and maturity. Recommendations reference the GT AI RCM v2.1 controls.  Disclaimer: this is a self-assessment based on the responses provided and has not been independently verified by Grant Thornton. "
         "It is not an audit, certification or legal opinion.  (c) 2026 Grant Thornton Bahrain. All rights reserved.")
 merge(rp, r, 2, r, 11, disc, size=7.5, italic=True, color="595959", border=False, align=WT)
 rp.row_dimensions[r].height = 58
 LAST = r
+# ---- pagination: break before a row that would overflow the A4 page (fit-to-width scale ~0.94);
+#      never leave a section header (or its table header) orphaned at the bottom of a page
+PAGE_BUDGET = 800.0
+acc = 0.0; prev_break = 1
+for rr in range(1, LAST + 1):
+    h = rp.row_dimensions[rr].height or 15
+    if acc + h > PAGE_BUDGET and rr > prev_break + 1:
+        brk = rr
+        for sr in SECTION_ROWS:
+            if rr - 3 <= sr < rr and sr > prev_break + 1:
+                brk = sr
+        rp.row_breaks.append(Break(id=brk - 1))
+        acc = sum((rp.row_dimensions[x].height or 15) for x in range(brk, rr + 1)); prev_break = brk
+    else:
+        acc += h
 # side panel (outside print area)
 style(rp.cell(1, 13, "HOW TO PRINT, SAVE OR EMAIL THIS REPORT"), size=11, bold=True, color="FFFFFF", fillc=GT, align=WC)
 rp.row_dimensions[1].height = 40
@@ -681,7 +693,7 @@ for k, q in enumerate(READINESS):
     style(ap.cell(rr, 2, q["id"]), bold=True, align=CC, fillc=LAV)
     style(ap.cell(rr, 3, f'{q["topic"]}\n({q["pillar"]})'), size=9, bold=True, color=GT, align=WC)
     c = ap.cell(rr, 4, f'=IF(Calc!E{crow}="","-",Calc!E{crow})'); style(c, bold=True, align=CC); c.number_format = "0%"
-    style(ap.cell(rr, 5, f'=IFERROR(MATCH({crow},Calc!$B$87:$B$97,0),"-")'), bold=True, align=CC)
+    style(ap.cell(rr, 5, f'=IFERROR(MATCH({crow},Calc!$B$87:$B${86 + len(READINESS)},0),"-")'), bold=True, align=CC)
     style(ap.cell(rr, 6, f'=Calc!I{crow}'), size=9, align=WC)
     style(ap.cell(rr, 7, f'=Calc!L{crow}'), size=9, align=WC)
     style(ap.cell(rr, 8, q["rcm"]), size=9, align=WC)
@@ -700,13 +712,13 @@ merge(mt, 1, 2, 1, 8, "METHODOLOGY & FRAMEWORK MAPPING", size=16, bold=True, col
 mt.row_dimensions[1].height = 34
 blocks = [("How the tool combines three frameworks",
            "1) NSW AI Assessment Framework (AIAF, Digital NSW): lifecycle triggers, inherent-risk questions (AI use, decision impact, data, autonomy / reversibility), Low-Critical risk bands, pattern overrides, oversight pathways and the 8 ethics principles.\n"
-           "2) GT AI Ready7: 7 readiness pillars (33 items) and the maturity scale Partial / Informed / Repeatable / Adaptive; findings use AI Ready7 'potential risk' and 'recommended deliverable' language.\n"
+           "2) GT AI Ready7: the 7 pillars (33 items) are consolidated into 5 domains - Strategy & Value; Governance, Risk & Compliance; People & Skills; Data & Technology; AI Security & Threat Risk - using the AI Ready7 maturity scale Partial / Informed / Repeatable / Adaptive.\n"
            "3) GT AI RCM v2.1: every readiness question is mapped to the controls that evidence it, so results convert directly into a control-remediation plan."),
           ("Scoring - Part A (inherent risk)",
            "Each answer scores 0-4. Weights: A1 AI use x2, A2 decision impact x3, A3 data sensitivity x2, A4 oversight & reversibility x3 (max 40). Weighted % bands: <25% Low, 25-49% Medium, 50-74% High, >=75% Critical.\n"
            "Overrides (AIAF 'pattern risk'): significant-effect decisions (A2=4) -> minimum High; A2=4 with oversight A4>=3 -> Critical; sensitive data (A3=4) -> minimum Medium."),
           ("Scoring - Part B (readiness)",
-           "Each answer maps to a maturity level 0-4 scored 0%, 25%, 50%, 75%, 100%. Pillar score = average of its questions; overall readiness = equal-weighted average of the 7 pillar scores. Maturity: <50% Partial, 50-69% Informed, 70-89% Repeatable, >=90% Adaptive (AI Ready7 scale)."),
+           "Each answer maps to a maturity level 0-4 scored 0%, 25%, 50%, 75%, 100%. Domain score = average of its questions; overall readiness = equal-weighted average of the 5 domain scores. Maturity: <50% Partial, 50-69% Informed, 70-89% Repeatable, >=90% Adaptive (AI Ready7 scale)."),
           ("Exposure & pathway",
            "Exposure = f(inherent tier, maturity) per the matrix below. Pathways mirror the AIAF oversight model: Low -> Proceed (self-managed); Moderate -> Proceed with conditions (SME review, 90-day plan); High -> Remediate before scaling (committee oversight); Critical -> Pause high-impact AI and escalate (board / ExCo)."),
           ("Prioritisation",
@@ -726,14 +738,16 @@ for t in ["Low", "Medium", "High", "Critical"]:
     r += 1
 r += 1
 merge(mt, r, 2, r, 8, "Question-to-framework mapping", size=11, bold=True, color="FFFFFF", fillc=GT2, align=WC); r += 1
-for i, h in enumerate(["#", "Topic", "AI Ready7 pillar / items", "Type", "AIAF principles", "GT AI RCM v2.1 controls", "Key references"], 2):
+for i, h in enumerate(["#", "Topic", "Domain (AI Ready7 items)", "Type", "AIAF principles", "GT AI RCM v2.1 controls", "Key references"], 2):
     style(mt.cell(r, i, h), bold=True, color="FFFFFF", fillc=GT, align=CC)
 r += 1
 REFS = {"A1": "AIAF Q2, Q5; EU AI Act Art. 3", "A2": "AIAF Q7, Q8; EU AI Act Annex III", "A3": "AIAF Q4; Bahrain PDPL", "A4": "AIAF Q9, Q10, Q13; EU AI Act Art. 14",
-        "Q5": "ISO/IEC 42001 cl.5, 6.2; NIST AI RMF Govern 1", "Q6": "ISO/IEC 42001 6.2; NIST AI RMF Map 3", "Q7": "ISO/IEC 42001 A.2; EU AI Act Art. 5; Bahrain PDPL; CBB",
-        "Q8": "ISO/IEC 42001 6.1, A.4, A.5; ISO/IEC 42005; EU AI Act Art. 9, 27", "Q9": "EU AI Act Art. 14, 50, 86; GCC AI Ethics Manual", "Q10": "EU AI Act Art. 4; ISO/IEC 42001 7.2",
-        "Q11": "EU AI Act Art. 10; Bahrain PDPL; ISO/IEC 5259", "Q12": "ISO/IEC 42001 A.6; NIST AI RMF Measure 2", "Q13": "OWASP LLM Top 10; MITRE ATLAS; EU AI Act Art. 15",
-        "Q14": "MITRE ATLAS; FinCEN deepfake alert", "Q15": "EU AI Act Art. 72-73; ISO/IEC 42001 9-10"}
+        "Q5": "ISO/IEC 42001 cl.5, 6.2; NIST AI RMF Govern 1", "Q6": "ISO/IEC 42001 6.2; NIST AI RMF Map 3", "Q7": "ISO/IEC 42001 cl.5.1-5.3, A.3; NIST AI RMF Govern 2; IIA Three Lines Model",
+        "Q8": "ISO/IEC 42001 A.2; EU AI Act Art. 5; Bahrain PDPL; CBB", "Q9": "ISO/IEC 23894; ISO/IEC 42001 6.1; NIST AI RMF Map/Measure/Manage", "Q10": "NIST AI RMF Govern 1.3; ISO 31000; CBB RM Module",
+        "Q11": "ISO/IEC 42001 6.1, A.4, A.5; ISO/IEC 42005; EU AI Act Art. 9, 27", "Q12": "ISO/IEC 42001 A.10; EU AI Act Art. 25; ISACA AI agents (supply chain); CBB outsourcing",
+        "Q13": "EU AI Act Art. 14, 50, 86; GCC AI Ethics Manual", "Q14": "EU AI Act Art. 72-73; ISO/IEC 42001 9-10", "Q15": "EU AI Act Art. 4; ISO/IEC 42001 7.2",
+        "Q16": "EU AI Act Art. 10; Bahrain PDPL; ISO/IEC 5259", "Q17": "ISO/IEC 42001 A.6; NIST AI RMF Measure 2; ISACA AI agents", "Q18": "SR 11-7; PRA SS1/23; ISO/IEC 25059",
+        "Q19": "OWASP LLM Top 10; MITRE ATLAS; EU AI Act Art. 15; AI Security Audit Checklist", "Q20": "MITRE ATLAS; FinCEN deepfake alert"}
 for q in ALLQ:
     is_ctx = q["id"].startswith("A")
     vals = [q["id"], q["topic"], "Inherent risk (Part A)" if is_ctx else f'{q["pillar"]} ({q["r7"]})', "Inherent-risk driver" if is_ctx else q["type"],
@@ -753,9 +767,9 @@ wl.row_dimensions[2].height = 22
 cols3 = [
     ("WHEN TO USE THIS TOOL", "- Before or early in your AI journey, to baseline readiness\n- Before scaling AI or deploying AI that affects customers or decisions\n- When AI is discovered in use without assessment (shadow AI)\n"
      "- When risk or context changes: new data, model, vendor, purpose or less human oversight\n- Annually, to track maturity progress\n\nPublic GenAI tools used for low-risk drafting may be governed by your Acceptable Use Policy instead (AIAF approach)."),
-    ("HOW IT WORKS  (approx. 15-20 minutes)", "1. PROFILE - organisation details and regulatory context\n\n2. ASSESSMENT - 15 questions\n   Part A: 4 questions on AI use and inherent risk (AIAF)\n   Part B: 11 questions on readiness across the 7 AI Ready7 pillars\n\n"
+    ("HOW IT WORKS  (approx. 20-25 minutes)", "1. PROFILE - organisation details and regulatory context\n\n2. ASSESSMENT - 20 questions\n   Part A: 4 questions on AI use and inherent risk (AIAF)\n   Part B: 16 questions on readiness across 5 domains (8 on governance & risk)\n\n"
      "3. REPORT - generated automatically, print-ready (A4)\n\n4. ACTION PLAN - assign owners and dates to recommended actions"),
-    ("WHAT YOU GET", "- Overall AI readiness score and maturity level\n- Inherent AI risk tier (Low / Medium / High / Critical)\n- Overall AI risk exposure and recommended oversight pathway\n- Pillar radar chart and responsible-AI principle coverage\n"
+    ("WHAT YOU GET", "- Overall AI readiness score and maturity level\n- Inherent AI risk tier (Low / Medium / High / Critical)\n- Overall AI risk exposure and recommended oversight pathway\n- Domain radar chart and responsible-AI principle coverage\n"
      "- Findings, potential risks and recommendations per area\n- Top-5 priorities and a phased roadmap\n- Applicable regulations (Bahrain PDPL, CBB, EU AI Act, GCC)\n- Printable report you can save as PDF and email")]
 for i, (ttl, txt) in enumerate(cols3):
     c = 2 + i * 2
@@ -773,7 +787,7 @@ style(wl.cell(7, 6, "START HERE"), size=10, bold=True, color=GT, border=False)
 st_ = wl.cell(8, 6, "Go to '1. Profile'  >>"); style(st_, size=12, bold=True, color="FFFFFF", fillc=GT, align=CC); st_.hyperlink = "#'1. Profile'!A1"
 st2 = wl.cell(10, 6, "Go to '2. Assessment'  >>"); style(st2, size=11, bold=True, color=GT, fillc=LAV, align=CC); st2.hyperlink = "#'2. Assessment'!A1"
 st3 = wl.cell(12, 6, "View '3. Report'  >>"); style(st3, size=11, bold=True, color=GT, fillc=LAV, align=CC); st3.hyperlink = "#'3. Report'!A1"
-merge(wl, 15, 2, 15, 6, "This is a self-assessment tool. Results depend on the accuracy of responses and do not constitute an audit, certification or legal advice. Version 1.1 - September 2026." + (" SAMPLE: pre-completed with illustrative responses for Grant Thornton Bahrain, aligned to its AI Ready7 results (Sept 2026)." if SAMPLE else ""),
+merge(wl, 15, 2, 15, 6, "This is a self-assessment tool. Results depend on the accuracy of responses and do not constitute an audit, certification or legal advice. Version 2.0 - October 2026. GT internal scoring engine - do not distribute; clients complete the GT AI Readiness Questionnaire." + (" SAMPLE: pre-completed with illustrative responses for Grant Thornton Bahrain, aligned to its AI Ready7 results (Sept 2026)." if SAMPLE else ""),
       size=8.5, italic=True, color="595959", border=False)
 wl.row_dimensions[15].height = 30
 

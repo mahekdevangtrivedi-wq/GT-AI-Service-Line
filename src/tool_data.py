@@ -248,3 +248,159 @@ SERVICES = [
     ("AI-Driven Automation & Architecture", "Architecture & Technology", "Technology evaluation and selection, reference architecture, AI integration and monitoring. GT AI apps in preparation: AI-powered Business Continuity (BCP) tool and AI-powered Financial Statements tool."),
     ("AI Security & Cyber Resilience", "Protect AI Systems", "AI security audits (GT AI Security & Agent Audit Checklist), AI red teaming, secure AI agents (ISACA 2026 baseline), deepfake-resilient processes."),
 ]
+
+
+# =====================================================================================
+# v2.0 (Oct 2026): 20 questions, 5 domains, 5 new governance & risk-management questions
+# =====================================================================================
+DOMAIN_MAP = {"Business Alignment": "Strategy & Value", "Governance & Ethics": "Governance, Risk & Compliance",
+              "Training & Development": "People & Skills", "Data & Quality": "Data & Technology",
+              "Architecture & Technology": "Data & Technology", "Protect AI Systems": "AI Security & Threat Risk",
+              "Protection from AI Threats": "AI Security & Threat Risk"}
+PILLARS = ["Strategy & Value", "Governance, Risk & Compliance", "People & Skills", "Data & Technology", "AI Security & Threat Risk"]
+READY7_SOURCE = {"Strategy & Value": "Business Alignment", "Governance, Risk & Compliance": "Governance & Ethics",
+                 "People & Skills": "Training & Development", "Data & Technology": "Data & Quality + Architecture & Technology",
+                 "AI Security & Threat Risk": "Protect AI Systems + Protection from AI Threats"}
+PILLAR_RISK = {
+    "Strategy & Value": "Without clear direction, ownership and value tracking, AI adoption is fragmented, duplicated and hard to justify, and risk-taking is unmanaged.",
+    "Governance, Risk & Compliance": "Weak AI governance, risk management and compliance increase misuse, regulatory breaches, unmanaged third-party exposure and uncontrolled AI sprawl.",
+    "People & Skills": "Low AI literacy and specialist capability increase unsafe use, susceptibility to AI-enabled threats and biased or unchecked outputs.",
+    "Data & Technology": "Weak data governance, architecture and model validation lead to inaccurate or biased outputs, privacy breaches, undetected drift and unsustainable costs.",
+    "AI Security & Threat Risk": "Weak AI security and threat defences expose the organisation to prompt injection, data leakage, model compromise and deepfake-enabled fraud.",
+}
+_old = {q["id"]: q for q in READINESS}
+for _q in READINESS:
+    _q["pillar"] = DOMAIN_MAP[_q["pillar"]]
+_old["Q5"].update(topic="AI strategy & executive ownership", rcm="GL-1, GL-3",
+    q="Is there executive ownership and an approved AI strategy that defines the ambition, priorities and where AI will (and will not) be used?",
+    guide="Evidence: approved AI strategy, named executive sponsor, AI budget, communicated priorities and experimentation boundaries.",
+    opts=["No AI strategy or executive owner; AI adoption is unplanned",
+          "Informal leadership interest; no documented strategy",
+          "Executive sponsor named and AI strategy drafted, but not linked to business objectives or budget",
+          "Approved AI strategy with executive ownership, priorities, budget and experimentation boundaries communicated to staff",
+          "Strategy reviewed at least annually by the board, linked to business strategy and tracked through KPIs"],
+    recs=["Appoint an executive AI sponsor and commission an AI strategy (situational / SWOT analysis, ambition, priority domains).",
+          "Formalise leadership intent into a documented AI strategy approved by the executive committee.",
+          "Link the strategy to business objectives and budget; define experimentation ('sandbox') boundaries and communicate them.",
+          "Track the strategy through KPIs and introduce an annual board-level review.",
+          "Sustain: benchmark annually against peers and refresh the strategy as AI capabilities and regulation evolve."])
+
+NEWQ = {
+ "G1": dict(pillar="Governance, Risk & Compliance", topic="AI governance structure & accountability", r7="1.1, 2.3", rcm="GL-1, GL-2, GL-7, AA-1", type="⚠ Mandatory Requirement",
+    principles=["Accountability"],
+    q="Is there a defined AI governance structure - board / executive oversight, an AI committee with decision rights, named owners for every AI system and clear three-lines-of-defence responsibilities?",
+    guide="Evidence: board / ExCo terms of reference covering AI, AI committee charter, RACI, AI system owner register, internal-audit coverage.",
+    opts=["No defined AI governance; decisions are made ad hoc by individual teams",
+          "Informal oversight by IT or a single function; roles not documented",
+          "AI committee or sponsor defined on paper; roles and decision rights partly documented",
+          "Board / ExCo oversight, AI committee with charter and decision rights, named system owners and a documented RACI across the three lines",
+          "Governance operates effectively: regular board reporting, periodic effectiveness review and independent assurance by internal audit"],
+    risk="Unclear accountability for AI decisions and outcomes, inconsistent approvals and no escalation route when AI fails.",
+    recs=["Appoint an executive AI owner and agree who decides on AI use cases; document interim responsibilities.",
+          "Establish an AI committee / centre of excellence with a charter, decision rights and members from business, risk, legal, privacy and IT.",
+          "Assign named business and technical owners to every AI system and publish a RACI across the three lines of defence.",
+          "Introduce regular board / ExCo AI reporting and an annual governance-effectiveness review by internal audit.",
+          "Sustain: benchmark governance against ISO/IEC 42001 and refresh roles as AI use evolves."]),
+ "G2": dict(pillar="Governance, Risk & Compliance", topic="AI risk management framework", r7="2.4", rcm="RM-1, RM-2, RM-3, RM-5", type="⚠ Mandatory Requirement",
+    principles=["Accountability", "Reliability & Safety"],
+    q="Is there a documented AI risk management framework - risk taxonomy, assessment method, scoring scales and treatment process - integrated with enterprise risk management?",
+    guide="Evidence: AI risk framework / methodology (e.g., aligned to ISO/IEC 23894 or NIST AI RMF), AI risk register, link to the enterprise risk register, completed assessments.",
+    opts=["AI risks are not identified or managed",
+          "AI risks considered informally within general IT or project risk",
+          "AI risk methodology drafted (taxonomy, scales) and applied to some AI initiatives",
+          "Approved AI risk framework aligned to ISO/IEC 23894 / NIST AI RMF, applied to all AI use cases and integrated with the enterprise risk register",
+          "Framework reviewed annually; AI risk aggregated across the portfolio and used in decisions; treatment effectiveness tested"],
+    risk="AI risks go unidentified or are rated inconsistently, so high-risk AI is approved without proportionate controls.",
+    recs=["Adopt an AI risk management framework (e.g., GT AI Risk Assessment Framework) with a risk taxonomy and scoring scales.",
+          "Formalise the methodology, approve it at executive level and pilot it on current AI initiatives.",
+          "Apply the framework to every AI use case, record results in an AI risk register and integrate it with enterprise risk management.",
+          "Aggregate AI risk across the portfolio, review the framework annually and test the effectiveness of treatments.",
+          "Sustain: align with ISO/IEC 42001 clause 6.1 and refresh the taxonomy for new threats (e.g., agentic AI)."]),
+ "G3": dict(pillar="Governance, Risk & Compliance", topic="AI risk appetite, KRIs & reporting", r7="1.1, 4.4", rcm="RM-6, RM-4, GL-1", type="⚠ Mandatory Requirement",
+    principles=["Accountability"],
+    q="Has the board approved an AI risk appetite with measurable tolerances, and are key risk indicators (KRIs) monitored and reported with defined escalation?",
+    guide="Evidence: approved AI risk appetite statement, KRI library with thresholds, risk dashboards, escalation and breach records.",
+    opts=["No AI risk appetite or risk indicators",
+          "Enterprise risk appetite exists but does not address AI",
+          "AI risk appetite drafted; a few indicators tracked informally",
+          "Board-approved AI risk appetite with tolerances; KRIs with thresholds monitored and reported at least quarterly",
+          "KRIs automated with mandatory responses on breach; appetite reviewed annually and used to steer investment and approvals"],
+    risk="No shared view of how much AI risk is acceptable - leading to reckless adoption or blocked innovation - and late detection of deteriorating AI risk.",
+    recs=["Define the AI risk categories that matter most (e.g., client data, compliance, output quality) and agree an initial position.",
+          "Draft an AI risk appetite statement with measurable tolerances and obtain board approval.",
+          "Define KRIs with thresholds and escalation for each risk category and report them to the AI committee quarterly.",
+          "Automate KRI collection and define mandatory responses (e.g., suspend, human review, rollback) when thresholds are breached.",
+          "Sustain: review the appetite annually and use it to steer AI investment and approval decisions."]),
+ "G4": dict(pillar="Governance, Risk & Compliance", topic="Third-party & AI supply-chain risk", r7="2.4, 6.2", rcm="TP-1, TP-2, TP-3, SE-7, LC-6", type="⟳ Compliance Obligation",
+    principles=["Privacy & Security", "Accountability"],
+    q="Are AI vendors, AI features in purchased software and foundation-model providers risk-assessed before use, with AI-specific contract clauses and ongoing monitoring?",
+    guide="Evidence: AI vendor due-diligence questionnaire, contract clauses (no training on your data, residency, incident notice, audit rights), vendor assurance (ISO/IEC 42001, SOC 2), review records.",
+    opts=["AI vendors and AI features in software are not assessed",
+          "Standard IT procurement only; AI-specific risks not considered",
+          "AI questions added to vendor due diligence for some purchases; contract terms vary",
+          "Mandatory AI due diligence and standard AI contract clauses for all AI vendors; providers reviewed annually",
+          "Continuous monitoring of AI vendors and model changes; AI bill of materials maintained; exit plans for critical providers"],
+    risk="Client or personal data used to train vendor models, unmanaged model changes, concentration on a single provider and regulatory breaches through suppliers.",
+    recs=["Identify all AI vendors and AI features in existing software; stop use of unvetted tools with confidential data.",
+          "Add AI-specific questions to vendor due diligence (data use, hosting, model changes, security, certifications).",
+          "Make AI due diligence mandatory and adopt standard AI contract clauses (no training on client data, residency, audit, incident notice).",
+          "Monitor AI vendors continuously, maintain an AI bill of materials and define exit plans for critical providers.",
+          "Sustain: re-assess providers on material model or ownership changes and share findings with procurement."]),
+ "G5": dict(pillar="Data & Technology", topic="Model risk management & validation", r7="4.4, 6.3", rcm="LC-9, RS-6, LC-13, OM-1", type="☆ Recommended",
+    principles=["Reliability & Safety", "Fairness"],
+    q="Are material AI / ML models independently validated before use and periodically, with a model inventory, performance thresholds and documented limitations?",
+    guide="Evidence: model risk policy, model inventory with risk tiers, independent validation reports, performance monitoring, validation-findings tracker.",
+    opts=["Models are not validated or inventoried",
+          "Developers test their own models; no independent review",
+          "Model inventory exists; validation performed for some material models",
+          "Independent validation before use and on a risk-based cycle; performance thresholds and limitations documented",
+          "Model risk management aligned to SR 11-7 / PRA SS1/23 principles, with continuous monitoring and findings tracked to closure"],
+    risk="Inaccurate, biased or unstable models drive decisions unnoticed, with regulatory exposure for financial-services clients.",
+    recs=["Create an inventory of AI / ML models and identify those that drive material decisions.",
+          "Introduce a model risk policy and require independent review (separate from developers) for material models.",
+          "Validate all material models before use and on a risk-based cycle; document thresholds, limitations and conditions of use.",
+          "Monitor model performance continuously and track validation findings to closure.",
+          "Sustain: align with SR 11-7 / PRA SS1/23 principles and report model risk to the risk committee."]),
+}
+_order = [("Q5", _old["Q5"]), ("Q6", _old["Q6"]),
+          ("Q7", NEWQ["G1"]), ("Q8", _old["Q7"]), ("Q9", NEWQ["G2"]), ("Q10", NEWQ["G3"]), ("Q11", _old["Q8"]),
+          ("Q12", NEWQ["G4"]), ("Q13", _old["Q9"]), ("Q14", _old["Q15"]),
+          ("Q15", _old["Q10"]),
+          ("Q16", _old["Q11"]), ("Q17", _old["Q12"]), ("Q18", NEWQ["G5"]),
+          ("Q19", _old["Q13"]), ("Q20", _old["Q14"])]
+READINESS = []
+for _id, _q in _order:
+    _q = dict(_q); _q["id"] = _id; READINESS.append(_q)
+_old["Q9"]["topic"] = "Responsible-AI guardrails & human oversight"
+
+SERVICES = [
+    ("AI Governance, Risk & Compliance", "Governance, Risk & Compliance", "AI governance structure and policies, AI risk management framework and risk appetite, AI register, third-party AI risk, RCM-based compliance reviews, ISO/IEC 42001 readiness."),
+    ("AI Strategy & Roadmap", "Strategy & Value", "AI Opportunity Discovery (where AI and automation fit), AI strategy, use-case prioritisation, value-realisation KPIs and phased roadmap."),
+    ("Training & Awareness", "People & Skills", "AI literacy programmes, role-based pathways, immersive labs, deepfake & AI-phishing simulations, board AI governance sessions."),
+    ("AI-Driven Automation & Data", "Data & Technology", "Technology evaluation, data readiness, reference architecture, model validation and integration. GT AI apps in preparation: AI-powered BCP tool and AI-powered Financial Statements tool."),
+    ("AI Security & Cyber Resilience", "AI Security & Threat Risk", "AI security audits (GT AI Security & Agent Audit Checklist), AI red teaming, secure AI agents, deepfake-resilient processes."),
+]
+
+# Profile questions for the client questionnaire; 'label' must equal the engine's '1. Profile' column-B label
+SECTORS = ["Banking & financial services", "Insurance", "Government & public sector", "Telecommunications", "Healthcare", "Hospitality & tourism",
+           "Professional services", "Manufacturing & industry", "Retail & consumer", "Energy & utilities", "Education", "Other"]
+SIZES = ["1-50 employees", "51-250 employees", "251-1,000 employees", "1,001-5,000 employees", "More than 5,000 employees"]
+SCOPES = ["Whole organisation", "Business unit / function", "Specific AI system or use case"]
+ROLES = ["Deployer only (uses AI built by others)", "Provider (develops / sells AI systems)", "Both provider and deployer"]
+YN = ["Yes", "No"]
+PROFILE_Q = [
+    ("P1", "Organisation name", "Organisation name", None),
+    ("P2", "Sector", "Sector", SECTORS),
+    ("P3", "Organisation size", "Organisation size", SIZES),
+    ("P4", "Scope of this assessment", "Scope of assessment", SCOPES),
+    ("P5", "Scope description (optional)", "Scope description (optional)", None),
+    ("P6", "Your name", "Completed by", None),
+    ("P7", "Your role / title", "Role / title", None),
+    ("P8", "Your email address (the report will be sent here)", "Email address (to send yourself the report)", None),
+    ("P9", "Is the organisation licensed by the Central Bank of Bahrain (CBB)?", "Is the organisation licensed by the Central Bank of Bahrain (CBB)?", YN),
+    ("P10", "Do AI systems process personal data of individuals in Bahrain?", "Do AI systems process personal data of individuals in Bahrain?", YN),
+    ("P11", "Are AI-enabled products / services offered in the EU, or AI outputs used in the EU?", "Are AI-enabled products / services offered in the EU, or AI outputs used in the EU?", YN),
+    ("P12", "Does the organisation operate in KSA, UAE or other GCC markets?", "Does the organisation operate in KSA, UAE or other GCC markets?", YN),
+    ("P13", "Is the organisation a government entity or public-sector body?", "Is the organisation a government entity or public-sector body?", YN),
+    ("P14", "Does the organisation develop AI (provider) or only use it (deployer)?", "Does the organisation develop AI (provider) or only use it (deployer)?", ROLES),
+]
