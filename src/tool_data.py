@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Question bank for the GT AI Readiness & Risk Assessment Tool (15 questions)."""
+"""Question bank for the GT AI Readiness & Risk Assessment Tool (v2.0: 4 inherent-risk + 16 readiness questions, 5 domains)."""
 
 PILLARS = ["Business Alignment", "Governance & Ethics", "Training & Development", "Data & Quality",
            "Architecture & Technology", "Protect AI Systems", "Protection from AI Threats"]

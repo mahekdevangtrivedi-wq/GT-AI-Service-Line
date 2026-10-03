@@ -104,7 +104,7 @@ USE_CASES = [
 ]
 
 OFFERINGS = [
-    ("AI Governance, Risk & Compliance", ["AI Readiness & Risk Assessment (15-question tool + report)", "AI governance framework, policies & AI register", "RCM v2.1 compliance / gap review (EU AI Act, PDPL, CBB)", "Use-case AI risk & impact assessment", "ISO/IEC 42001 readiness & internal audit"], "Banks & insurers, government, telecom"),
+    ("AI Governance, Risk & Compliance", ["AI Readiness & Risk Assessment (20 questions, 5 domains, auto-generated report)", "AI governance framework, policies & AI register", "RCM v2.1 compliance / gap review (EU AI Act, PDPL, CBB)", "Use-case AI risk & impact assessment", "ISO/IEC 42001 readiness & internal audit"], "Banks & insurers, government, telecom"),
     ("AI Strategy & Roadmap", ["AI strategy sprint (6-8 weeks): situational / SWOT, strategy, roadmap", "Use-case discovery & prioritisation workshops", "AI risk appetite & value-realisation framework"], "Mid-to-large corporates, family groups, government"),
     ("AI-Driven Automation & Apps", ["Technology evaluation & selection", "Process automation & AI integration", "Industry-specific solutions", "AI-powered BCP tool (in preparation)", "AI-powered Financial Statements tool (in preparation)"], "Financial services, SMEs, healthcare, hospitality"),
     ("Training & Awareness", ["AI literacy academy (all staff; EU AI Act Art. 4-aligned)", "Board & leadership AI governance sessions", "Immersive labs & AI-driven gamification", "Deepfake / AI-phishing simulations"], "All sectors; entry offer"),
@@ -185,7 +185,7 @@ def quadrant(v, f):
 
 
 APPS = [  # name, purpose, service line, status, next milestone
-    ("GT AI Readiness & Risk Assessment Tool", "15-question organisational AI readiness & risk-exposure assessment with auto-generated report", "AI GRC", "Available (v1.1)", "Client pilots in H1"),
+    ("GT AI Readiness & Risk Assessment Tool", "20-question, 5-domain organisational AI readiness & risk-exposure assessment with auto-generated report", "AI GRC", "Available (v2.0)", "Client pilots in H1"),
     ("GT AI RCM v2.1 + AI Security & Agent Audit Checklist", "81-control AI risk & control matrix and 125-item security / agent audit programme", "AI GRC / Cyber", "Available", "First engagements in H1"),
     ("GT AI Risk Assessment Framework & Toolkit", "Use-case tiering, 52-risk taxonomy, register, heat map and sign-off", "AI GRC", "Available (v1.1)", "Embed in AI CoE intake"),
     ("AI-powered BCP tool", "AI-assisted business impact analysis, BCP / DR plan drafting and tabletop scenarios", "AI Automation / Risk Advisory", "In preparation", "MVP & internal pilot (indicative H1-H2)"),
