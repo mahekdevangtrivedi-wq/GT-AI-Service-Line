@@ -69,8 +69,10 @@ c.paragraphs[0].add_run("The Excel engine (GT_AI_Readiness_Assessment_Tool.xlsx)
 doc.add_paragraph()
 
 h("1. How the process works")
-para("Day 1 kick-off and questionnaire link; client completes by Day 2; GT analysis and quality review on Days 3-4; report issued and debrief on Day 5. "
-     "If responses arrive late, the report is still issued within 3 working days of receiving complete responses.", "Service commitment - report within 5 working days: ")
+para("Essential - report within 5 working days (Day 1 kick-off; questionnaire by Day 2; GT analysis Days 3-4; report Day 5). "
+     "Standard - 2 weeks (multi-respondent questionnaire, evidence review and validation interviews in week 1-2; report and leadership debrief end of week 2). "
+     "Plus - 6 weeks, extendable to 8 (readiness report week 2; AI inventory, risk & impact assessments, control review, ISO/IEC 42001 gap and AI security review; "
+     "final report and board presentation week 6). If responses arrive late, the report is issued within 3 working days of complete responses.", "Service commitment by option: ")
 tbl([["Step", "Who", "What", "Day"],
      ["1. Set up the form", "GT engagement team", "Create the client's Microsoft Form from the Word questionnaire (Quick import)", "Day 1"],
      ["2. Client completes", "Client sponsor / respondents", "34 questions: profile (14), AI use profile (4), readiness (16)", "Day 1-2 (~45 min)"],
