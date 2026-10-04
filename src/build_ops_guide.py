@@ -114,6 +114,7 @@ h("3.4 Quality review (mandatory before sending)", 2)
 bullets(["Organisation name, sector, scope and date on page 1 are correct.",
          "Headline results are plausible against what we know of the client (e.g., a regulated bank with no AI policy should not be 'Repeatable').",
          "Inherent risk tier: check overrides (AI influencing decisions about individuals cannot be Low).",
+         "AI adoption maturity curve: the adoption stage follows the client's AI-use answer (A1) and the governance stage follows overall readiness - check both are plausible and that any 'adoption ahead of governance' message is reflected in the debrief.",
          "Read the narrative, the top-5 priorities and the roadmap; amend in the engine copy and re-export if a professional judgement differs - record the change in the engagement file.",
          "Regulatory section: confirm applicability of EU AI Act and CBB items to this client.",
          "Second-person review for Plus engagements or where exposure is High / Critical."])

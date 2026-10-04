@@ -124,6 +124,7 @@ def main():
         recalc = convert(xlsx, "xlsx:Calc MS Excel 2007 XML", tmp)
         vals = openpyxl.load_workbook(recalc, data_only=True)["Calc"]
         overall, band, tier, expo = vals["B45"].value, vals["B46"].value, vals["C32"].value, vals["B57"].value
+        curve = vals["B173"].value or "-"
         # PDF of the whole workbook -> keep report pages only
         full = convert(xlsx, "pdf", tmp)
         rd = PdfReader(full); w = PdfWriter()
@@ -138,7 +139,8 @@ def main():
         pct = f"{overall:.0%}" if isinstance(overall, (int, float)) else "-"
         msg.set_content(
             f"Dear {name},\n\nThank you for completing the AI Readiness & Risk Assessment. Please find attached your report.\n\n"
-            f"Headline results:\n  - Overall AI readiness: {pct} ({band})\n  - Inherent AI risk tier: {tier}\n  - Overall AI risk exposure: {expo}\n\n"
+            f"Headline results:\n  - Overall AI readiness: {pct} ({band})\n  - Inherent AI risk tier: {tier}\n  - Overall AI risk exposure: {expo}\n"
+            f"  - Position on the AI adoption maturity curve: {curve}\n\n"
             "The report sets out your results by domain, the key findings, your top priority actions and a suggested roadmap. "
             "We would be pleased to walk you through the results in a short debrief session.\n\n"
             f"Kind regards,\n{a.gt_contact}\n")
@@ -146,7 +148,7 @@ def main():
             msg.add_attachment(f.read(), maintype="application", subtype="pdf", filename=os.path.basename(pdf))
         with open(os.path.join(odir, f"{safe}_email_draft.eml"), "wb") as f: f.write(bytes(msg))
         shutil.rmtree(tmp, ignore_errors=True)
-        print(f"{org}: readiness {pct} ({band}), tier {tier}, exposure {expo}, {len(w.pages)} report pages -> {odir}")
+        print(f"{org}: readiness {pct} ({band}), tier {tier}, exposure {expo}, curve {curve}, {len(w.pages)} report pages -> {odir}")
 
 
 if __name__ == "__main__":

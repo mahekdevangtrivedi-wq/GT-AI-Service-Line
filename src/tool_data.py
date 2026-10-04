@@ -407,3 +407,21 @@ PROFILE_Q = [
     ("P13", "Is the organisation a government entity or public-sector body?", "Is the organisation a government entity or public-sector body?", YN),
     ("P14", "Does the organisation develop AI (provider) or only use it (deployer)?", "Does the organisation develop AI (provider) or only use it (deployer)?", ROLES),
 ]
+
+# AI adoption maturity curve (Awareness -> Governance maturity) - shown in the report and the proposal
+# stage, what it looks like, governance focus needed to operate safely at that stage
+CURVE_STAGES = [
+    ("Awareness", "Exploring AI through pilots and experiments; no approved tools yet",
+     "an acceptable-use policy, AI literacy and a ban on confidential data in public AI tools"),
+    ("Use-case discovery", "Early use of AI tools; use cases being identified and tested",
+     "an AI inventory, a use-case intake process and a named owner for every AI tool"),
+    ("Controlled adoption", "Approved AI tools in use across teams under defined controls",
+     "risk assessment by tier, human oversight and vendor due diligence"),
+    ("Enterprise enablement", "AI embedded in core processes, models or agents at scale",
+     "an AI committee, monitoring with KRIs, secure architecture and model validation"),
+    ("Governance maturity", "Oversight, assurance and controls embedded across the AI lifecycle",
+     "board oversight, independent assurance and an ISO/IEC 42001-aligned management system"),
+]
+# adoption stage implied by the A1 answer (0-4); governance-supported stage by overall readiness thresholds
+A1_TO_STAGE = [1, 2, 3, 4, 4]
+GOV_STAGE_THRESHOLDS = [(0.9, 5), (0.7, 4), (0.5, 3), (0.35, 2)]   # else 1

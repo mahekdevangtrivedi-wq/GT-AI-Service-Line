@@ -282,6 +282,21 @@ for i, (bd, lo, desc) in enumerate(MATURITY):
     cl.cell(66 + i, 1, bd); cl.cell(66 + i, 2, desc)
 cl["A70"] = "Maturity description"; cl["B70"] = '=IFERROR(VLOOKUP(B46,$A$66:$B$69,2,FALSE),"")'
 # narrative
+# AI adoption maturity curve (rows 170-182)
+cl["A170"] = "Adoption stage (from A1)"; cl["B170"] = '=IF(B26="","",CHOOSE(B26+1,' + ",".join(str(x) for x in A1_TO_STAGE) + '))'
+cl["A171"] = "Governance-supported stage"
+cl["B171"] = '=IF(B45="","",' + "".join(f'IF(B45>={t},{st},' for t, st in GOV_STAGE_THRESHOLDS) + "1" + ")" * len(GOV_STAGE_THRESHOLDS) + ")"
+cl["A172"] = "Curve position"; cl["B172"] = '=IF(OR(B170="",B171=""),"",IF(AND(B171=5,B170>=3),5,B170))'
+for i, (nm, desc, focus) in enumerate(CURVE_STAGES):
+    cl.cell(176 + i, 1, i + 1); cl.cell(176 + i, 2, nm); cl.cell(176 + i, 3, desc); cl.cell(176 + i, 4, focus)
+CN = lambda ref: f"INDEX($B$176:$B$180,{ref})"; CF_ = lambda ref: f"INDEX($D$176:$D$180,{ref})"
+cl["A173"] = "Position label"; cl["B173"] = f'=IF(B172="","","Stage "&B172&" - "&{CN("B172")})'
+cl["A174"] = "Curve message"
+cl["B174"] = (f'=IF(B172="","",IF(B172=5,"The organisation has reached governance maturity: sustain board oversight, independent assurance and continuous improvement as AI use grows.",'
+              f'IF(B170>B171,"Adoption is ahead of governance: AI use is at Stage "&B170&" ({{0}}) but governance currently supports Stage "&B171&" ({{1}}). Before scaling further, put in place "&{CF_("B170")}&", starting with "&B48&".",'
+              f'IF(B170=B171,"Governance is keeping pace with adoption at Stage "&B170&" ({{0}}). To move to Stage "&(B170+1)&" ({{2}}), put in place "&{CF_("B170+1")}&".",'
+              f'"Governance foundations are ahead of current adoption (Stage "&B171&" vs Stage "&B170&"): the organisation can expand AI use with confidence. Next focus: "&{CF_("B170+1")}&"."))))')
+cl["B174"] = cl["B174"].value.replace("{0}", '"&' + CN("B170") + '&"').replace("{1}", '"&' + CN("B171") + '&"').replace("{2}", '"&' + CN("MIN(5,B170+1)") + '&"')
 cl["A72"] = "Narrative"
 cl["B72"] = ('=IF(B21=0,"The assessment is incomplete ("&B20&" of ' + str(NQ) + ' questions answered). Complete all questions in the Assessment sheet to generate the executive summary.",'
              '"Based on the responses provided, "&IF(' + ORG + '="","the organisation",' + ORG + ')&" has an overall AI readiness score of "&TEXT(B45,"0%")&", corresponding to the '
@@ -424,7 +439,24 @@ r += 2
 merge(rp, r, 2, r, 11, f'={CV("B72")}', size=10, color="202020", align=Alignment(wrap_text=True, vertical="top"))
 rp.row_dimensions[r].height = 92
 r += 2
+# AI adoption maturity curve - where the organisation sits
+merge(rp, r, 2, r, 11, "POSITION ON THE AI ADOPTION MATURITY CURVE", size=9, bold=True, color="FFFFFF", fillc=GT2, align=Alignment(vertical="center", indent=1))
+rp.row_dimensions[r].height = 18
+r += 1
+for i, (nm, desc, focus) in enumerate(CURVE_STAGES):
+    c1 = 2 + 2 * i
+    merge(rp, r, c1, r, c1 + 1, f"{i + 1}  {nm}", size=9, bold=True, color=DARK, fillc=LAV, align=CC)
+    col = get_column_letter(c1)
+    rp.conditional_formatting.add(f"{col}{r}", FormulaRule(formula=[f"{CV('$B$172')}={i + 1}"], fill=PatternFill("solid", fgColor=GT), font=Font(bold=True, color="FFFFFF")))
+    merge(rp, r + 1, c1, r + 1, c1 + 1, f'=IF({CV("$B$170")}={i + 1},"\u25B2 Adoption","")&IF(AND({CV("$B$171")}={i + 1},{CV("$B$170")}<>{i + 1}),"\u25CF Governance",IF({CV("$B$171")}={i + 1},"  \u25CF Governance",""))',
+          size=8.5, bold=True, color=GT, align=CC)
+rp.row_dimensions[r].height = 30; rp.row_dimensions[r + 1].height = 22
+r += 2
+merge(rp, r, 2, r, 11, f'={CV("B174")}', size=9.5, color="202020", align=WC)
+rp.row_dimensions[r].height = 42
+r += 2
 # ----------------------------------------------------------- 2. pillars
+DOM_START = r
 r = section(r, "2. READINESS BY DOMAIN")
 th(r, [(2, 3, "Domain"), (4, 4, "Score"), (5, 5, "Maturity"), (6, 6, "Progress")])
 PT = r
@@ -466,6 +498,7 @@ rp.add_chart(ch, f"G{PT}")
 # spacer so the chart (8.6 cm ~ 244 pt) never overlaps the next table
 used = sum((rp.row_dimensions[x].height or 15) for x in range(PT, r + 1))
 rp.row_dimensions[r + 1].height = max(15, 256 - used)
+KEEP_TOGETHER = [(DOM_START, r + 1)]   # domain table + radar chart never split across pages
 r += 2
 SECTION_ROWS.append(r)
 th(r, [(2, 3, "Domain"), (4, 11, "Potential risk if the domain is not strengthened (shown where score < 90%)")])
@@ -654,6 +687,9 @@ for rr in range(1, LAST + 1):
         for sr in SECTION_ROWS:
             if rr - 3 <= sr < rr and sr > prev_break + 1:
                 brk = sr
+        for ks, ke in KEEP_TOGETHER:
+            if ks < brk <= ke + 1 and ks > prev_break + 1:
+                brk = ks
         rp.row_breaks.append(Break(id=brk - 1))
         acc = sum((rp.row_dimensions[x].height or 15) for x in range(brk, rr + 1)); prev_break = brk
     else:
