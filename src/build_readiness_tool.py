@@ -329,7 +329,7 @@ def kpi(ws, r, c1, c2, label, formula, fmt=None, big=16):
 
 kpi(asx, KPI_ROW, 2, 3, "ANSWERED", f'={CV("B20")}&" / {NQ}"')
 c_ov = kpi(asx, KPI_ROW, 4, 4, "OVERALL AI READINESS", f'=IF({CV("B45")}="","-",{CV("B45")})', "0%")
-c_mat = kpi(asx, KPI_ROW, 5, 5, "MATURITY LEVEL (AI Ready7 scale)", f'=IF({CV("B46")}="","-",{CV("B46")})')
+c_mat = kpi(asx, KPI_ROW, 5, 5, "MATURITY LEVEL", f'=IF({CV("B46")}="","-",{CV("B46")})')
 c_tier = kpi(asx, KPI_ROW, 6, 7, "INHERENT RISK TIER", f'=IF({CV("C32")}="","-",{CV("C32")})')
 c_exp = kpi(asx, KPI_ROW, 8, 8, "AI RISK EXPOSURE -> PATHWAY", f'=IF({CV("B57")}="","-",{CV("B57")}&"  ->  "&{CV("B58")})', big=12)
 kpi(asx, KPI_ROW, 9, 10, "YOUR REPORT", '=IF(' + CV("B21") + '=1,"Ready - see 3. Report","Complete all questions")', big=11)
@@ -380,7 +380,7 @@ merge(rp, r, 2, r, 11, f'="Scope: "&IF({P["Scope of assessment"]}="","-",{P["Sco
       size=9, color="404040", border=False, align=WC)
 rp.row_dimensions[r].height = 26
 r = 4
-merge(rp, r, 2, r, 11, f'=IF({CV("B21")}=1,"Framework basis: NSW AI Assessment Framework (inherent risk)  |  GT AI Ready7 (5 readiness domains)  |  GT AI RCM v2.1 (controls)  |  ISO/IEC 42001, NIST AI RMF, EU AI Act, Bahrain PDPL","ASSESSMENT INCOMPLETE - "&{CV("B20")}&" of {NQ} questions answered. Results below are provisional.")',
+merge(rp, r, 2, r, 11, f'=IF({CV("B21")}=1,"Framework basis: NSW AI Assessment Framework (inherent risk)  |  ISO/IEC 42001, ISO/IEC 23894, NIST AI RMF  |  EU AI Act, Bahrain PDPL  |  GT AI RCM v2.1 (controls)","ASSESSMENT INCOMPLETE - "&{CV("B20")}&" of {NQ} questions answered. Results below are provisional.")',
       size=8.5, italic=True, color="595959", border=False, align=WC)
 rp.conditional_formatting.add("B4", FormulaRule(formula=[f"{CV('$B$21')}=0"], fill=PatternFill("solid", fgColor="E06666"), font=Font(bold=True, color="FFFFFF")))
 r = 6
@@ -395,7 +395,7 @@ for c1, c2, lab, f, fmt in tiles:
     c = merge(rp, r + 1, c1, r + 1, c2, f, size=22, bold=True, color=DARK, fillc=LAV, align=CC)
     if fmt: c.number_format = fmt
 rp.row_dimensions[r].height = 18; rp.row_dimensions[r + 1].height = 44
-sub = [(2, 4, '="AI Ready7 scale: <50% Partial | 50-70% Informed | 70-90% Repeatable | 90%+ Adaptive"'),
+sub = [(2, 4, '="Maturity scale: <50% Partial | 50-70% Informed | 70-90% Repeatable | 90%+ Adaptive"'),
        (5, 6, f'={CV("B70")}'), (7, 8, f'=IF({CV("C30")}="","",TEXT({CV("C30")},"0%")&" of maximum inherent risk. "&{CV("C33")})'),
        (9, 11, '="Combines inherent risk tier and readiness maturity (see Methodology)"')]
 for c1, c2, f in sub:
@@ -521,7 +521,7 @@ r += 1
 fd_start = r
 for q in READINESS:
     ar = QR[q["id"]]; crow = CR[q["id"]]
-    merge(rp, r, 2, r, 3, f'{q["id"]}  {q["topic"]}\n\n{q["pillar"]}\nAI Ready7: {q["r7"]}\n{q["type"]}', size=8.5, bold=True, color=GT, align=WT)
+    merge(rp, r, 2, r, 3, f'{q["id"]}  {q["topic"]}\n\n{q["pillar"]}\n{q["type"]}', size=8.5, bold=True, color=GT, align=WT)
     merge(rp, r, 4, r, 6, f"=IF('2. Assessment'!E{ar}=\"\",\"Not answered\",TEXT('2. Assessment'!F{ar},\"0%\")&\" - \"&'2. Assessment'!G{ar}&CHAR(10)&CHAR(10)&'2. Assessment'!E{ar})", size=8.5, align=WT)
     merge(rp, r, 7, r, 8, f"=IF('2. Assessment'!F{ar}=1,\"N/A - reported as fully met.\",\"{q['risk']}\")", size=8.5, align=WT)
     merge(rp, r, 9, r, 11, f"=IF('2. Assessment'!E{ar}=\"\",\"\",'2. Assessment'!H{ar}&CHAR(10)&CHAR(10)&\"Controls: {q['rcm']}\")", size=8.5, align=WT)
@@ -637,7 +637,7 @@ for role in ["Assessment completed by", "Reviewed by (risk / compliance)", "Exec
     r += 1
 r += 1
 disc = ("Methodology: Part A (4 questions) derives an inherent-risk tier from the NSW AI Assessment Framework risk factors (AI use, decision impact, data sensitivity, oversight & reversibility). "
-        "Part B (16 questions) scores readiness 0-100% across 5 domains derived from the GT AI Ready7 pillars; domain scores are averaged equally into the overall score and mapped to the AI Ready7 maturity scale. "
+        "Part B (16 questions) scores readiness 0-100% across 5 domains (AI Governance; AI Risk & Security; Training & Awareness; Strategy & Value; Data & Technology); domain scores are averaged equally into the overall score and mapped to a four-band maturity scale. "
         "Exposure combines tier and maturity. Recommendations reference the GT AI RCM v2.1 controls.  Disclaimer: this is a self-assessment based on the responses provided and has not been independently verified by Grant Thornton. "
         "It is not an audit, certification or legal opinion.  (c) 2026 Grant Thornton Bahrain. All rights reserved.")
 merge(rp, r, 2, r, 11, disc, size=7.5, italic=True, color="595959", border=False, align=WT)

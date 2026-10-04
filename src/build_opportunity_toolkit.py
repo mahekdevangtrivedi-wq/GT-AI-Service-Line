@@ -397,7 +397,7 @@ SP.row_dimensions[r].height = 30; r += 1
 cell(SP, r, 1, "Total", bold=True, fill=LAV2); merged(SP, r, 2, 5, "", fill=LAV2)
 cell(SP, r, 6, f"=SUM(F{SP0}:F{r - 1})", bold=True, align=CC, fill=LAV2); cell(SP, r, 7, f"=SUM(G{SP0}:G{r - 1})", bold=True, align=CC, fill=LAV2); r += 2
 merged(SP, r, 1, 7, "Value at stake: QuantumBlack & PwC analysis - predictions for 2030 (as presented in GT Bahrain 'Introduction to Artificial Intelligence', 2026); "
-                    "insurance and capital markets share the financial-services figure; hospitality shares retail & consumer. '-' = no sector figure in that analysis. "
+                    "insurance and capital markets share the financial-services figure; hospitality shares retail & consumer. Sectors not sized separately in that analysis are described qualitatively. "
                     "Potential is GT's qualitative assessment of automation and AI opportunity density in the library.", italic=True, size=8, color="595959", align=WT, border=False)
 SP.row_dimensions[r].height = 40
 SP.print_area = f"A1:G{r}"; portrait(SP, landscape=True)
@@ -488,7 +488,7 @@ spm = f"MATCH({SEL},'7. Sector Profiles'!$A${SP0}:$A${SP1},0)"
 for k, col in [("Value at stake by 2030", "B"), ("Automation & AI potential", "C"), ("Where the value is", "D"), ("Regulators & key rules", "E"), ("Library entries for this sector", "F")]:
     merged(M, r, 1, 2, k, bold=True, fill=LAV)
     merged(M, r, 3, 11, f"=IFERROR(INDEX('7. Sector Profiles'!${col}${SP0}:${col}${SP1},{spm}),\"Select a sector on sheet 1\")", align=WT, size=9)
-    M.row_dimensions[r].height = 30 if col in ("D", "E") else 18; r += 1
+    M.row_dimensions[r].height = 30 if col in ("B", "D", "E") else 18; r += 1
 r += 1
 merged(M, r, 1, 11, "Value and feasibility scored 1-5 (sheet 3). Hours released are indicative (effort x typical reduction for the solution family) and must be validated in "
                     "the business case. Risk tiers are inherent (before controls) and never below the library minimum. Recommendations come from the GT AI Use-Case Library.",

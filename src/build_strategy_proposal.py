@@ -95,7 +95,7 @@ s = content("Where the Value Is - Sector Focus", "AI and automation potential is
 rows = [["Sector", "Value at stake by 2030", "Potential", "Where the value is", "Library entries"]]
 fills = {}
 for i, (sec, gdp, pot, pools, regs) in enumerate(SECTOR_PROFILES, 1):
-    rows.append([sec, gdp.replace("  |  ", " | "), pot, pools, str(SECCOUNT.get(sec, 0))])
+    rows.append([sec, gdp.split(" in the 2030")[0] if gdp.startswith("Not sized") else gdp.replace("  |  ", " | "), pot, pools, str(SECCOUNT.get(sec, 0))])
     fills[(i, 2)] = RGBColor(0xA9, 0xD0, 0x8E) if pot == "Very high" else RGBColor(0xC6, 0xE0, 0xB4) if pot == "High" else RGBColor(0xFF, 0xE6, 0x99)
 table(s, L, TOP - 250000, CW, rows, [2.4, 2.6, 1.0, 6.2, 1.0], size=8, rowh=300000, fills=fills)
 txt(s, L, TOP + 4280000, CW, 400000, f"Plus {NXI} cross-industry entries (finance, HR, customer service, procurement, risk, IT ...). Value at stake: QuantumBlack & PwC analysis, predictions for 2030 "
