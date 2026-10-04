@@ -322,13 +322,13 @@ txt(s, x2, TOP + 2500000, hw, 1900000, ["Stored only in GT's Microsoft 365 tenan
 add(s)
 
 # =========================================================== 15 report sample
-s = content("The Report - What the Client Receives", "Pages from an illustrative sample report (sample answers). The full report runs to 7-9 pages.")
+s = content("The Report - What the Client Receives", "One report per client (7-9 pages) - three of its pages shown, from an illustrative sample with sample answers.")
 ih = 4300000
-pic(s, "rep0.png", L, TOP - 100000, h=ih); pic(s, "rep2.png", L + 3150000, TOP - 100000, h=ih); pic(s, "rep4.png", L + 6300000, TOP - 100000, h=ih)
-for x, t in [(L, "Executive summary & domains"), (L + 3150000, "Findings & recommendations"), (L + 6300000, "Roadmap")]:
+pic(s, "rep0.png", L, TOP - 100000, h=ih); pic(s, "rep1.png", L + 3150000, TOP - 100000, h=ih); pic(s, "rep4.png", L + 6300000, TOP - 100000, h=ih)
+for x, t in [(L, "Page 1 - Executive summary & maturity curve"), (L + 3150000, "Page 2 - Readiness by domain"), (L + 6300000, "Page 5 - Priorities & roadmap")]:
     txt(s, x, TOP + ih - 80000, 3000000, 300000, [[(t, True)]], size=10, color=GT)
 x2 = L + 9450000
-sections = ["Executive summary & pathway", "Readiness by domain (radar)", "AI use & inherent risk profile", "Responsible-AI principle coverage", "Detailed findings & recommendations",
+sections = ["Executive summary, pathway & AI adoption maturity curve", "Readiness by domain (radar)", "AI use & inherent risk profile", "Responsible-AI principle coverage", "Detailed findings & recommendations",
             "Top-5 priority actions", "Suggested roadmap", "Regulatory & standards considerations", "How GT can help; next steps & sign-off"]
 txt(s, x2, TOP - 100000, R - x2, ih, [[("Report sections", True)]] + sections, size=10, spacing=5, color=BLACK)
 add(s)
@@ -400,7 +400,7 @@ for i, (h, col, ic, items) in enumerate(cols):
     box(s, x, TOP + 370000, hw, 2300000, fill=LAV)
     txt(s, x + 70000, TOP + 440000, hw - 140000, 2200000, items, size=11.5, bullet=True, spacing=6)
 box(s, L, TOP + 2760000, CW, 330000, fill=GT2, text="What the report contains", size=11.5, bold=True, color=WHITE, align=PP_ALIGN.LEFT)
-secs = ["Executive summary & pathway", "Readiness by domain (radar)", "AI use & inherent risk", "Responsible-AI principles", "Findings & recommendations",
+secs = ["Executive summary, pathway & maturity curve", "Readiness by domain (radar)", "AI use & inherent risk", "Responsible-AI principles", "Findings & recommendations",
         "Top-5 priority actions", "Implementation roadmap", "Regulatory considerations", "How GT can help & sign-off"]
 cw9 = (CW - 8 * 50000) // 9
 for i, t in enumerate(secs):
