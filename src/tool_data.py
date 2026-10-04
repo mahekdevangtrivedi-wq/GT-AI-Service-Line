@@ -99,7 +99,7 @@ READINESS = [
          risk="Misuse of AI, data leakage and breach of legal or regulatory requirements, with exposure to penalties, licence conditions and reputational harm.",
          recs=["Issue an interim AI acceptable-use policy immediately (approved tools, prohibited data, output verification) and identify applicable regulations.",
                "Approve a formal AI policy; build an AI obligations register covering Bahrain PDPL, sector rules (e.g., CBB) and extraterritorial regimes (EU AI Act).",
-               "Map each obligation to controls and owners using the GT AI RCM; require annual staff acknowledgement.",
+               "Map each obligation to controls and owners using the GT AI Risk Assessment Framework; require annual staff acknowledgement.",
                "Establish monthly regulatory horizon scanning and periodic compliance testing with evidence retention.",
                "Sustain: keep audit-ready evidence packs and consider ISO/IEC 42001 certification."]),
     dict(id="Q8", pillar="Governance & Ethics", topic="AI inventory & risk / impact assessment", r7="2.4, 2.5", rcm="GL-8, RM-2, RM-5, TP-2", type="⚠ Mandatory Requirement",
@@ -242,7 +242,7 @@ MATURITY = [("Partial", 0, "Foundational capabilities are missing or ad hoc; AI 
             ("Adaptive", 0.9, "Practices are optimised, measured and continuously improved.")]
 
 SERVICES = [
-    ("AI Governance, Risk & Compliance", "Governance & Ethics", "AI governance framework & policies, AI register, risk & impact assessments (GT AI Risk Assessment Framework), RCM-based compliance reviews, ISO/IEC 42001 readiness."),
+    ("AI Governance, Risk & Compliance", "Governance & Ethics", "AI governance framework & policies, AI register, risk & impact assessments (GT AI Risk Assessment Framework), framework-based compliance reviews, ISO/IEC 42001 readiness."),
     ("AI Strategy & Roadmap", "Business Alignment", "Situational / SWOT analysis, AI strategy and risk appetite, use-case prioritisation, value-realisation KPIs and phased roadmap."),
     ("Training & Awareness", "Training & Development", "AI literacy programmes, role-based pathways, immersive labs, deepfake & AI-phishing simulations, leadership workshops."),
     ("AI-Driven Automation & Architecture", "Architecture & Technology", "Technology evaluation and selection, reference architecture, AI integration and monitoring. GT AI apps in preparation: AI-powered Business Continuity (BCP) tool and AI-powered Financial Statements tool."),
@@ -377,7 +377,7 @@ for _id, _q in _order:
     _q = dict(_q); _q["id"] = _id; READINESS.append(_q)
 
 SERVICES = [
-    ("AI Governance, Risk & Compliance", "AI Governance", "AI governance structure, policies and acceptable use, AI register, guardrails and human-oversight standards, RCM-based compliance reviews, ISO/IEC 42001 readiness and internal audit."),
+    ("AI Governance, Risk & Compliance", "AI Governance", "AI governance structure, policies and acceptable use, AI register, guardrails and human-oversight standards, framework-based compliance reviews, ISO/IEC 42001 readiness and internal audit."),
     ("AI Risk & Cyber Resilience", "AI Risk & Security", "AI risk management framework and risk appetite, use-case risk & impact assessments, third-party AI risk, AI security audits (GT AI Security & Agent Audit Checklist), AI red teaming, deepfake-resilient processes."),
     ("Training & Awareness", "Training & Awareness", "AI literacy programmes (EU AI Act Art. 4-aligned), role-based pathways, immersive labs, deepfake & AI-phishing simulations, board AI governance sessions."),
     ("AI Strategy & Roadmap", "Strategy & Value", "AI Opportunity Discovery (where AI and automation fit), AI strategy, use-case prioritisation, value-realisation KPIs and phased roadmap."),

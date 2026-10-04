@@ -38,7 +38,7 @@ SWOT = dict(
        "Existing relationships in regulated sectors (banking, telecom, government)",
        "Compliance & data foundations in place (Ready7 2.2, 2.5, 5.3, 5.4 fully met)",
        "Good AI literacy (T&D 69%) and threat defence (70%) baseline",
-       "Four AI service lines, proprietary tools (RCM v2.1, risk framework, readiness tool, security audit checklist) and two AI apps in preparation (BCP, Financial Statements)"],
+       "Four AI service lines, proprietary tools (AI risk assessment framework, readiness tool, opportunity discovery toolkit, security audit checklist) and two AI apps in preparation (BCP, Financial Statements)"],
     W=["Overall AI readiness 'Informed' (61.4%) - below the 'Repeatable' threshold",
        "No consistent lifecycle AI risk assessment (Ready7 2.4 - Not Met)",
        "Data classification & handling for AI not in place (Ready7 5.1 - Not Met)",
@@ -58,7 +58,7 @@ SWOT = dict(
        "Scarcity of AI talent across the GCC",
        "Regulatory uncertainty (Bahrain AI law timing, EU Digital Omnibus changes)"],
 )
-TOWS = [("SO - Lead with trust", "Launch governance-led AI offerings (readiness assessment, AI GRC / RCM review, ISO/IEC 42001 readiness) into regulated sectors, leveraging the GT brand and GRC heritage."),
+TOWS = [("SO - Lead with trust", "Launch governance-led AI offerings (readiness assessment, AI GRC / control review, ISO/IEC 42001 readiness) into regulated sectors, leveraging the GT brand and GRC heritage."),
         ("WO - Become 'client zero'", "Close our own gaps (risk assessment, data classification, strategy & portfolio) using our own tools - and turn the journey into a reference case."),
         ("ST - Differentiate on assurance + security", "Combine AI GRC with cyber (AI red teaming, deepfake resilience) to stand apart from technology-led competitors."),
         ("WT - Partner and protect", "Vendor-agnostic alliances, strict client-data guardrails and targeted hiring / upskilling to contain talent, liability and lock-in risks.")]
@@ -74,7 +74,7 @@ PRINCIPLES = ["Human-in-charge: professionals remain accountable for every AI-as
               "Value before technology: every use case has an owner and a measurable benefit",
               "Proportionate risk: controls scale with the risk tier of each use case",
               "Vendor-agnostic and secure by design",
-              "Practise what we advise: GT tools and RCM applied to ourselves first"]
+              "Practise what we advise: GT tools and frameworks applied to ourselves first"]
 
 APPETITE = [("Client confidentiality & data protection", "Very low", "No client or personal data in unapproved AI tools; enterprise tools with no-training and in-region / approved hosting only."),
             ("Regulatory & professional-standards compliance", "Very low", "AI use must comply with PDPL, IESBA/ISQM 1 quality management and client contractual terms."),
@@ -96,7 +96,7 @@ USE_CASES = [
     (5, "Tax research & regulatory Q&A", 4.1, 3.8, "Medium", "H2", "Tax", "Grounded assistant for Bahrain VAT, corporate / top-up tax and GCC tax research with citations."),
     (6, "Contract & document review", 3.8, 3.1, "Medium", "H2", "Advisory / Due diligence", "Clause extraction, risk flagging and summarisation for due diligence and compliance reviews."),
     (7, "Client onboarding / KYC screening", 3.4, 3.0, "High", "H3", "Risk & Quality", "Automated entity screening, adverse-media review and independence checks."),
-    (8, "AI-assisted control testing (RCM)", 3.9, 3.45, "Medium", "H2", "Risk Advisory / AI GRC", "Evidence review and control-test support using the GT AI RCM v2.1 test plans and AI security audit checklist."),
+    (8, "AI-assisted control testing", 3.9, 3.45, "Medium", "H2", "Risk Advisory / AI GRC", "Evidence review and control-test support using the GT AI Risk Assessment Framework test plans and AI security audit checklist."),
     (9, "Finance, timesheet & billing automation", 3.0, 4.0, "Low", "H2", "Operations", "RPA + AI for WIP, billing narratives and expense processing."),
     (10, "Marketing & thought-leadership content", 2.4, 4.7, "Low", "H1", "Marketing", "Drafting of insights, social posts and event content with brand review."),
     (11, "Agentic engagement workflow assistant", 4.3, 2.0, "High", "H3", "Firm-wide", "Multi-step agents orchestrating engagement set-up, requests-for-information and status reporting."),
@@ -104,7 +104,7 @@ USE_CASES = [
 ]
 
 OFFERINGS = [
-    ("AI Governance, Risk & Compliance", ["AI Readiness & Risk Assessment (20 questions, 5 domains, auto-generated report)", "AI governance framework, policies & AI register", "RCM v2.1 compliance / gap review (EU AI Act, PDPL, CBB)", "Use-case AI risk & impact assessment", "ISO/IEC 42001 readiness & internal audit"], "Banks & insurers, government, telecom"),
+    ("AI Governance, Risk & Compliance", ["AI Readiness & Risk Assessment (20 questions, 5 domains, auto-generated report)", "AI governance framework, policies & AI register", "GT AI Risk Assessment Framework compliance / gap review (EU AI Act, PDPL, CBB)", "Use-case AI risk & impact assessment", "ISO/IEC 42001 readiness & internal audit"], "Banks & insurers, government, telecom"),
     ("AI Strategy & Roadmap", ["AI strategy sprint (6-8 weeks): situational / SWOT, strategy, roadmap", "Use-case discovery & prioritisation workshops", "AI risk appetite & value-realisation framework"], "Mid-to-large corporates, family groups, government"),
     ("AI-Driven Automation & Apps", ["Technology evaluation & selection", "Process automation & AI integration", "Industry-specific solutions", "AI-powered BCP tool (in preparation)", "AI-powered Financial Statements tool (in preparation)"], "Financial services, SMEs, healthcare, hospitality"),
     ("Training & Awareness", ["AI literacy academy (all staff; EU AI Act Art. 4-aligned)", "Board & leadership AI governance sessions", "Immersive labs & AI-driven gamification", "Deepfake / AI-phishing simulations"], "All sectors; entry offer"),
@@ -168,7 +168,7 @@ STRAT_RISKS = [("Low adoption / change resistance", "Visible leadership sponsors
                ("Investment without measurable return", "Stage-gates, benefit KPIs per use case, quarterly portfolio review"),
                ("Shortage of AI talent", "Targeted hiring, GTIL expertise sharing, technology partners, upskilling"),
                ("Reputational harm from AI errors", "Human-in-charge sign-off, QA sampling, professional-standards alignment"),
-               ("Regulatory change (Bahrain AI law, EU AI Act)", "Obligations register and horizon scanning (RCM RO-5)"),
+               ("Regulatory change (Bahrain AI law, EU AI Act)", "Obligations register and horizon scanning"),
                ("Liability from GT AI apps (BCP, financial statements outputs)", "Apps assessed under the GT AI Risk Assessment Framework; qualified professional review of outputs; clear terms of use; independence checks for audit clients"),
                ("Vendor lock-in / platform change", "Multi-model reference architecture, exit clauses, periodic re-evaluation")]
 
@@ -185,9 +185,9 @@ def quadrant(v, f):
 
 
 APPS = [  # name, purpose, service line, status, next milestone
-    ("GT AI Readiness & Risk Assessment Tool", "20-question, 5-domain organisational AI readiness & risk-exposure assessment with auto-generated report", "AI GRC", "Available (v2.0)", "Client pilots in H1"),
-    ("GT AI RCM v2.1 + AI Security & Agent Audit Checklist", "81-control AI risk & control matrix and 125-item security / agent audit programme", "AI GRC / Cyber", "Available", "First engagements in H1"),
-    ("GT AI Risk Assessment Framework & Toolkit", "Use-case tiering, 52-risk taxonomy, register, heat map and sign-off", "AI GRC", "Available (v1.1)", "Embed in AI CoE intake"),
+    ("GT AI Readiness & Risk Assessment Tool", "20-question, 5-domain organisational AI readiness & risk-exposure assessment with auto-generated report", "AI GRC", "Available", "Client pilots in H1"),
+    ("GT AI Security & Agent Audit Checklist", "125-item AI security and agent audit programme", "AI GRC / Cyber", "Available", "First engagements in H1"),
+    ("GT AI Risk Assessment Framework & Toolkit", "Use-case tiering, 52-risk taxonomy, register, heat map and sign-off", "AI GRC", "Available", "Embed in AI CoE intake"),
     ("AI-powered BCP tool", "AI-assisted business impact analysis, BCP / DR plan drafting and tabletop scenarios", "AI Automation / Risk Advisory", "In preparation", "MVP & internal pilot (indicative H1-H2)"),
     ("AI-powered Financial Statements tool", "AI-assisted preparation and review of IFRS financial statements and disclosures", "AI Automation / Accounting Advisory", "In preparation", "MVP & internal pilot (indicative H1-H2)"),
     ("Client AI self-assessment portal", "Web version of the readiness tool for lead generation and delivery", "AI GRC", "Planned", "Build in H2"),
@@ -197,7 +197,7 @@ APP_DETAIL = [
         ("Why", "Business continuity plans are often generic, outdated and slow to build; regulated clients (e.g., CBB licensees) must evidence tested BCM."),
         ("What it does", "Guided business impact analysis with AI-suggested impacts, RTO / RPO and dependencies; auto-drafted BCP / DR plans aligned to ISO 22301; AI-generated scenarios and tabletop exercises; gap scoring and maintenance reminders."),
         ("Who for", "Banks & insurers, government entities, telecom, healthcare, hospitality and SMEs; links to Training & Awareness BC gamification."),
-        ("Guardrails", "Risk tier Medium; human validation of BIA and plan content; client data in approved hosting; no autonomous actions; covered by RCM v2.1 controls."),
+        ("Guardrails", "Risk tier Medium; human validation of BIA and plan content; client data in approved hosting; no autonomous actions; covered by framework controls."),
     ]),
     ("AI-powered Financial Statements Tool", [
         ("Why", "Preparing and reviewing IFRS financial statements is manual and error-prone; AI can speed mapping, drafting and consistency checks."),

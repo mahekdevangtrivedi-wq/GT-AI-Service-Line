@@ -359,7 +359,7 @@ for i, (h, col, d) in enumerate(lanes):
     box(s, L, y, 2600000, 680000, fill=col, text=h, size=13, bold=True, color=WHITE)
     box(s, L + 2600000, y, CW - 2600000, 680000, fill=LAV, text=d, size=12, align=PP_ALIGN.LEFT)
 box(s, L, TOP + 2300000, CW, 380000, fill=DARK, text="ENABLERS ACROSS ALL HORIZONS", size=11.5, bold=True, color=WHITE, align=PP_ALIGN.LEFT)
-en = [("Governance", "AI policy, AI register, tier-based risk assessment, GT AI RCM v2.1 controls"), ("Data", "owners, quality, integration, capture of outcomes"),
+en = [("Governance", "AI policy, AI register, tier-based risk assessment and controls (GT AI Risk Assessment Framework)"), ("Data", "owners, quality, integration, capture of outcomes"),
       ("Platforms", "one automation platform; enterprise GenAI; data platform as needed"), ("People", "AI literacy, champions, change management"),
       ("Value tracking", "KPI dashboard, benefits realisation, quarterly portfolio review")]
 ew = (CW - 4 * 100000) // 5
@@ -414,7 +414,7 @@ add(s)
 # =========================================================== 23 why GT
 s = content("Why Grant Thornton Bahrain", "Strategy, governance, risk, cyber and assurance under one roof - with proprietary tools and the GT global network.")
 why = [("Practise what we advise", "GT Bahrain assessed its own AI readiness with AI Ready7 (Sept 2026) and uses the results to set its own priorities."),
-       ("Trusted and regulation-ready", "Audit, GRC and cyber heritage; Bahrain PDPL, CBB, iGA AI Policy and EU AI Act mapped into our AI RCM v2.1 (81 controls)."),
+       ("Trusted and regulation-ready", "Audit, GRC and cyber heritage; Bahrain PDPL, CBB, iGA AI Policy and EU AI Act mapped into the GT AI Risk Assessment Framework."),
        ("Honest about automation", "We recommend AI only where it beats automation - protecting budgets and reducing risk."),
        ("Sector depth", f"A {NL}-entry use-case library with the deepest coverage in banking, insurance, healthcare and telecom."),
        ("End-to-end AI service lines", "AI Strategy & Roadmap | AI Governance, Risk & Compliance | AI-Driven Automation & Apps | Training & Awareness.")]
@@ -424,7 +424,7 @@ for i, (h, d) in enumerate(why):
     box(s, L, y, half, 580000, fill=LAV, text=[[(h, True)], [(d, False)]], size=10, align=PP_ALIGN.LEFT)
 x2 = L + half + 150000
 box(s, x2, TOP - 50000, half, 380000, fill=GT, text="GT AI tools and apps", size=12, bold=True, color=WHITE)
-rows = [["Tool / app", "Status"], ["GT AI Opportunity Discovery Toolkit (240-entry library)", "Available (v2.0)"], ["GT AI Readiness & Risk Assessment (20 questions, 5 domains)", "Available (v2.0)"]] + \
+rows = [["Tool / app", "Status"], ["GT AI Opportunity Discovery Toolkit (240-entry library)", "Available"], ["GT AI Readiness & Risk Assessment (20 questions, 5 domains)", "Available"]] + \
        [[a[0], a[3]] for a in APPS if a[0] != "GT AI Readiness & Risk Assessment Tool"]
 fills = {(i, 1): RGBColor(0xFF, 0xE6, 0x99) for i, r_ in enumerate(rows) if i and r_[1] in ("In preparation", "Planned")}
 table(s, x2, TOP + 330000, half, rows, [4.2, 1.6], size=9.5, rowh=380000, fills=fills)

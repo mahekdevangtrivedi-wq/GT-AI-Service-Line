@@ -135,12 +135,12 @@ VERDICTS = [  # verdict, meaning, next step
 ]
 HORIZONS = ["H1 - Now (0-6 months)", "H2 - Next (6-12 months)", "H3 - Later (12-24 months)", "Backlog / not prioritised"]
 
-CONTROLS = [  # risk tier, minimum governance before go-live (GT AI Risk Assessment Framework / RCM v2.1)
+CONTROLS = [  # risk tier, minimum governance before go-live (GT AI Risk Assessment Framework)
     ("Low", "Approved tool on the AI register; acceptable-use policy; user guidance; spot-check outputs; vendor terms checked (no training on your data)."),
     ("Medium", "As Low, plus: documented use-case risk assessment (GT AI Risk Assessment Framework, NSW AIAF-aligned); named owner; human review of outputs; "
                "PDPL check where personal data is used; testing before go-live; monitoring KPIs / KRIs."),
     ("High", "As Medium, plus: AI system impact assessment (ISO/IEC 42005) and DPIA; bias, robustness and security testing (incl. AI red teaming); "
-             "human-in-the-loop for decisions about individuals; EU AI Act / CBB obligations checked; executive / AI committee approval; GT AI RCM v2.1 controls applied."),
+             "human-in-the-loop for decisions about individuals; EU AI Act / CBB obligations checked; executive / AI committee approval; GT AI Risk Assessment Framework controls applied."),
 ]
 
 # ------------------------------------------------------------------ standards basis (step, standard, how it is used)
@@ -163,7 +163,7 @@ STANDARDS = [
     ("4 Prioritise", "ISO/IEC 42001:2023 cl. 6.2", "AI objectives that are measurable - feed the KPIs on each canvas."),
     ("5 Plan", "ISO/IEC 42005:2025 and ISO/IEC 23894:2023", "AI system impact assessment and risk management for Medium / High-tier use cases before go-live."),
     ("5 Plan", "ISO/IEC 5338:2023 and ISO/IEC 42001 Annex A.6", "AI system life cycle from design to retirement for each roadmap item."),
-    ("5 Plan", "GT AI Risk Assessment Framework v1.1 and GT AI RCM v2.1", "Tier-based minimum controls on each use-case canvas; control testing once in production."),
+    ("5 Plan", "GT AI Risk Assessment Framework", "Tier-based minimum controls on each use-case canvas; control testing once in production."),
     ("Complementary", "GT AI Ready7 / GT AI Readiness & Risk Assessment", "Measures governance and capability maturity. Not repeated here - this toolkit asks WHERE AI fits, not HOW READY the organisation is."),
 ]
 
