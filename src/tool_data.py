@@ -253,20 +253,20 @@ SERVICES = [
 # =====================================================================================
 # v2.0 (Oct 2026): 20 questions, 5 domains, 5 new governance & risk-management questions
 # =====================================================================================
-DOMAIN_MAP = {"Business Alignment": "Strategy & Value", "Governance & Ethics": "Governance, Risk & Compliance",
-              "Training & Development": "People & Skills", "Data & Quality": "Data & Technology",
-              "Architecture & Technology": "Data & Technology", "Protect AI Systems": "AI Security & Threat Risk",
-              "Protection from AI Threats": "AI Security & Threat Risk"}
-PILLARS = ["Strategy & Value", "Governance, Risk & Compliance", "People & Skills", "Data & Technology", "AI Security & Threat Risk"]
-READY7_SOURCE = {"Strategy & Value": "Business Alignment", "Governance, Risk & Compliance": "Governance & Ethics",
-                 "People & Skills": "Training & Development", "Data & Technology": "Data & Quality + Architecture & Technology",
-                 "AI Security & Threat Risk": "Protect AI Systems + Protection from AI Threats"}
+DOMAIN_MAP = {"Business Alignment": "Strategy & Value", "Governance & Ethics": "AI Governance",
+              "Training & Development": "Training & Awareness", "Data & Quality": "Data & Technology",
+              "Architecture & Technology": "Data & Technology", "Protect AI Systems": "AI Risk & Security",
+              "Protection from AI Threats": "AI Risk & Security"}
+PILLARS = ["AI Governance", "AI Risk & Security", "Training & Awareness", "Strategy & Value", "Data & Technology"]
+READY7_SOURCE = {"AI Governance": "Governance & Ethics", "AI Risk & Security": "Protect AI Systems + Protection from AI Threats",
+                 "Training & Awareness": "Training & Development", "Strategy & Value": "Business Alignment",
+                 "Data & Technology": "Data & Quality + Architecture & Technology"}
 PILLAR_RISK = {
-    "Strategy & Value": "Without clear direction, ownership and value tracking, AI adoption is fragmented, duplicated and hard to justify, and risk-taking is unmanaged.",
-    "Governance, Risk & Compliance": "Weak AI governance, risk management and compliance increase misuse, regulatory breaches, unmanaged third-party exposure and uncontrolled AI sprawl.",
-    "People & Skills": "Low AI literacy and specialist capability increase unsafe use, susceptibility to AI-enabled threats and biased or unchecked outputs.",
+    "AI Governance": "Without clear accountability, policy, oversight and assurance, AI is adopted inconsistently, misused and breaches regulation without anyone noticing or answering for it.",
+    "AI Risk & Security": "Without an AI risk framework, risk appetite, impact assessments, third-party controls and AI security, the organisation is exposed to unmanaged AI risk, prompt injection, data leakage, model compromise and deepfake-enabled fraud.",
+    "Training & Awareness": "Low AI literacy and awareness increase unsafe use of AI tools, unchecked or biased outputs and susceptibility to AI-enabled phishing and deepfakes.",
+    "Strategy & Value": "Without clear direction, ownership and value tracking, AI adoption is fragmented, duplicated and hard to justify.",
     "Data & Technology": "Weak data governance, architecture and model validation lead to inaccurate or biased outputs, privacy breaches, undetected drift and unsustainable costs.",
-    "AI Security & Threat Risk": "Weak AI security and threat defences expose the organisation to prompt injection, data leakage, model compromise and deepfake-enabled fraud.",
 }
 _old = {q["id"]: q for q in READINESS}
 for _q in READINESS:
@@ -362,23 +362,26 @@ NEWQ = {
           "Monitor model performance continuously and track validation findings to closure.",
           "Sustain: align with SR 11-7 / PRA SS1/23 principles and report model risk to the risk committee."]),
 }
-_order = [("Q5", _old["Q5"]), ("Q6", _old["Q6"]),
-          ("Q7", NEWQ["G1"]), ("Q8", _old["Q7"]), ("Q9", NEWQ["G2"]), ("Q10", NEWQ["G3"]), ("Q11", _old["Q8"]),
-          ("Q12", NEWQ["G4"]), ("Q13", _old["Q9"]), ("Q14", _old["Q15"]),
-          ("Q15", _old["Q10"]),
-          ("Q16", _old["Q11"]), ("Q17", _old["Q12"]), ("Q18", NEWQ["G5"]),
-          ("Q19", _old["Q13"]), ("Q20", _old["Q14"])]
+_DOM = {"G1": "AI Governance", "Q7": "AI Governance", "Q9": "AI Governance", "Q15": "AI Governance",
+        "G2": "AI Risk & Security", "G3": "AI Risk & Security", "Q8": "AI Risk & Security", "G4": "AI Risk & Security",
+        "Q13": "AI Risk & Security", "Q14": "AI Risk & Security", "Q10": "Training & Awareness",
+        "Q5": "Strategy & Value", "Q6": "Strategy & Value", "Q11": "Data & Technology", "Q12": "Data & Technology", "G5": "Data & Technology"}
+for _k, _d in _DOM.items():
+    (NEWQ if _k.startswith("G") else _old)[_k]["pillar"] = _d
+_old["Q9"]["topic"] = "Responsible-AI guardrails & human oversight"
+_old["Q10"]["topic"] = "AI training, literacy & awareness"
+_seq = ["G1", "Q7", "Q9", "Q15", "G2", "G3", "Q8", "G4", "Q13", "Q14", "Q10", "Q5", "Q6", "Q11", "Q12", "G5"]
+_order = [(f"Q{5 + i}", NEWQ[k] if k.startswith("G") else _old[k]) for i, k in enumerate(_seq)]
 READINESS = []
 for _id, _q in _order:
     _q = dict(_q); _q["id"] = _id; READINESS.append(_q)
-_old["Q9"]["topic"] = "Responsible-AI guardrails & human oversight"
 
 SERVICES = [
-    ("AI Governance, Risk & Compliance", "Governance, Risk & Compliance", "AI governance structure and policies, AI risk management framework and risk appetite, AI register, third-party AI risk, RCM-based compliance reviews, ISO/IEC 42001 readiness."),
+    ("AI Governance, Risk & Compliance", "AI Governance", "AI governance structure, policies and acceptable use, AI register, guardrails and human-oversight standards, RCM-based compliance reviews, ISO/IEC 42001 readiness and internal audit."),
+    ("AI Risk & Cyber Resilience", "AI Risk & Security", "AI risk management framework and risk appetite, use-case risk & impact assessments, third-party AI risk, AI security audits (GT AI Security & Agent Audit Checklist), AI red teaming, deepfake-resilient processes."),
+    ("Training & Awareness", "Training & Awareness", "AI literacy programmes (EU AI Act Art. 4-aligned), role-based pathways, immersive labs, deepfake & AI-phishing simulations, board AI governance sessions."),
     ("AI Strategy & Roadmap", "Strategy & Value", "AI Opportunity Discovery (where AI and automation fit), AI strategy, use-case prioritisation, value-realisation KPIs and phased roadmap."),
-    ("Training & Awareness", "People & Skills", "AI literacy programmes, role-based pathways, immersive labs, deepfake & AI-phishing simulations, board AI governance sessions."),
     ("AI-Driven Automation & Data", "Data & Technology", "Technology evaluation, data readiness, reference architecture, model validation and integration. GT AI apps in preparation: AI-powered BCP tool and AI-powered Financial Statements tool."),
-    ("AI Security & Cyber Resilience", "AI Security & Threat Risk", "AI security audits (GT AI Security & Agent Audit Checklist), AI red teaming, secure AI agents, deepfake-resilient processes."),
 ]
 
 # Profile questions for the client questionnaire; 'label' must equal the engine's '1. Profile' column-B label

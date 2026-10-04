@@ -164,8 +164,8 @@ for i, h in enumerate(heads, 2):
     c = asx.cell(HDR, i, h); style(c, bold=True, color="FFFFFF", fillc=GT, align=CC)
 asx.row_dimensions[HDR].height = 30
 QR = {}  # qid -> row
-SAMPLE_ANS = {"A1": 2, "A2": 2, "A3": 2, "A4": 1, "Q5": 2, "Q6": 2, "Q7": 2, "Q8": 3, "Q9": 1, "Q10": 2, "Q11": 2, "Q12": 2, "Q13": 2, "Q14": 3,
-              "Q15": 3, "Q16": 3, "Q17": 2, "Q18": 2, "Q19": 2, "Q20": 3}
+SAMPLE_ANS = {"A1": 2, "A2": 2, "A3": 2, "A4": 1, "Q5": 2, "Q6": 3, "Q7": 2, "Q8": 3, "Q9": 1, "Q10": 2, "Q11": 2, "Q12": 2, "Q13": 2, "Q14": 3,
+              "Q15": 3, "Q16": 2, "Q17": 2, "Q18": 3, "Q19": 2, "Q20": 2}
 r = HDR + 1
 for part, qs in [("PART A  -  AI USE & INHERENT RISK PROFILE  (AIAF-based: how much could go wrong?)", CONTEXT),
                  ("PART B  -  AI READINESS & CONTROL MATURITY  (5 domains + GT AI RCM: how well is it managed?)", READINESS)]:
@@ -252,8 +252,8 @@ cl["C33"] = '=IF(C31="","",IF(AND(B27=4,B29>=3),"Override: significant-effect de
 # pillars
 cl["A36"] = "Pillar"; cl["B36"] = "Score"; cl["C36"] = "Maturity"; cl["D36"] = "Target"; cl["E36"] = "Risk statement"; cl["F36"] = "Service"; cl["G36"] = "Service priority"; cl["H36"] = "Label"
 PR = {}
-SHORT = {"Strategy & Value": "Strategy", "Governance, Risk & Compliance": "Governance & Risk", "People & Skills": "People",
-         "Data & Technology": "Data & Tech", "AI Security & Threat Risk": "AI Security"}
+SHORT = {"AI Governance": "Governance", "AI Risk & Security": "Risk & Security", "Training & Awareness": "Training",
+         "Strategy & Value": "Strategy", "Data & Technology": "Data & Tech"}
 for i, p in enumerate(PILLARS):
     rr = 37 + i; PR[p] = rr
     cl.cell(rr, 1, p)
@@ -463,7 +463,11 @@ ch.y_axis.scaling.min = 0; ch.y_axis.scaling.max = 100; ch.y_axis.majorUnit = 25
 ch.legend = None
 ch.height = 8.6; ch.width = 9.3
 rp.add_chart(ch, f"G{PT}")
+# spacer so the chart (8.6 cm ~ 244 pt) never overlaps the next table
+used = sum((rp.row_dimensions[x].height or 15) for x in range(PT, r + 1))
+rp.row_dimensions[r + 1].height = max(15, 256 - used)
 r += 2
+SECTION_ROWS.append(r)
 th(r, [(2, 3, "Domain"), (4, 11, "Potential risk if the domain is not strengthened (shown where score < 90%)")])
 r += 1
 for p in PILLARS:
@@ -641,7 +645,7 @@ rp.row_dimensions[r].height = 58
 LAST = r
 # ---- pagination: break before a row that would overflow the A4 page (fit-to-width scale ~0.94);
 #      never leave a section header (or its table header) orphaned at the bottom of a page
-PAGE_BUDGET = 800.0
+PAGE_BUDGET = 770.0
 acc = 0.0; prev_break = 1
 for rr in range(1, LAST + 1):
     h = rp.row_dimensions[rr].height or 15
@@ -676,6 +680,7 @@ rp.page_setup.fitToWidth = 1; rp.page_setup.fitToHeight = 0; rp.sheet_properties
 rp.page_margins.left = rp.page_margins.right = 0.45; rp.page_margins.top = 0.6; rp.page_margins.bottom = 0.6
 rp.oddFooter.left.text = "GT AI Readiness && Risk Assessment - Confidential"; rp.oddFooter.left.size = 8
 rp.oddFooter.right.text = "Page &P"; rp.oddFooter.right.size = 8
+rp.page_setup.firstPageNumber = 1; rp.page_setup.useFirstPageNumber = True
 rp.print_options.horizontalCentered = False
 
 # =====================================================================  4. Action plan
@@ -712,7 +717,7 @@ merge(mt, 1, 2, 1, 8, "METHODOLOGY & FRAMEWORK MAPPING", size=16, bold=True, col
 mt.row_dimensions[1].height = 34
 blocks = [("How the tool combines three frameworks",
            "1) NSW AI Assessment Framework (AIAF, Digital NSW): lifecycle triggers, inherent-risk questions (AI use, decision impact, data, autonomy / reversibility), Low-Critical risk bands, pattern overrides, oversight pathways and the 8 ethics principles.\n"
-           "2) GT AI Ready7: the 7 pillars (33 items) are consolidated into 5 domains - Strategy & Value; Governance, Risk & Compliance; People & Skills; Data & Technology; AI Security & Threat Risk - using the AI Ready7 maturity scale Partial / Informed / Repeatable / Adaptive.\n"
+           "2) GT AI Ready7: the 7 pillars (33 items) are consolidated into 5 domains - AI Governance; AI Risk & Security (Protect AI Systems + Protection from AI Threats, plus AI risk management); Training & Awareness; Strategy & Value; Data & Technology - using the AI Ready7 maturity scale Partial / Informed / Repeatable / Adaptive.\n"
            "3) GT AI RCM v2.1: every readiness question is mapped to the controls that evidence it, so results convert directly into a control-remediation plan."),
           ("Scoring - Part A (inherent risk)",
            "Each answer scores 0-4. Weights: A1 AI use x2, A2 decision impact x3, A3 data sensitivity x2, A4 oversight & reversibility x3 (max 40). Weighted % bands: <25% Low, 25-49% Medium, 50-74% High, >=75% Critical.\n"
