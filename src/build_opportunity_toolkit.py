@@ -396,7 +396,7 @@ cell(SP, r, 6, f'=COUNTIF({LIBR("B")},"Cross-industry")', align=CC); cell(SP, r,
 SP.row_dimensions[r].height = 30; r += 1
 cell(SP, r, 1, "Total", bold=True, fill=LAV2); merged(SP, r, 2, 5, "", fill=LAV2)
 cell(SP, r, 6, f"=SUM(F{SP0}:F{r - 1})", bold=True, align=CC, fill=LAV2); cell(SP, r, 7, f"=SUM(G{SP0}:G{r - 1})", bold=True, align=CC, fill=LAV2); r += 2
-merged(SP, r, 1, 7, "Value at stake: QuantumBlack & PwC analysis - predictions for 2030 (as presented in GT Bahrain 'Introduction to Artificial Intelligence', 2026); "
+merged(SP, r, 1, 7, "Source (value at stake, GDP uplift by 2030): QuantumBlack & PwC analysis (Predictions for 2030); "
                     "insurance and capital markets share the financial-services figure; hospitality shares retail & consumer. Sectors not sized separately in that analysis are described qualitatively. "
                     "Potential is GT's qualitative assessment of automation and AI opportunity density in the library.", italic=True, size=8, color="595959", align=WT, border=False)
 SP.row_dimensions[r].height = 40

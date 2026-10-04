@@ -28,7 +28,7 @@ for p, v in READY7: cur.setdefault(DOMAIN_MAP[p], []).append(v)
 R7 = {d: int(sum(cur[d]) / len(cur[d]) + 0.5) for d in DOMAINS}
 NQ = {d: [q for q in READINESS if q["pillar"] == d] for d in DOMAINS}
 NPROF = len(PROFILE_Q); NCTX = len(CONTEXT); NREAD = len(READINESS)
-SRC_NOTE = "Source: McKinsey State of AI 2025 Survey; IDC Worldwide AI and Generative AI Spending Guide 2025 - as presented in GT Bahrain 'Introduction to Artificial Intelligence' (2026)."
+SRC_NOTE = "Source: McKinsey's State of AI 2025 Survey; IDC's Worldwide AI and Generative AI Spending Guide 2025."
 
 
 def pic(s, name, x, y, w=None, h=None):
@@ -148,7 +148,7 @@ box(s, L - 10000, base + 1170000, CW, 60000, fill=GT)
 txt(s, L, base + 1230000, CW, 280000, "Governance focus needed at each stage (what the assessment checks)", size=9.5, bold=True, color=GT)
 box(s, L, TOP + 4080000, CW, 520000, fill=DARK, text=[[("Where are you on the curve? ", True), ("The assessment places the organisation on this journey and shows what must be in place - governance, risk, skills, strategy and data - to move up safely.", False)]],
     size=11, color=WHITE)
-txt(s, L, TOP + 4630000, CW, 250000, "Source: GT Bahrain 'Introduction to Artificial Intelligence' (2026), based on public JPMorgan Chase disclosures.", size=8, color=GREY)
+txt(s, L, TOP + 4630000, CW, 250000, "Source: JPMorgan Chase public disclosures on LLM Suite adoption (2023-2025).", size=8, color=GREY)
 add(s)
 
 # =========================================================== 6 moving fast

@@ -796,7 +796,7 @@ for code in SECTOR_ORDER:
     for i, (fn, nat, proc, pain, rec, data, kpi, notes, floor) in enumerate(_L[code], 1):
         LIBRARY.append((f"{code}-{i:02d}", SECTORS[code], FUNCTIONS[fn][0], nat, proc, pain, rec, data, kpi, notes, floor))
 
-# Sector profiles (value data: QuantumBlack & PwC analysis, 2030 predictions, as cited in GT Bahrain 'Introduction to AI', 2026)
+# Sector profiles (value-at-stake source: QuantumBlack & PwC analysis (Predictions for 2030))
 SECTOR_PROFILES = [
     # sector, GDP uplift by 2030 (where available), automation & AI potential, value pools, regulators / key rules
     ("Banking & payments", "$2.1T  |  10.0%", "Very high",
