@@ -253,8 +253,8 @@ ex["A3"] = None
 # Load response sheet
 ld.sheet_view.showGridLines = False
 ld.column_dimensions["A"].width = 2
-for col, w in zip("BCDEFG", (30, 8, 50, 46, 13, 4)): ld.column_dimensions[col].width = w
-ld.column_dimensions["G"].hidden = True
+for col, w in zip("BCDEFGH", (30, 8, 50, 46, 13, 4, 4)): ld.column_dimensions[col].width = w
+ld.column_dimensions["G"].hidden = True; ld.column_dimensions["H"].hidden = True
 ld["B1"] = "LOAD A RESPONSE"; ld["B1"].font = Font(bold=True, size=16, color=LAV_DARK)
 ld["B2"] = "Choose which response from the 'Forms export' sheet to load, then copy each block into the engine (Paste > Values)."
 ld["B2"].font = Font(italic=True, color="6B6B6B")
@@ -314,8 +314,10 @@ for title, items, _cell in BLOCKS:
         elif tag in OPTCOL:
             col_, last = OPTCOL[tag]; rng = f"Options!${col_}$2:${col_}${last}"
             ld.cell(row, 5, pick(tag)); ld.cell(row, 7, "=" + strip_prefix(f"E{row}"))
+            # match ignoring spaces / case (Quick import can insert stray spaces, e.g. "audit- ready"), then output the canonical option text
+            ld.cell(row, 8, f'=IF(G{row}="","",IFERROR(MATCH(1,INDEX(--(SUBSTITUTE({rng}," ","")=SUBSTITUTE(G{row}," ","")),0),0),""))')
             ld.cell(row, 4, f'=IF(E{row}="","",IF(AND(LEN(G{row})=1,CODE(UPPER(G{row}))>=65,CODE(UPPER(G{row}))<=69),'
-                            f'IFERROR(INDEX({rng},CODE(UPPER(G{row}))-64),G{row}),G{row}))')
+                            f'IFERROR(INDEX({rng},CODE(UPPER(G{row}))-64),G{row}),IF(H{row}<>"",INDEX({rng},H{row}),G{row})))')
             ld.cell(row, 6, f'=IF(E{row}="","MISSING",IF(SUMPRODUCT(--({rng}=D{row}))=0,"CHECK TEXT","ok"))')
         else:
             ld.cell(row, 5, pick(tag)); ld.cell(row, 4, f"=E{row}")
