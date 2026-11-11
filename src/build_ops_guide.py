@@ -74,7 +74,7 @@ para("Essential - report within 5 working days (Day 1 kick-off; questionnaire by
      "Plus - 6 weeks, extendable to 8 (readiness report week 2; AI inventory, risk & impact assessments, control review, ISO/IEC 42001 gap and AI security review; "
      "final report and board presentation week 6). If responses arrive late, the report is issued within 3 working days of complete responses.", "Service commitment by option: ")
 tbl([["Step", "Who", "What", "Day"],
-     ["1. Set up the form", "GT engagement team", "Create the client's Microsoft Form from the Word questionnaire (Quick import)", "Day 1"],
+     ["1. Set up the form", "GT engagement team", "Create the client's Microsoft Form from the online_form build pack (Quick import + layout guide)", "Day 1"],
      ["2. Client completes", "Client sponsor / respondents", "34 questions: profile (14), AI use profile (4), readiness (16)", "Day 1-2 (~45 min)"],
      ["3. Export responses", "GT", "Forms > Responses > Open results in Excel > download", "Day 3"],
      ["4. Generate report", "GT", "Run generate_readiness_reports.py: engine is filled, recalculated and exported", "Day 3"],
@@ -86,6 +86,8 @@ h("2. Files")
 tbl([["File", "Location (repo)", "Share with client?"],
      ["GT_AI_Readiness_Questionnaire.docx", "1.3_.../client_questionnaire/", "Only via Microsoft Forms (or as a fallback document)"],
      ["GT_AI_Readiness_Responses_Template.xlsx", "1.3_.../client_questionnaire/", "Fallback only - if Forms cannot be used"],
+     ["GT_AI_Readiness_Form_Build_Guide.docx, ..._QuickImport.docx, form_images/", "1.3_.../online_form/", "NO - GT internal: used to build the client's form"],
+     ["GT_AI_Readiness_Form_Response_Converter.xlsx", "1.3_.../online_form/", "NO - GT internal: turns a Forms response into engine-ready values"],
      ["GT_AI_Readiness_Assessment_Tool.xlsx (engine)", "1.3_AI_Readiness_Assessment_Tool/", "NO - GT internal"],
      ["generate_readiness_reports.py", "src/", "NO - GT internal"],
      ["<Client>_AI_Readiness_Report.pdf", "generated", "YES - the deliverable"],
@@ -93,7 +95,7 @@ tbl([["File", "Location (repo)", "Share with client?"],
 
 h("3. Step-by-step")
 h("3.1 Create the Microsoft Form", 2)
-bullets(["Go to forms.office.com with your GT account > New Form > Quick import (Word / PDF) > upload GT_AI_Readiness_Questionnaire.docx.",
+bullets(["Follow online_form/GT_AI_Readiness_Form_Build_Guide.docx: forms.office.com > New Form > Quick import > upload GT_AI_Readiness_Form_QuickImport.docx (same questions and options as the questionnaire, in form order), then add the pages, the lavender theme and cover image, the intro (WHEN TO USE / WHAT YOU GET), the four open-ended questions and the final name / organisation / email page.",
          "Check the imported form: every question must be a single-choice question with the options A-E (or the listed options), except the free-text profile fields (organisation, names, email).",
          "Do not edit the question tags in square brackets - [P1] ... [P14], [A1] ... [A4], [Q5] ... [Q20]. The report generator uses them to read the answers.",
          "Settings: Who can fill out this form = Anyone can respond; turn off 'Record name'; set a closing date; add the GT confidentiality note from the questionnaire to the form description.",
@@ -102,6 +104,7 @@ bullets(["Go to forms.office.com with your GT account > New Form > Quick import 
 para("If Quick import is not available on your tenant, build the form once manually from the Word document (copy titles exactly, including the tags), then duplicate it for each client.", "Note: ")
 h("3.2 Export the responses", 2)
 bullets(["Forms > Responses > Open results in Excel. Save the file to the client's engagement folder (not to personal OneDrive).",
+         "To fill the engine by hand, paste the export into GT_AI_Readiness_Form_Response_Converter.xlsx ('Forms export' sheet) and copy its four yellow blocks into the engine with Paste Special > Values; to do it automatically use the generator in 3.3.",
          "Fallback: if the client completed the Word document or the Responses Template instead, transcribe into GT_AI_Readiness_Responses_Template.xlsx (one row per organisation). Letters A-E or the full option text are both accepted."], "List Number")
 h("3.3 Generate the report", 2)
 para("One-off set-up on the GT laptop: install Python 3.9+, LibreOffice (libreoffice.org) and the Python packages:", None)

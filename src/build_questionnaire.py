@@ -40,8 +40,7 @@ doc.add_paragraph()
 doc.add_heading("Before you start", 1)
 for txt in ["This questionnaire takes about 20-25 minutes. It has three parts: your organisation profile (14 questions), how AI is used (4 questions) and how AI is governed and managed (16 questions across 5 areas).",
             "For each question choose ONE answer - the statement that best describes the situation today. If you are unsure between two answers, choose the lower one: Grant Thornton may ask for supporting evidence for the answer selected.",
-            "Answers are confidential and used only to prepare your AI Readiness & Risk Assessment report. Grant Thornton analyses the responses and sends the report to the email address you provide.",
-            "You can complete this questionnaire online (link provided by Grant Thornton) or fill in this document and return it to your Grant Thornton contact."]:
+            "Answers are confidential and used only to prepare your AI Readiness & Risk Assessment report. Grant Thornton analyses the responses and sends the report to the email address you provide."]:
     doc.add_paragraph(txt)
 
 n = 0

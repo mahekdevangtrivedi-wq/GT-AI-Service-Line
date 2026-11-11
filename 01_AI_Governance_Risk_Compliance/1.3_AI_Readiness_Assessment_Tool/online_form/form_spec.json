@@ -1,0 +1,558 @@
+{
+ "title": "AI Readiness & Risk Assessment",
+ "theme": {
+  "colour": "#7C5CC4",
+  "background": "form_images/GT_Form_Background_2000x1200.png",
+  "banner": "form_images/GT_Form_Cover_Banner_1600x500.png"
+ },
+ "confirmation": "Thank you. Your AI Readiness & Risk Assessment has been submitted. Grant Thornton Bahrain will generate your report and send it to the email address you provided within 5 working days.",
+ "pages": [
+  {
+   "no": 1,
+   "section": null,
+   "title": "AI Readiness & Risk Assessment",
+   "desc": "Grant Thornton Bahrain  |  AI Governance, Risk & Compliance\n\nThis assessment takes about 20-25 minutes. For each question choose ONE answer - the statement that best describes your organisation today. If you are unsure between two answers, choose the lower one: Grant Thornton may ask for supporting evidence. Your answers are confidential and used only to prepare your report.\n\nYour report will be generated and sent to your email within 5 working days of submission.\n\nWHEN TO USE THIS TOOL\n- Before or early in your AI journey, to baseline readiness\n- Before scaling AI or deploying AI that affects customers or decisions\n- When AI is discovered in use without assessment (shadow AI)\n- When risk or context changes: new data, model, vendor, purpose or less human oversight\n- Annually, to track maturity progress\n\nPublic GenAI tools used for low-risk drafting may be governed by your Acceptable Use Policy instead (AIAF approach).",
+   "items": [
+    {
+     "tag": "C0",
+     "title": "Ready to begin?",
+     "subtitle": "WHAT YOU GET\n- Overall AI readiness score and maturity level\n- Inherent AI risk tier (Low / Medium / High / Critical)\n- Overall AI risk exposure and recommended oversight pathway\n- Domain radar chart and responsible-AI principle coverage\n- Findings, potential risks and recommendations per area\n- Top-5 priorities and a phased roadmap\n- Applicable regulations (Bahrain PDPL, CBB, EU AI Act, GCC)\n- Printable report you can save as PDF and email\n\nYour report will be generated and sent within 5 working days.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Yes - start the assessment"
+     ]
+    }
+   ]
+  },
+  {
+   "no": 2,
+   "section": "Part 1 - Organisation profile",
+   "desc": "A few quick questions so the report reflects your regulatory context. Your contact details are collected on the last page.",
+   "items": [
+    {
+     "tag": "P2",
+     "title": "[P2] Sector",
+     "subtitle": "",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Banking & financial services",
+      "Insurance",
+      "Government & public sector",
+      "Telecommunications",
+      "Healthcare",
+      "Hospitality & tourism",
+      "Professional services",
+      "Manufacturing & industry",
+      "Retail & consumer",
+      "Energy & utilities",
+      "Education",
+      "Other"
+     ]
+    },
+    {
+     "tag": "P3",
+     "title": "[P3] Organisation size",
+     "subtitle": "",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "1-50 employees",
+      "51-250 employees",
+      "251-1,000 employees",
+      "1,001-5,000 employees",
+      "More than 5,000 employees"
+     ]
+    },
+    {
+     "tag": "P4",
+     "title": "[P4] Scope of this assessment",
+     "subtitle": "",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Whole organisation",
+      "Business unit / function",
+      "Specific AI system or use case"
+     ]
+    },
+    {
+     "tag": "P5",
+     "title": "[P5] Scope description (optional)",
+     "subtitle": "",
+     "required": false,
+     "type": "text",
+     "options": []
+    },
+    {
+     "tag": "P7",
+     "title": "[P7] Your role / title",
+     "subtitle": "",
+     "required": true,
+     "type": "text",
+     "options": []
+    },
+    {
+     "tag": "P9",
+     "title": "[P9] Is the organisation licensed by the Central Bank of Bahrain (CBB)?",
+     "subtitle": "",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Yes",
+      "No"
+     ]
+    },
+    {
+     "tag": "P10",
+     "title": "[P10] Do AI systems process personal data of individuals in Bahrain?",
+     "subtitle": "",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Yes",
+      "No"
+     ]
+    },
+    {
+     "tag": "P11",
+     "title": "[P11] Are AI-enabled products / services offered in the EU, or AI outputs used in the EU?",
+     "subtitle": "",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Yes",
+      "No"
+     ]
+    },
+    {
+     "tag": "P12",
+     "title": "[P12] Does the organisation operate in KSA, UAE or other GCC markets?",
+     "subtitle": "",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Yes",
+      "No"
+     ]
+    },
+    {
+     "tag": "P13",
+     "title": "[P13] Is the organisation a government entity or public-sector body?",
+     "subtitle": "",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Yes",
+      "No"
+     ]
+    },
+    {
+     "tag": "P14",
+     "title": "[P14] Does the organisation develop AI (provider) or only use it (deployer)?",
+     "subtitle": "",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Deployer only (uses AI built by others)",
+      "Provider (develops / sells AI systems)",
+      "Both provider and deployer"
+     ]
+    }
+   ]
+  },
+  {
+   "no": 3,
+   "section": "Part 2 - How AI is used in your organisation",
+   "desc": "These questions describe your AI use and its potential impact. There are no right or wrong answers.",
+   "items": [
+    {
+     "tag": "A1",
+     "title": "[A1] Which statement best describes how AI is used in your organisation today (including AI embedded in software and tools used by staff)?",
+     "subtitle": "Consider approved and unapproved tools, vendor software with AI features and AI used by suppliers on your behalf.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No AI in use and none planned within 12 months",
+      "Exploratory use of public GenAI tools (e.g., ChatGPT, Copilot web) for internal productivity only",
+      "Approved enterprise GenAI tools and AI features embedded in business software across teams",
+      "Custom or vendor-built AI / ML models supporting core processes or client services",
+      "AI agents or automated AI decisions acting directly on systems, customers or transactions"
+     ]
+    },
+    {
+     "tag": "A2",
+     "title": "[A2] What is the most significant type of decision or outcome your AI systems influence?",
+     "subtitle": "Answer for the highest-impact AI use case in scope (AIAF: 'worst credible harm').",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "None - AI is used only for drafting, research or personal productivity",
+      "Internal operational decisions with minor impact (e.g., scheduling, document triage)",
+      "Customer- or client-facing outputs with limited individual impact (e.g., FAQ chatbots, marketing content)",
+      "Decisions materially affecting individuals' services, employment or finances, with human review",
+      "Decisions with legal or similarly significant effects on individuals (credit, hiring, insurance, eligibility, health) made or determined by AI"
+     ]
+    },
+    {
+     "tag": "A3",
+     "title": "[A3] What is the most sensitive data processed by your AI systems (including data staff enter into AI tools)?",
+     "subtitle": "Include prompts, uploaded documents, training / fine-tuning data, retrieval sources and logs.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Public or synthetic data only",
+      "Internal, non-confidential business information",
+      "Confidential business or client information",
+      "Personal data of customers, employees or other individuals",
+      "Sensitive personal data (health, biometric, financial account, children) or regulated / classified information"
+     ]
+    },
+    {
+     "tag": "A4",
+     "title": "[A4] How much human oversight applies to AI outputs, and how reversible are the outcomes?",
+     "subtitle": "AIAF considers autonomy, human oversight and whether outputs are reversible or correctable.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Humans make all decisions; AI outputs are advisory drafts only",
+      "A qualified human reviews and approves every AI output before it is used",
+      "Humans review samples or exceptions; errors are easily corrected",
+      "AI acts automatically; humans can intervene after the fact; errors are costly to reverse",
+      "AI acts autonomously with no practical real-time intervention; outcomes may be irreversible"
+     ]
+    }
+   ]
+  },
+  {
+   "no": 4,
+   "section": "Part 3 - AI Governance",
+   "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
+   "items": [
+    {
+     "tag": "Q5",
+     "title": "[Q5] Is there a defined AI governance structure - board / executive oversight, an AI committee with decision rights, named owners for every AI system and clear three-lines-of-defence responsibilities?",
+     "subtitle": "Examples of evidence: board / ExCo terms of reference covering AI, AI committee charter, RACI, AI system owner register, internal-audit coverage.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No defined AI governance; decisions are made ad hoc by individual teams",
+      "Informal oversight by IT or a single function; roles not documented",
+      "AI committee or sponsor defined on paper; roles and decision rights partly documented",
+      "Board / ExCo oversight, AI committee with charter and decision rights, named system owners and a documented RACI across the three lines",
+      "Governance operates effectively: regular board reporting, periodic effectiveness review and independent assurance by internal audit"
+     ]
+    },
+    {
+     "tag": "Q6",
+     "title": "[Q6] Do you have an approved AI (acceptable-use) policy and a process to identify and comply with applicable AI-related regulation (e.g., Bahrain PDPL, CBB rules, EU AI Act)?",
+     "subtitle": "Examples of evidence: AI policy, approved-tools list, staff acknowledgements, obligations register, compliance reviews.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No AI policy; applicable AI regulations have not been identified",
+      "Informal guidance only (e.g., emails); obligations understood by a few individuals",
+      "AI acceptable-use policy approved; regulatory obligations identified but not mapped to controls",
+      "AI policy enforced with staff acknowledgement; obligations register maps regulations to controls and owners",
+      "Policy and obligations register reviewed regularly with horizon scanning; compliance tested and audit-ready evidence maintained"
+     ]
+    },
+    {
+     "tag": "Q7",
+     "title": "[Q7] Are there practical guardrails for fairness, transparency and human oversight, overseen by an AI committee or centre of excellence?",
+     "subtitle": "Examples of evidence: committee / CoE charter, guardrail standards, human-in-charge procedures, bias tests, AI disclosures, appeal routes.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No responsible-AI guardrails or oversight body",
+      "High-level ethical principles published but not operationalised",
+      "AI committee / CoE established; guardrails defined for some areas (e.g., human review of outputs)",
+      "Guardrails for fairness, transparency, disclosure and human-in-charge controls applied to all relevant AI; committee approves high-risk uses",
+      "Guardrails tested (bias testing, oversight effectiveness); contestability routes for affected persons; lessons fed back into standards"
+     ]
+    },
+    {
+     "tag": "Q8",
+     "title": "[Q8] Are AI incidents detected, managed and reported, and is AI governance subject to internal audit or independent assurance?",
+     "subtitle": "Examples of evidence: AI incident categories, notification criteria, incident logs, internal-audit reports, vendor assurance, certification status.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No AI incident process or assurance",
+      "AI issues handled through general IT incident processes; no AI-specific assurance",
+      "AI incident categories and escalation defined; ad hoc reviews of AI controls",
+      "AI incident management with regulatory notification criteria; periodic internal audit of AI governance; assurance obtained from AI vendors",
+      "Post-incident learning drives improvement; AI management system certified or certification-ready (ISO/IEC 42001); assurance reported to the board"
+     ]
+    }
+   ]
+  },
+  {
+   "no": 5,
+   "section": "Part 3 - AI Risk & Security",
+   "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
+   "items": [
+    {
+     "tag": "Q9",
+     "title": "[Q9] Is there a documented AI risk management framework - risk taxonomy, assessment method, scoring scales and treatment process - integrated with enterprise risk management?",
+     "subtitle": "Examples of evidence: AI risk framework / methodology (e.g., aligned to ISO/IEC 23894 or NIST AI RMF), AI risk register, link to the enterprise risk register, completed assessments.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "AI risks are not identified or managed",
+      "AI risks considered informally within general IT or project risk",
+      "AI risk methodology drafted (taxonomy, scales) and applied to some AI initiatives",
+      "Approved AI risk framework aligned to ISO/IEC 23894 / NIST AI RMF, applied to all AI use cases and integrated with the enterprise risk register",
+      "Framework reviewed annually; AI risk aggregated across the portfolio and used in decisions; treatment effectiveness tested"
+     ]
+    },
+    {
+     "tag": "Q10",
+     "title": "[Q10] Has the board approved an AI risk appetite with measurable tolerances, and are key risk indicators (KRIs) monitored and reported with defined escalation?",
+     "subtitle": "Examples of evidence: approved AI risk appetite statement, KRI library with thresholds, risk dashboards, escalation and breach records.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No AI risk appetite or risk indicators",
+      "Enterprise risk appetite exists but does not address AI",
+      "AI risk appetite drafted; a few indicators tracked informally",
+      "Board-approved AI risk appetite with tolerances; KRIs with thresholds monitored and reported at least quarterly",
+      "KRIs automated with mandatory responses on breach; appetite reviewed annually and used to steer investment and approvals"
+     ]
+    },
+    {
+     "tag": "Q11",
+     "title": "[Q11] Do you maintain an inventory of AI systems with named owners, and assess AI risks and impacts (including third-party AI) before and after deployment?",
+     "subtitle": "Examples of evidence: AI register, risk-tiering records, impact assessments, vendor AI due diligence, re-assessment records.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No inventory; AI risks are not assessed",
+      "Partial list of AI tools; risks assessed occasionally through general IT or vendor processes",
+      "AI register with owners; risk assessments performed for some AI systems using a documented method",
+      "Complete AI register; all AI use cases risk-tiered and assessed (incl. third-party AI) with approvals proportionate to risk",
+      "Register reconciled quarterly; impact assessments (ISO/IEC 42005 / FRIA) for high-risk uses; re-assessment on change with KRIs monitored"
+     ]
+    },
+    {
+     "tag": "Q12",
+     "title": "[Q12] Are AI vendors, AI features in purchased software and foundation-model providers risk-assessed before use, with AI-specific contract clauses and ongoing monitoring?",
+     "subtitle": "Examples of evidence: AI vendor due-diligence questionnaire, contract clauses (no training on your data, residency, incident notice, audit rights), vendor assurance (ISO/IEC 42001, SOC 2), review records.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "AI vendors and AI features in software are not assessed",
+      "Standard IT procurement only; AI-specific risks not considered",
+      "AI questions added to vendor due diligence for some purchases; contract terms vary",
+      "Mandatory AI due diligence and standard AI contract clauses for all AI vendors; providers reviewed annually",
+      "Continuous monitoring of AI vendors and model changes; AI bill of materials maintained; exit plans for critical providers"
+     ]
+    },
+    {
+     "tag": "Q13",
+     "title": "[Q13] Are AI systems protected with least-privilege access, secure development and testing (incl. red teaming for prompt injection), and runtime logging?",
+     "subtitle": "Examples of evidence: AI threat models, access reviews (incl. agent identities), AI red-team reports, guardrail and sandbox configurations, audit logs. Detailed test: GT AI Security & Agent Audit Checklist.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "AI systems are not specifically considered in security controls",
+      "Standard IT security controls apply; no AI-specific threat assessment",
+      "AI-specific threats (e.g., prompt injection, data leakage) assessed for some systems; access controls and logging in place",
+      "Secure AI development lifecycle; least privilege for users, systems and agents; sandboxed tool execution; AI red teaming before release; runtime guardrails and audit logging",
+      "Continuous adversarial testing, AI supply-chain assurance (model scanning, AI-BOM) and forensic-ready logging integrated with the SOC"
+     ]
+    },
+    {
+     "tag": "Q14",
+     "title": "[Q14] Is the organisation prepared for AI-enabled attacks such as deepfake impersonation, AI-crafted phishing and automated exploitation?",
+     "subtitle": "Examples of evidence: AI threat intelligence, out-of-band verification procedures, deepfake simulations, SOC use cases, playbooks, patch metrics.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "AI-enabled threats not considered",
+      "General awareness only; no specific controls",
+      "Threat intelligence covers AI-enabled attacks; out-of-band verification for some high-risk requests",
+      "Deepfake-resilient verification for payments and sensitive requests; behaviour-based detection; AI incident playbooks exercised",
+      "Continuous exposure management and AI-specific red teaming; automated response at machine speed; critical vulnerabilities remediated in days"
+     ]
+    }
+   ]
+  },
+  {
+   "no": 6,
+   "section": "Part 3 - Training & Awareness",
+   "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
+   "items": [
+    {
+     "tag": "Q15",
+     "title": "[Q15] Have staff received AI literacy training appropriate to their role, and are specialist AI, governance and security skills being developed?",
+     "subtitle": "Examples of evidence: training curricula, completion records, role-based pathways, deepfake / phishing simulations, workforce plan.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No AI training provided",
+      "Ad hoc awareness sessions or self-learning only",
+      "Baseline AI literacy training available to all staff; limited role-based training",
+      "Mandatory AI literacy before tool access; role-based pathways for developers, oversight staff and leaders; scenario-based security awareness",
+      "Competence measured and refreshed annually; workforce plan addresses future AI skills and job redesign; active AI champions network"
+     ]
+    }
+   ]
+  },
+  {
+   "no": 7,
+   "section": "Part 3 - Strategy & Value",
+   "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
+   "items": [
+    {
+     "tag": "Q16",
+     "title": "[Q16] Is there executive ownership and an approved AI strategy that defines the ambition, priorities and where AI will (and will not) be used?",
+     "subtitle": "Examples of evidence: approved AI strategy, named executive sponsor, AI budget, communicated priorities and experimentation boundaries.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No AI strategy or executive owner; AI adoption is unplanned",
+      "Informal leadership interest; no documented strategy",
+      "Executive sponsor named and AI strategy drafted, but not linked to business objectives or budget",
+      "Approved AI strategy with executive ownership, priorities, budget and experimentation boundaries communicated to staff",
+      "Strategy reviewed at least annually by the board, linked to business strategy and tracked through KPIs"
+     ]
+    },
+    {
+     "tag": "Q17",
+     "title": "[Q17] How are AI use cases identified, prioritised, approved and measured for value?",
+     "subtitle": "Examples of evidence: intake form, prioritisation criteria, business cases, benefit KPIs, portfolio reviews.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No process - AI initiatives start ad hoc and value is not tracked",
+      "Some use cases discussed informally; business cases are rare",
+      "Use-case intake exists and initiatives are prioritised, but benefits are not systematically tracked",
+      "Structured intake and prioritisation by value, feasibility, data readiness and risk; KPIs tracked for major initiatives",
+      "Portfolio managed as a whole with quarterly value / risk reviews, stop-or-scale decisions, and shadow-AI demand routed into the governed pipeline"
+     ]
+    }
+   ]
+  },
+  {
+   "no": 8,
+   "section": "Part 3 - Data & Technology",
+   "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
+   "items": [
+    {
+     "tag": "Q18",
+     "title": "[Q18] Is data used by AI classified, quality-assured, traceable and protected in line with privacy requirements (e.g., Bahrain PDPL)?",
+     "subtitle": "Examples of evidence: data classification applied to AI, data-readiness assessments, lineage, DPIAs, redaction / anonymisation, transfer assessments.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Data used by AI is not classified or controlled; privacy requirements not considered",
+      "Data classification policy exists but is not applied to AI; privacy reviewed case by case",
+      "Classification and handling rules apply to AI; DPIAs performed for some AI using personal data",
+      "Data readiness assessed before approval; lineage and quality monitored; minimisation, anonymisation and prompt redaction applied; DPIAs standard",
+      "Automated quality, lineage and privacy controls across AI pipelines; data-subject rights and cross-border transfers handled for AI systems"
+     ]
+    },
+    {
+     "tag": "Q19",
+     "title": "[Q19] Is there a common AI reference architecture with standard integration patterns, and are AI systems monitored for performance, drift and cost?",
+     "subtitle": "Examples of evidence: reference architecture, approved platforms, integration / agent patterns, monitoring dashboards, cost reports.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No architectural standards; AI solutions built or bought in isolation",
+      "Some technical guidance exists; monitoring limited to availability",
+      "Reference architecture drafted; approved platforms and integration patterns for most AI; basic performance monitoring",
+      "Reference architecture adopted (data, models, agents, security); agent actions via a policy-enforcement gateway; performance, drift and bias monitored with thresholds; kill switches; cost governed",
+      "Full observability with KRIs and automated responses; governed path from citizen-developed AI to production; platform and vendor dependencies actively managed"
+     ]
+    },
+    {
+     "tag": "Q20",
+     "title": "[Q20] Are material AI / ML models independently validated before use and periodically, with a model inventory, performance thresholds and documented limitations?",
+     "subtitle": "Examples of evidence: model risk policy, model inventory with risk tiers, independent validation reports, performance monitoring, validation-findings tracker.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Models are not validated or inventoried",
+      "Developers test their own models; no independent review",
+      "Model inventory exists; validation performed for some material models",
+      "Independent validation before use and on a risk-based cycle; performance thresholds and limitations documented",
+      "Model risk management aligned to SR 11-7 / PRA SS1/23 principles, with continuous monitoring and findings tracked to closure"
+     ]
+    }
+   ]
+  },
+  {
+   "no": 9,
+   "section": "How we can help",
+   "desc": "Optional - a few open questions so we can tailor our follow-up. A short answer such as 'Yes, for all staff' or 'Not at this time' is fine.",
+   "items": [
+    {
+     "tag": "F1",
+     "title": "[F1] Would your organisation like to opt for AI training from us - for example AI literacy and security awareness for all staff, or role-based sessions for leaders, developers and oversight teams? Tell us what you have in mind.",
+     "subtitle": "",
+     "required": false,
+     "type": "longtext",
+     "options": []
+    },
+    {
+     "tag": "F2",
+     "title": "[F2] Would you like us to review your AI or automation systems (for example AI agents, chatbots, copilots or automated workflows) for security, controls and safe operation? Tell us which systems and what concerns you.",
+     "subtitle": "",
+     "required": false,
+     "type": "longtext",
+     "options": []
+    },
+    {
+     "tag": "F3",
+     "title": "[F3] Would you like a formal AI risk assessment - risk-tiering of your AI use cases, a risk register and recommended controls? Tell us which use cases or business areas matter most.",
+     "subtitle": "",
+     "required": false,
+     "type": "longtext",
+     "options": []
+    },
+    {
+     "tag": "F4",
+     "title": "[F4] Would you like our help to develop an AI strategy and roadmap - identifying where AI can add value, prioritising use cases and planning delivery? Tell us your goals and timeline.",
+     "subtitle": "",
+     "required": false,
+     "type": "longtext",
+     "options": []
+    }
+   ]
+  },
+  {
+   "no": 10,
+   "section": "Where should we send your report?",
+   "desc": "Last step. We use these details only to prepare and send your report and to respond to the requests you made on the previous page.",
+   "items": [
+    {
+     "tag": "P1",
+     "title": "[P1] Organisation name",
+     "subtitle": "",
+     "required": true,
+     "type": "text",
+     "options": []
+    },
+    {
+     "tag": "P6",
+     "title": "[P6] Your name",
+     "subtitle": "",
+     "required": true,
+     "type": "text",
+     "options": []
+    },
+    {
+     "tag": "P8",
+     "title": "[P8] Your email address (the report will be sent here)",
+     "subtitle": "Please use your company email address.",
+     "required": true,
+     "type": "text",
+     "options": []
+    }
+   ]
+  }
+ ]
+}
