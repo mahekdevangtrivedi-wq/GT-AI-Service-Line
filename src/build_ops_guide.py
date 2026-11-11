@@ -97,7 +97,7 @@ h("3. Step-by-step")
 h("3.1 Create the Microsoft Form", 2)
 bullets(["Follow online_form/GT_AI_Readiness_Form_Build_Guide.docx: forms.office.com > New Form > Quick import > upload GT_AI_Readiness_Form_QuickImport.docx (same questions and options as the questionnaire, in form order), then add the pages, the lavender theme and cover image, the intro (WHEN TO USE / WHAT YOU GET), the four open-ended questions and the final name / organisation / email page.",
          "Check the imported form: every question must be a single-choice question with the options A-E (or the listed options), except the free-text profile fields (organisation, names, email).",
-         "Do not edit the question tags in square brackets - [P1] ... [P14], [A1] ... [A4], [Q5] ... [Q20]. The report generator uses them to read the answers.",
+         "Do not reword the questions or options in the form: the report generator and the response converter match each answer to its question by the question wording (or by the [P#] / [A#] / [Q#] tag if the Word-questionnaire titles are used).",
          "Settings: Who can fill out this form = Anyone can respond; turn off 'Record name'; set a closing date; add the GT confidentiality note from the questionnaire to the form description.",
          "Use one form per client (Duplicate the master form and rename it '<Client> - AI Readiness Assessment'). This keeps responses separated.",
          "Send the link to the client sponsor with the agreed deadline. For a team response, ask the sponsor to submit one consolidated response."], "List Number")
@@ -139,7 +139,7 @@ h("5. Troubleshooting")
 tbl([["Message / issue", "Cause", "Fix"],
      ["answer not recognised: '...'", "Option text was edited in the form or typed by hand", "Use the exact option text or its letter A-E in the responses file"],
      ["LibreOffice (soffice) not found", "LibreOffice not installed / not on the default path", "Install LibreOffice; on Windows the default install path is detected automatically"],
-     ["A question is reported as unanswered", "Column header lost its [tag] in Forms", "Restore the tag in the form title, or rename the column header in the export to include it"],
+     ["A question is reported as unanswered", "The question was reworded in Forms, so its column header no longer matches", "Restore the original wording in the form, or rename the column header in the export to start with the original question text"],
      ["Report has more / fewer pages than usual", "Long free-text answers or many findings", "Normal - pagination is automatic. Check no section is cut off"],
      ["Client asks for the Excel tool", "-", "Explain the methodology is proprietary; offer the debrief and, under the Plus option, the detailed evidence review"]], [5, 5, 6.5])
 

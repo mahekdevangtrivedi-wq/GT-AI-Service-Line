@@ -67,7 +67,7 @@ OPTIONAL = {"P5"}
 # ------------------------------------------------------------------ 2. form definition
 def Q(tag, required=True, text=None, long=False):
     q = questions[tag]
-    d = dict(tag=tag, title=f"[{tag}] {q['title']}", subtitle=q["hint"], required=required and tag not in OPTIONAL,
+    d = dict(tag=tag, title=q['title'], subtitle=q["hint"], required=required and tag not in OPTIONAL,
              type="text" if q["text"] else "choice", options=q["options"])
     if long: d["type"] = "longtext"
     return d
@@ -100,17 +100,13 @@ CHOICE_RULE = ("Choose the ONE statement that best describes the situation today
                "lower one.")
 
 PAGES = [
-    dict(no=1, section=None, title=FORM_TITLE, desc=INTRO + "\n\n" + WHEN, items=[
-        dict(tag="C0", title="Ready to begin?", subtitle=GET + "\n\nYour report will be generated and sent within 5 working days.",
-             required=True, type="choice", options=["Yes - start the assessment"])]),
-    dict(no=2, section="Part 1 - Organisation profile",
-         desc="A few quick questions so the report reflects your regulatory context. Your contact details are collected on the last page.",
+    dict(no=1, section=None, title=FORM_TITLE, desc=INTRO + "\n\n" + WHEN + "\n\n" + GET,
          items=[Q(t) for t in ["P2", "P3", "P4", "P5", "P7", "P9", "P10", "P11", "P12", "P13", "P14"]]),
-    dict(no=3, section="Part 2 - How AI is used in your organisation",
+    dict(no=2, section="Part 2 - How AI is used in your organisation",
          desc="These questions describe your AI use and its potential impact. There are no right or wrong answers.",
          items=[Q(t) for t in ["A1", "A2", "A3", "A4"]]),
 ]
-n = 4
+n = 3
 for a in AREAS:
     PAGES.append(dict(no=n, section=f"Part 3 - {a}", desc=CHOICE_RULE,
                       items=[Q(t) for t, q in questions.items() if q["area"] == a])); n += 1
@@ -126,23 +122,21 @@ FOLLOW = [
 ]
 PAGES.append(dict(no=n, section="How we can help",
                   desc="Optional - a few open questions so we can tailor our follow-up. A short answer such as 'Yes, for all staff' or 'Not at this time' is fine.",
-                  items=[dict(tag=t, title=f"[{t}] {x}", subtitle="", required=False, type="longtext", options=[]) for t, x in FOLLOW])); n += 1
+                  items=[dict(tag=t, title=x, subtitle="", required=False, type="longtext", options=[]) for t, x in FOLLOW])); n += 1
 PAGES.append(dict(no=n, section="Where should we send your report?",
                   desc="Last step. We use these details only to prepare and send your report and to respond to the requests you made on the previous page.",
                   items=[Q("P1"), Q("P6"), Q("P8")]))
 # the final-page questions get shorter, clearer titles in the form (tag kept for mapping)
-PAGES[-1]["items"][0]["title"] = "[P1] Organisation name"
-PAGES[-1]["items"][1]["title"] = "[P6] Your name"
-PAGES[-1]["items"][2]["title"] = "[P8] Your email address (the report will be sent here)"
 PAGES[-1]["items"][2]["subtitle"] = "Please use your company email address."
 for p in PAGES[-1]["items"]: p["type"] = "text"
 
 flat = [i for p in PAGES for i in p["items"]]
-assert len(flat) == 34 + 1 + 4, len(flat)
+assert len(flat) == 34 + 4, len(flat)
 spec = dict(title=FORM_TITLE, theme=dict(colour="#" + LAV, background="form_images/GT_Form_Background_2000x1200.png",
             banner="form_images/GT_Form_Cover_Banner_1600x500.png"), confirmation=CONFIRM, pages=PAGES)
 json.dump(spec, open(os.path.join(OUT, "form_spec.json"), "w"), indent=1, ensure_ascii=False)
-print("description length (chars):", len(INTRO + "\n\n" + WHEN), "| 'ready' subtitle:", len(flat[0]["subtitle"]))
+DESC = INTRO + "\n\n" + WHEN + "\n\n" + GET
+print("description length (chars):", len(DESC))
 
 # ------------------------------------------------------------------ 3. images
 def font(sz, bold=False):
@@ -212,12 +206,15 @@ qi = Document()
 s = qi.sections[0]; s.page_width = Cm(50); s.page_height = Cm(29.7); s.left_margin = s.right_margin = Cm(2); s.top_margin = s.bottom_margin = Cm(1.8)
 st = qi.styles["Normal"]; st.font.name = "Calibri"; st.font.size = Pt(11)
 t = qi.add_paragraph(); r = t.add_run(FORM_TITLE); r.bold = True; r.font.size = Pt(20)
-qi.add_paragraph(); qi.add_paragraph()
+for blk in (INTRO, WHEN, GET):
+    qi.add_paragraph()
+    for ln in blk.split("\n"):
+        if ln.strip(): qi.add_paragraph(ln)
+qi.add_paragraph(); qi.add_paragraph(); qi.add_paragraph()
 LET = "ABCDEFGHIJKL"
 k = 0
 for pg in PAGES:
     for it in pg["items"]:
-        if it["tag"] == "C0": continue
         k += 1
         p = qi.add_paragraph(); p.paragraph_format.keep_with_next = bool(it["options"])
         title = f"{k}. {it['title']}" + (f" {it['subtitle']}" if it["subtitle"] and it["options"] else "")
@@ -239,9 +236,7 @@ ex.sheet_properties.tabColor = LAV; ld.sheet_properties.tabColor = LAV_DARK; st_
 
 # Forms export sheet: expected header row (pre-filled; the real export can simply be pasted over A1)
 sys_cols = ["ID", "Start time", "Completion time", "Email", "Name"]
-heads = sys_cols + [i["title"] for i in flat if i["tag"] != "C0"] + []
-# keep C0 in order for completeness
-heads = sys_cols + [i["title"] if i["tag"] != "C0" else "Ready to begin?" for i in flat]
+heads = sys_cols + [i["title"] for i in flat]
 for j, h in enumerate(heads, 1):
     c = ex.cell(1, j, h); c.font = Font(bold=True, color="FFFFFF", size=9); c.fill = HFILL; c.alignment = Alignment(wrap_text=True, vertical="center"); c.border = BOX
     ex.column_dimensions[CL(j)].width = 18 if j <= 5 else 30
@@ -262,9 +257,12 @@ ld["D4"] = '="of "&MAX(0,COUNTA(\'Forms export\'!$A:$A)-1)&" responses pasted  (
 ld["B5"] = "Sheet row used"; ld["C5"] = "=C4+1"; ld["C5"].alignment = Alignment(horizontal="center")
 ld["B6"] = "Check"; ld["B6"].font = Font(bold=True)
 
-def pick(tag):   # raw value for a tag from the loaded export row
-    return (f"=IFERROR(IF(INDEX('Forms export'!$A:$ZZ,$C$5,MATCH(\"*[{tag}]*\",'Forms export'!$1:$1,0))=\"\",\"\","
-            f"INDEX('Forms export'!$A:$ZZ,$C$5,MATCH(\"*[{tag}]*\",'Forms export'!$1:$1,0))),\"\")")
+TITLE = {i["tag"]: i["title"] for i in flat}
+def pick(tag):   # raw value for a question from the loaded export row: header starts with the question wording (or carries its [tag])
+    pre = TITLE[tag][:60].replace('"', '""')
+    col = (f"IFERROR(MATCH(\"{pre}*\",'Forms export'!$1:$1,0),IFERROR(MATCH(\"*] {pre}*\",'Forms export'!$1:$1,0),"
+           f"MATCH(\"*[{tag}]*\",'Forms export'!$1:$1,0)))")
+    return (f"=IFERROR(IF(INDEX('Forms export'!$A:$ZZ,$C$5,{col})=\"\",\"\",INDEX('Forms export'!$A:$ZZ,$C$5,{col})),\"\")")
 
 def strip_prefix(ref):  # drop a leading option marker ("A. " / "12. ") if Quick import kept it
     f = f'FIND(". ",{ref})'
@@ -337,14 +335,11 @@ ld.merge_cells("C6:E6")
 ld.cell(row, 2, "FOLLOW-UP (for GT sales / delivery - not for the engine)").font = Font(bold=True, color="FFFFFF")
 for c in range(2, 7): ld.cell(row, c).fill = HFILL
 row += 1
-for tag, label in [("C0", "Confirmed ready to begin")] + [(t, l) for t, l in zip(["F1", "F2", "F3", "F4"], ["AI training", "Review of AI / automation systems", "AI risk assessment", "AI strategy & roadmap"])]:
+for tag, label in [(t, l) for t, l in zip(["F1", "F2", "F3", "F4"], ["AI training", "Review of AI / automation systems", "AI risk assessment", "AI strategy & roadmap"])]:
     ld.cell(row, 2, label); ld.cell(row, 3, tag).alignment = Alignment(horizontal="center", vertical="top")
-    if tag == "C0":
-        ld.cell(row, 4, "=IFERROR(INDEX('Forms export'!$A:$ZZ,$C$5,MATCH(\"Ready to begin?\",'Forms export'!$1:$1,0)),\"\")")
-    else:
-        ld.cell(row, 4, pick(tag).replace("$C$5,MATCH", "$C$5,MATCH"))
+    ld.cell(row, 4, pick(tag))
     ld.merge_cells(start_row=row, start_column=4, end_row=row, end_column=5)
-    ld.cell(row, 4).alignment = Alignment(wrap_text=True, vertical="top"); ld.row_dimensions[row].height = 48 if tag != "C0" else 18
+    ld.cell(row, 4).alignment = Alignment(wrap_text=True, vertical="top"); ld.row_dimensions[row].height = 48
     for c in range(2, 7): ld.cell(row, c).border = BOX
     row += 1
 ld.freeze_panes = "A8"
@@ -356,7 +351,7 @@ st_["B1"] = "GT AI Readiness - Response Converter"; st_["B1"].font = Font(bold=T
 st_["B2"] = "GT internal. Turns a Microsoft Forms response into engine-ready values. It contains no scoring logic."; st_["B2"].font = Font(italic=True, color="6B6B6B")
 steps = [
     "In Microsoft Forms open the form > Responses > 'Open results in Excel' (or download). Select the whole table INCLUDING the header row.",
-    "Paste it into the 'Forms export' sheet at cell A1 (it overwrites the example header row). Column order does not matter - answers are found by the [P#] / [A#] / [Q#] tags in the headers.",
+    "Paste it into the 'Forms export' sheet at cell A1 (it overwrites the example header row). Column order does not matter - answers are found by matching each column header to the question wording.",
     "Go to 'Load response', set the response number (1 = the first response under the header). Check that it says 'All required answers found'.",
     "Open GT_AI_Readiness_Assessment_Tool.xlsx (the engine). Save a copy first: <Organisation>_Engine.xlsx.",
     "For each of the four yellow blocks: select the yellow range, Copy, go to the engine cell named in the block title, Paste Special > Values. The engine then scores the answers and the 3. Report sheet fills in.",
@@ -424,10 +419,10 @@ g.add_paragraph("The engine (GT_AI_Readiness_Assessment_Tool.xlsx) is never shar
 g.add_heading("2. Build the form", 1)
 step(1, "Create.", "Go to forms.office.com > New Form. Name it 'AI Readiness & Risk Assessment'.")
 step(2, "Fast path - Quick import.", "On the Forms home page choose Quick import and upload GT_AI_Readiness_Form_QuickImport.docx. Microsoft's documentation says Quick import converts titles, subtitles, multiple-choice and open-text questions from a Word or PDF file; "
-     "check the result (open-text questions are plain numbered lines in the file and should import as text questions), make sure each question is single-answer (not multi-select), and that the question title still starts with its tag, e.g. [Q5]. If Quick import is not offered on your account, add the questions manually - the layout table in section 3 and form_spec.json give every title, subtitle and option.")
+     "check the result (open-text questions are plain numbered lines in the file and should import as text questions), make sure each question is single-answer (not multi-select), and that the question wording is unchanged (the converter finds answers by the wording). If Quick import is not offered on your account, add the questions manually - the layout table in section 3 and form_spec.json give every title, subtitle and option.")
 step(3, "Title and introduction.", "Paste the form title and description from section 4. Insert the cover banner image above the title (the image icon in the title area); if your Forms version does not offer that, add it to the first question with Insert media. "
-     "The 'Ready to begin?' question carries the WHAT YOU GET block and makes page 1 a proper intro page with a Next button.")
-step(4, "Sections (pages).", "Add one section per row of the layout table in section 3 (Add new > Section) and drag the questions into them. Mark every assessment question Required; leave [P5] and [F1]-[F4] optional.")
+     "The Quick import file already carries the intro under the title, so check that the description box holds it (WHEN TO USE THIS TOOL and WHAT YOU GET); if it is cut off, paste it from section 4.")
+step(4, "Sections (pages).", "Add one section per row of the layout table in section 3 (Add new > Section) and drag the questions into them. Mark every assessment question Required; leave the scope description and the four open-ended questions optional.")
 step(5, "Theme.", f"Style (paint-brush icon) > custom colour, enter #{LAV}, then upload form_images/GT_Form_Background_2000x1200.png as the background image. Forms crops background images to fit, so the artwork keeps its key detail away from the edges.")
 step(6, "Settings.", "... > Settings: Who can fill out this form = Anyone can respond; untick 'Record name'; do not tick 'One response per person' for anonymous links; add the thank-you message from section 4 under 'Customise thank you message'; leave 'Shuffle options' off. Preview on desktop and phone, submit one test response, then delete it.")
 step(7, "Responses in Excel.", "Responses tab > Open results in Excel. Forms keeps one row per submission. Keep that workbook private to GT - it contains the clients' answers and the form owner's OneDrive holds it; never share it with clients.")
@@ -437,13 +432,12 @@ g.add_heading("3. Page-by-page layout", 1)
 tb = g.add_table(rows=1, cols=4); tb.style = "Table Grid"
 for c, h_ in zip(tb.rows[0].cells, ["Page", "Section title", "Questions (tag)", "Notes"]):
     c.text = ""; rr = c.paragraphs[0].add_run(h_); rr.bold = True; rr.font.size = Pt(9.5); rr.font.color.rgb = RGBColor(255, 255, 255); shade(c, LAV_DARK)
-notes = {1: "Form header + 'Ready to begin?'. Intro page: WHEN TO USE and WHAT YOU GET, 5-day report promise.",
-         2: "11 questions. [P1], [P6], [P8] are collected on the last page instead.",
-         3: "AI use and inherent-risk questions (A1-A4).", 4: "Governance structure, policy, guardrails, incidents.",
-         5: "Risk framework, appetite, inventory, third parties, securing AI, AI-enabled threats.", 6: "AI literacy and skills.",
-         7: "Strategy, use-case portfolio.", 8: "Data governance, architecture, model risk.",
-         9: "Four optional open-ended questions: training, systems review, risk assessment, strategy and roadmap.",
-         10: "Name, organisation, company email only, then Submit."}
+notes = {1: "Form header with the intro (WHEN TO USE, WHAT YOU GET, 5-day report promise), then the 11 profile questions. Name, organisation and email are collected on the last page instead.",
+         2: "AI use and inherent-risk questions (A1-A4).", 3: "Governance structure, policy, guardrails, incidents.",
+         4: "Risk framework, appetite, inventory, third parties, securing AI, AI-enabled threats.", 5: "AI literacy and skills.",
+         6: "Strategy, use-case portfolio.", 7: "Data governance, architecture, model risk.",
+         8: "Four optional open-ended questions: training, systems review, risk assessment, strategy and roadmap.",
+         9: "Name, organisation, company email only, then Submit."}
 for pg in PAGES:
     r_ = tb.add_row().cells
     tags = ", ".join(i["tag"] for i in pg["items"])
@@ -453,21 +447,19 @@ for pg in PAGES:
 for row_ in tb.rows:
     for c, w in zip(row_.cells, (Cm(1.2), Cm(5.0), Cm(5.0), Cm(5.8))): c.width = w
 g.add_paragraph()
-g.add_paragraph("Order matters only for the respondent. The converter and the report generator find each answer by the [P#] / [A#] / [Q#] tag in the question title, so keep the tag at the start of every title.")
+g.add_paragraph("Order matters only for the respondent. The converter and the report generator find each answer by the question wording in the column header, so do not reword the questions (the engine ID in the table, e.g. Q5, is for reference and is not shown in the form).")
 
 g.add_heading("4. Text to paste into the form", 1)
 g.add_paragraph("Form title").runs[0].bold = True
 box(FORM_TITLE)
-g.add_paragraph("Form description (page 1) - about %d characters" % len(INTRO + "\n\n" + WHEN)).runs[0].bold = True
-box(INTRO + "\n\n" + WHEN, mono=False)
-g.add_paragraph("'Ready to begin?' - question title / subtitle / single option (required)").runs[0].bold = True
-box("Title: Ready to begin?\nSubtitle:\n" + flat[0]["subtitle"] + "\nOption: Yes - start the assessment")
+g.add_paragraph("Form description (page 1) - about %d characters" % len(DESC)).runs[0].bold = True
+box(DESC, mono=False)
 g.add_paragraph("Section titles and descriptions").runs[0].bold = True
 box("\n\n".join(f"{p['section']}\n{p['desc']}" for p in PAGES[1:]), size=9)
 g.add_paragraph("Open-ended questions (page 9) - Long answer, optional").runs[0].bold = True
-box("\n\n".join(f"[{t}] {x}" for t, x in FOLLOW), size=9)
+box("\n\n".join(x for t, x in FOLLOW), size=9)
 g.add_paragraph("Last page - three short-answer questions, all required").runs[0].bold = True
-box("[P1] Organisation name\n[P6] Your name\n[P8] Your email address (the report will be sent here)   - subtitle: Please use your company email address.", size=9)
+box("Organisation name\nYour name\nYour email address (the report will be sent here)   - subtitle: Please use your company email address.", size=9)
 g.add_paragraph("Thank-you message (Settings)").runs[0].bold = True
 box(CONFIRM)
 
@@ -475,20 +467,20 @@ g.add_heading("5. From response to report", 1)
 g.add_paragraph("Option A - paste into Excel (one response at a time)").runs[0].bold = True
 step(1, "Export.", "Forms > Responses > Open results in Excel. Select the whole table including the header row.")
 step(2, "Paste.", "Open GT_AI_Readiness_Form_Response_Converter.xlsx > 'Forms export' sheet > paste at A1. Go to 'Load response' and set the response number (1 = first response).")
-step(3, "Check.", "The cell under the response number should read 'All answers found and recognised'. If a row says MISSING or CHECK TEXT, the question was skipped or its wording was edited in Forms - fix the answer or the question title tag.")
+step(3, "Check.", "The cell under the response number should read 'All answers found and recognised'. If a row says MISSING or CHECK TEXT, the question was skipped or its wording was edited in Forms - fix the answer or restore the original question wording.")
 step(4, "Fill the engine.", "Save a copy of the engine as <Organisation>_Engine.xlsx. Copy each of the four yellow blocks and Paste Special > Values at the cell named in the block title: '1. Profile' C4:C13, '1. Profile' C16:C21, '2. Assessment' E10:E13, '2. Assessment' E15:E30. The date is the Forms completion date.")
 step(5, "Report.", "The '3. Report' sheet fills in. Save it as PDF and email it from your own mailbox; the report is due within 5 working days of the submission. Never send the engine or the converter.")
 g.add_paragraph("Option B - one command for one or many responses").runs[0].bold = True
 box("python src/generate_readiness_reports.py  FormsExport.xlsx  GT_AI_Readiness_Assessment_Tool.xlsx  OUT_DIR", mono=True)
 g.add_paragraph("It reads the same export directly and writes, per organisation, the PDF report, an Outlook email draft with the PDF attached and a filled copy of the engine. "
                 "Both options were tested on a Forms-format export with the extra system columns and the follow-up questions: they give the same scores.")
-g.add_paragraph("The [F1]-[F4] answers and the 'Ready to begin?' confirmation are ignored by the engine. Read them on the 'Load response' sheet (FOLLOW-UP block) or in the export to follow up with training, systems review, risk assessment and strategy proposals.")
+g.add_paragraph("The four open-ended answers are ignored by the engine. Read them on the 'Load response' sheet (FOLLOW-UP block) or in the export to follow up with training, systems review, risk assessment and strategy proposals.")
 
 g.add_heading("6. Good to know", 1)
 for lead, txt in [
     ("Question wording. ", "Titles and options are copied from the questionnaire. If you edit an option in Forms the converter flags it (CHECK TEXT) and the generator rejects it, because the engine matches the exact text."),
     ("Letters in options. ", "The form shows plain option text. If Quick import keeps a leading 'A.' or '1.' the converter and the generator strip it automatically."),
-    ("Character limits. ", "Community answers cite roughly 4,000 characters per question field and 1,000-1,700 for the form description; the description here is %d characters and the longest question block about 900. Check the preview for truncation." % len(INTRO + "\n\n" + WHEN)),
+    ("Character limits. ", "Community answers cite roughly 4,000 characters per question field and 1,000-1,700 for the form description; the description here is %d characters and the longest question block about 900. Check the preview for truncation." % len(DESC)),
     ("Email check. ", "Forms short-answer questions may not validate email format; the report email address is read from [P8], so look at it before sending."),
     ("Where the answers live. ", "In the Excel workbook linked to the form in the form owner's OneDrive. Move the export into the engagement folder; do not share the workbook with the client."),
     ("Changing a question. ", "Edit build_questionnaire.py / tool_data.py, regenerate the questionnaire, then rerun build_forms_pack.py so the form, converter and engine stay aligned."),

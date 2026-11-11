@@ -11,28 +11,11 @@
    "no": 1,
    "section": null,
    "title": "AI Readiness & Risk Assessment",
-   "desc": "Grant Thornton Bahrain  |  AI Governance, Risk & Compliance\n\nThis assessment takes about 20-25 minutes. For each question choose ONE answer - the statement that best describes your organisation today. If you are unsure between two answers, choose the lower one: Grant Thornton may ask for supporting evidence. Your answers are confidential and used only to prepare your report.\n\nYour report will be generated and sent to your email within 5 working days of submission.\n\nWHEN TO USE THIS TOOL\n- Before or early in your AI journey, to baseline readiness\n- Before scaling AI or deploying AI that affects customers or decisions\n- When AI is discovered in use without assessment (shadow AI)\n- When risk or context changes: new data, model, vendor, purpose or less human oversight\n- Annually, to track maturity progress\n\nPublic GenAI tools used for low-risk drafting may be governed by your Acceptable Use Policy instead (AIAF approach).",
-   "items": [
-    {
-     "tag": "C0",
-     "title": "Ready to begin?",
-     "subtitle": "WHAT YOU GET\n- Overall AI readiness score and maturity level\n- Inherent AI risk tier (Low / Medium / High / Critical)\n- Overall AI risk exposure and recommended oversight pathway\n- Domain radar chart and responsible-AI principle coverage\n- Findings, potential risks and recommendations per area\n- Top-5 priorities and a phased roadmap\n- Applicable regulations (Bahrain PDPL, CBB, EU AI Act, GCC)\n- Printable report you can save as PDF and email\n\nYour report will be generated and sent within 5 working days.",
-     "required": true,
-     "type": "choice",
-     "options": [
-      "Yes - start the assessment"
-     ]
-    }
-   ]
-  },
-  {
-   "no": 2,
-   "section": "Part 1 - Organisation profile",
-   "desc": "A few quick questions so the report reflects your regulatory context. Your contact details are collected on the last page.",
+   "desc": "Grant Thornton Bahrain  |  AI Governance, Risk & Compliance\n\nThis assessment takes about 20-25 minutes. For each question choose ONE answer - the statement that best describes your organisation today. If you are unsure between two answers, choose the lower one: Grant Thornton may ask for supporting evidence. Your answers are confidential and used only to prepare your report.\n\nYour report will be generated and sent to your email within 5 working days of submission.\n\nWHEN TO USE THIS TOOL\n- Before or early in your AI journey, to baseline readiness\n- Before scaling AI or deploying AI that affects customers or decisions\n- When AI is discovered in use without assessment (shadow AI)\n- When risk or context changes: new data, model, vendor, purpose or less human oversight\n- Annually, to track maturity progress\n\nPublic GenAI tools used for low-risk drafting may be governed by your Acceptable Use Policy instead (AIAF approach).\n\nWHAT YOU GET\n- Overall AI readiness score and maturity level\n- Inherent AI risk tier (Low / Medium / High / Critical)\n- Overall AI risk exposure and recommended oversight pathway\n- Domain radar chart and responsible-AI principle coverage\n- Findings, potential risks and recommendations per area\n- Top-5 priorities and a phased roadmap\n- Applicable regulations (Bahrain PDPL, CBB, EU AI Act, GCC)\n- Printable report you can save as PDF and email",
    "items": [
     {
      "tag": "P2",
-     "title": "[P2] Sector",
+     "title": "Sector",
      "subtitle": "",
      "required": true,
      "type": "choice",
@@ -53,7 +36,7 @@
     },
     {
      "tag": "P3",
-     "title": "[P3] Organisation size",
+     "title": "Organisation size",
      "subtitle": "",
      "required": true,
      "type": "choice",
@@ -67,7 +50,7 @@
     },
     {
      "tag": "P4",
-     "title": "[P4] Scope of this assessment",
+     "title": "Scope of this assessment",
      "subtitle": "",
      "required": true,
      "type": "choice",
@@ -79,7 +62,7 @@
     },
     {
      "tag": "P5",
-     "title": "[P5] Scope description (optional)",
+     "title": "Scope description (optional)",
      "subtitle": "",
      "required": false,
      "type": "text",
@@ -87,7 +70,7 @@
     },
     {
      "tag": "P7",
-     "title": "[P7] Your role / title",
+     "title": "Your role / title",
      "subtitle": "",
      "required": true,
      "type": "text",
@@ -95,7 +78,7 @@
     },
     {
      "tag": "P9",
-     "title": "[P9] Is the organisation licensed by the Central Bank of Bahrain (CBB)?",
+     "title": "Is the organisation licensed by the Central Bank of Bahrain (CBB)?",
      "subtitle": "",
      "required": true,
      "type": "choice",
@@ -106,7 +89,7 @@
     },
     {
      "tag": "P10",
-     "title": "[P10] Do AI systems process personal data of individuals in Bahrain?",
+     "title": "Do AI systems process personal data of individuals in Bahrain?",
      "subtitle": "",
      "required": true,
      "type": "choice",
@@ -117,7 +100,7 @@
     },
     {
      "tag": "P11",
-     "title": "[P11] Are AI-enabled products / services offered in the EU, or AI outputs used in the EU?",
+     "title": "Are AI-enabled products / services offered in the EU, or AI outputs used in the EU?",
      "subtitle": "",
      "required": true,
      "type": "choice",
@@ -128,7 +111,7 @@
     },
     {
      "tag": "P12",
-     "title": "[P12] Does the organisation operate in KSA, UAE or other GCC markets?",
+     "title": "Does the organisation operate in KSA, UAE or other GCC markets?",
      "subtitle": "",
      "required": true,
      "type": "choice",
@@ -139,7 +122,7 @@
     },
     {
      "tag": "P13",
-     "title": "[P13] Is the organisation a government entity or public-sector body?",
+     "title": "Is the organisation a government entity or public-sector body?",
      "subtitle": "",
      "required": true,
      "type": "choice",
@@ -150,7 +133,7 @@
     },
     {
      "tag": "P14",
-     "title": "[P14] Does the organisation develop AI (provider) or only use it (deployer)?",
+     "title": "Does the organisation develop AI (provider) or only use it (deployer)?",
      "subtitle": "",
      "required": true,
      "type": "choice",
@@ -163,13 +146,13 @@
    ]
   },
   {
-   "no": 3,
+   "no": 2,
    "section": "Part 2 - How AI is used in your organisation",
    "desc": "These questions describe your AI use and its potential impact. There are no right or wrong answers.",
    "items": [
     {
      "tag": "A1",
-     "title": "[A1] Which statement best describes how AI is used in your organisation today (including AI embedded in software and tools used by staff)?",
+     "title": "Which statement best describes how AI is used in your organisation today (including AI embedded in software and tools used by staff)?",
      "subtitle": "Consider approved and unapproved tools, vendor software with AI features and AI used by suppliers on your behalf.",
      "required": true,
      "type": "choice",
@@ -183,7 +166,7 @@
     },
     {
      "tag": "A2",
-     "title": "[A2] What is the most significant type of decision or outcome your AI systems influence?",
+     "title": "What is the most significant type of decision or outcome your AI systems influence?",
      "subtitle": "Answer for the highest-impact AI use case in scope (AIAF: 'worst credible harm').",
      "required": true,
      "type": "choice",
@@ -197,7 +180,7 @@
     },
     {
      "tag": "A3",
-     "title": "[A3] What is the most sensitive data processed by your AI systems (including data staff enter into AI tools)?",
+     "title": "What is the most sensitive data processed by your AI systems (including data staff enter into AI tools)?",
      "subtitle": "Include prompts, uploaded documents, training / fine-tuning data, retrieval sources and logs.",
      "required": true,
      "type": "choice",
@@ -211,7 +194,7 @@
     },
     {
      "tag": "A4",
-     "title": "[A4] How much human oversight applies to AI outputs, and how reversible are the outcomes?",
+     "title": "How much human oversight applies to AI outputs, and how reversible are the outcomes?",
      "subtitle": "AIAF considers autonomy, human oversight and whether outputs are reversible or correctable.",
      "required": true,
      "type": "choice",
@@ -226,13 +209,13 @@
    ]
   },
   {
-   "no": 4,
+   "no": 3,
    "section": "Part 3 - AI Governance",
    "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
    "items": [
     {
      "tag": "Q5",
-     "title": "[Q5] Is there a defined AI governance structure - board / executive oversight, an AI committee with decision rights, named owners for every AI system and clear three-lines-of-defence responsibilities?",
+     "title": "Is there a defined AI governance structure - board / executive oversight, an AI committee with decision rights, named owners for every AI system and clear three-lines-of-defence responsibilities?",
      "subtitle": "Examples of evidence: board / ExCo terms of reference covering AI, AI committee charter, RACI, AI system owner register, internal-audit coverage.",
      "required": true,
      "type": "choice",
@@ -246,7 +229,7 @@
     },
     {
      "tag": "Q6",
-     "title": "[Q6] Do you have an approved AI (acceptable-use) policy and a process to identify and comply with applicable AI-related regulation (e.g., Bahrain PDPL, CBB rules, EU AI Act)?",
+     "title": "Do you have an approved AI (acceptable-use) policy and a process to identify and comply with applicable AI-related regulation (e.g., Bahrain PDPL, CBB rules, EU AI Act)?",
      "subtitle": "Examples of evidence: AI policy, approved-tools list, staff acknowledgements, obligations register, compliance reviews.",
      "required": true,
      "type": "choice",
@@ -260,7 +243,7 @@
     },
     {
      "tag": "Q7",
-     "title": "[Q7] Are there practical guardrails for fairness, transparency and human oversight, overseen by an AI committee or centre of excellence?",
+     "title": "Are there practical guardrails for fairness, transparency and human oversight, overseen by an AI committee or centre of excellence?",
      "subtitle": "Examples of evidence: committee / CoE charter, guardrail standards, human-in-charge procedures, bias tests, AI disclosures, appeal routes.",
      "required": true,
      "type": "choice",
@@ -274,7 +257,7 @@
     },
     {
      "tag": "Q8",
-     "title": "[Q8] Are AI incidents detected, managed and reported, and is AI governance subject to internal audit or independent assurance?",
+     "title": "Are AI incidents detected, managed and reported, and is AI governance subject to internal audit or independent assurance?",
      "subtitle": "Examples of evidence: AI incident categories, notification criteria, incident logs, internal-audit reports, vendor assurance, certification status.",
      "required": true,
      "type": "choice",
@@ -289,13 +272,13 @@
    ]
   },
   {
-   "no": 5,
+   "no": 4,
    "section": "Part 3 - AI Risk & Security",
    "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
    "items": [
     {
      "tag": "Q9",
-     "title": "[Q9] Is there a documented AI risk management framework - risk taxonomy, assessment method, scoring scales and treatment process - integrated with enterprise risk management?",
+     "title": "Is there a documented AI risk management framework - risk taxonomy, assessment method, scoring scales and treatment process - integrated with enterprise risk management?",
      "subtitle": "Examples of evidence: AI risk framework / methodology (e.g., aligned to ISO/IEC 23894 or NIST AI RMF), AI risk register, link to the enterprise risk register, completed assessments.",
      "required": true,
      "type": "choice",
@@ -309,7 +292,7 @@
     },
     {
      "tag": "Q10",
-     "title": "[Q10] Has the board approved an AI risk appetite with measurable tolerances, and are key risk indicators (KRIs) monitored and reported with defined escalation?",
+     "title": "Has the board approved an AI risk appetite with measurable tolerances, and are key risk indicators (KRIs) monitored and reported with defined escalation?",
      "subtitle": "Examples of evidence: approved AI risk appetite statement, KRI library with thresholds, risk dashboards, escalation and breach records.",
      "required": true,
      "type": "choice",
@@ -323,7 +306,7 @@
     },
     {
      "tag": "Q11",
-     "title": "[Q11] Do you maintain an inventory of AI systems with named owners, and assess AI risks and impacts (including third-party AI) before and after deployment?",
+     "title": "Do you maintain an inventory of AI systems with named owners, and assess AI risks and impacts (including third-party AI) before and after deployment?",
      "subtitle": "Examples of evidence: AI register, risk-tiering records, impact assessments, vendor AI due diligence, re-assessment records.",
      "required": true,
      "type": "choice",
@@ -337,7 +320,7 @@
     },
     {
      "tag": "Q12",
-     "title": "[Q12] Are AI vendors, AI features in purchased software and foundation-model providers risk-assessed before use, with AI-specific contract clauses and ongoing monitoring?",
+     "title": "Are AI vendors, AI features in purchased software and foundation-model providers risk-assessed before use, with AI-specific contract clauses and ongoing monitoring?",
      "subtitle": "Examples of evidence: AI vendor due-diligence questionnaire, contract clauses (no training on your data, residency, incident notice, audit rights), vendor assurance (ISO/IEC 42001, SOC 2), review records.",
      "required": true,
      "type": "choice",
@@ -351,7 +334,7 @@
     },
     {
      "tag": "Q13",
-     "title": "[Q13] Are AI systems protected with least-privilege access, secure development and testing (incl. red teaming for prompt injection), and runtime logging?",
+     "title": "Are AI systems protected with least-privilege access, secure development and testing (incl. red teaming for prompt injection), and runtime logging?",
      "subtitle": "Examples of evidence: AI threat models, access reviews (incl. agent identities), AI red-team reports, guardrail and sandbox configurations, audit logs. Detailed test: GT AI Security & Agent Audit Checklist.",
      "required": true,
      "type": "choice",
@@ -365,7 +348,7 @@
     },
     {
      "tag": "Q14",
-     "title": "[Q14] Is the organisation prepared for AI-enabled attacks such as deepfake impersonation, AI-crafted phishing and automated exploitation?",
+     "title": "Is the organisation prepared for AI-enabled attacks such as deepfake impersonation, AI-crafted phishing and automated exploitation?",
      "subtitle": "Examples of evidence: AI threat intelligence, out-of-band verification procedures, deepfake simulations, SOC use cases, playbooks, patch metrics.",
      "required": true,
      "type": "choice",
@@ -380,13 +363,13 @@
    ]
   },
   {
-   "no": 6,
+   "no": 5,
    "section": "Part 3 - Training & Awareness",
    "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
    "items": [
     {
      "tag": "Q15",
-     "title": "[Q15] Have staff received AI literacy training appropriate to their role, and are specialist AI, governance and security skills being developed?",
+     "title": "Have staff received AI literacy training appropriate to their role, and are specialist AI, governance and security skills being developed?",
      "subtitle": "Examples of evidence: training curricula, completion records, role-based pathways, deepfake / phishing simulations, workforce plan.",
      "required": true,
      "type": "choice",
@@ -401,13 +384,13 @@
    ]
   },
   {
-   "no": 7,
+   "no": 6,
    "section": "Part 3 - Strategy & Value",
    "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
    "items": [
     {
      "tag": "Q16",
-     "title": "[Q16] Is there executive ownership and an approved AI strategy that defines the ambition, priorities and where AI will (and will not) be used?",
+     "title": "Is there executive ownership and an approved AI strategy that defines the ambition, priorities and where AI will (and will not) be used?",
      "subtitle": "Examples of evidence: approved AI strategy, named executive sponsor, AI budget, communicated priorities and experimentation boundaries.",
      "required": true,
      "type": "choice",
@@ -421,7 +404,7 @@
     },
     {
      "tag": "Q17",
-     "title": "[Q17] How are AI use cases identified, prioritised, approved and measured for value?",
+     "title": "How are AI use cases identified, prioritised, approved and measured for value?",
      "subtitle": "Examples of evidence: intake form, prioritisation criteria, business cases, benefit KPIs, portfolio reviews.",
      "required": true,
      "type": "choice",
@@ -436,13 +419,13 @@
    ]
   },
   {
-   "no": 8,
+   "no": 7,
    "section": "Part 3 - Data & Technology",
    "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
    "items": [
     {
      "tag": "Q18",
-     "title": "[Q18] Is data used by AI classified, quality-assured, traceable and protected in line with privacy requirements (e.g., Bahrain PDPL)?",
+     "title": "Is data used by AI classified, quality-assured, traceable and protected in line with privacy requirements (e.g., Bahrain PDPL)?",
      "subtitle": "Examples of evidence: data classification applied to AI, data-readiness assessments, lineage, DPIAs, redaction / anonymisation, transfer assessments.",
      "required": true,
      "type": "choice",
@@ -456,7 +439,7 @@
     },
     {
      "tag": "Q19",
-     "title": "[Q19] Is there a common AI reference architecture with standard integration patterns, and are AI systems monitored for performance, drift and cost?",
+     "title": "Is there a common AI reference architecture with standard integration patterns, and are AI systems monitored for performance, drift and cost?",
      "subtitle": "Examples of evidence: reference architecture, approved platforms, integration / agent patterns, monitoring dashboards, cost reports.",
      "required": true,
      "type": "choice",
@@ -470,7 +453,7 @@
     },
     {
      "tag": "Q20",
-     "title": "[Q20] Are material AI / ML models independently validated before use and periodically, with a model inventory, performance thresholds and documented limitations?",
+     "title": "Are material AI / ML models independently validated before use and periodically, with a model inventory, performance thresholds and documented limitations?",
      "subtitle": "Examples of evidence: model risk policy, model inventory with risk tiers, independent validation reports, performance monitoring, validation-findings tracker.",
      "required": true,
      "type": "choice",
@@ -485,13 +468,13 @@
    ]
   },
   {
-   "no": 9,
+   "no": 8,
    "section": "How we can help",
    "desc": "Optional - a few open questions so we can tailor our follow-up. A short answer such as 'Yes, for all staff' or 'Not at this time' is fine.",
    "items": [
     {
      "tag": "F1",
-     "title": "[F1] Would your organisation like to opt for AI training from us - for example AI literacy and security awareness for all staff, or role-based sessions for leaders, developers and oversight teams? Tell us what you have in mind.",
+     "title": "Would your organisation like to opt for AI training from us - for example AI literacy and security awareness for all staff, or role-based sessions for leaders, developers and oversight teams? Tell us what you have in mind.",
      "subtitle": "",
      "required": false,
      "type": "longtext",
@@ -499,7 +482,7 @@
     },
     {
      "tag": "F2",
-     "title": "[F2] Would you like us to review your AI or automation systems (for example AI agents, chatbots, copilots or automated workflows) for security, controls and safe operation? Tell us which systems and what concerns you.",
+     "title": "Would you like us to review your AI or automation systems (for example AI agents, chatbots, copilots or automated workflows) for security, controls and safe operation? Tell us which systems and what concerns you.",
      "subtitle": "",
      "required": false,
      "type": "longtext",
@@ -507,7 +490,7 @@
     },
     {
      "tag": "F3",
-     "title": "[F3] Would you like a formal AI risk assessment - risk-tiering of your AI use cases, a risk register and recommended controls? Tell us which use cases or business areas matter most.",
+     "title": "Would you like a formal AI risk assessment - risk-tiering of your AI use cases, a risk register and recommended controls? Tell us which use cases or business areas matter most.",
      "subtitle": "",
      "required": false,
      "type": "longtext",
@@ -515,7 +498,7 @@
     },
     {
      "tag": "F4",
-     "title": "[F4] Would you like our help to develop an AI strategy and roadmap - identifying where AI can add value, prioritising use cases and planning delivery? Tell us your goals and timeline.",
+     "title": "Would you like our help to develop an AI strategy and roadmap - identifying where AI can add value, prioritising use cases and planning delivery? Tell us your goals and timeline.",
      "subtitle": "",
      "required": false,
      "type": "longtext",
@@ -524,13 +507,13 @@
    ]
   },
   {
-   "no": 10,
+   "no": 9,
    "section": "Where should we send your report?",
    "desc": "Last step. We use these details only to prepare and send your report and to respond to the requests you made on the previous page.",
    "items": [
     {
      "tag": "P1",
-     "title": "[P1] Organisation name",
+     "title": "Organisation name",
      "subtitle": "",
      "required": true,
      "type": "text",
@@ -538,7 +521,7 @@
     },
     {
      "tag": "P6",
-     "title": "[P6] Your name",
+     "title": "Your name",
      "subtitle": "",
      "required": true,
      "type": "text",
@@ -546,7 +529,7 @@
     },
     {
      "tag": "P8",
-     "title": "[P8] Your email address (the report will be sent here)",
+     "title": "Your email address (the report will be sent here)",
      "subtitle": "Please use your company email address.",
      "required": true,
      "type": "text",

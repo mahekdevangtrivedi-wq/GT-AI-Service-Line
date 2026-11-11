@@ -5,7 +5,7 @@ Turns questionnaire responses into a client PDF report and an Outlook email draf
 seeing the scoring engine.
 
 Input : a responses file - either the Microsoft Forms Excel export, or GT_AI_Readiness_Responses_Template.xlsx.
-        Column headers must contain the question tag, e.g. "[Q7] ..." (the questionnaire titles include it).
+        Column headers must start with the question wording (as in the form) or contain the question tag, e.g. "[Q7] ...".
         Answers may be the full option text or the option letter (A-E).
 Output: for each response, in OUT_DIR/<organisation>/:
         - <org>_AI_Readiness_Report.pdf      (Report sheet only - send this to the client)
@@ -45,6 +45,15 @@ def norm(s):
     return re.sub(r"[^a-z0-9]+", " ", str(s).lower()).strip()
 
 
+def question_titles():
+    """tag -> question wording, so responses can be read even when the form titles carry no [tag]."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from tool_data import PROFILE_Q, CONTEXT, READINESS
+    t = {p[0]: p[1] for p in PROFILE_Q}
+    t.update({q["id"]: q["q"] for q in CONTEXT}); t.update({q["id"]: q["q"] for q in READINESS})
+    return t
+
+
 def read_responses(path):
     wb = openpyxl.load_workbook(path, data_only=True)
     ws = wb.worksheets[0]
@@ -53,6 +62,12 @@ def read_responses(path):
     for j, h in enumerate(heads):
         m = re.search(r"\[(P\d+|A\d|Q\d+)\]", str(h or ""))
         if m: tags[m.group(1)] = j
+    # fallback: match a header to the question wording (header starts with the question text; hints may follow it)
+    for tag, title in question_titles().items():
+        if tag in tags: continue
+        nt = norm(title)[:60]
+        hits = [j for j, h in enumerate(heads) if h and norm(re.sub(r"^\s*\d+\.\s*", "", str(h))).startswith(nt)]
+        if len(hits) == 1: tags[tag] = hits[0]
     rows = []
     for row in ws.iter_rows(min_row=2, values_only=True):
         if not any(v not in (None, "") for v in row): continue
