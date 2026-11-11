@@ -207,26 +207,24 @@ b.convert("RGB").save(os.path.join(IMG, "GT_Form_Cover_Banner_1600x500.png"), op
 
 # ------------------------------------------------------------------ 4. Quick Import Word document
 qi = Document()
-s = qi.sections[0]; s.left_margin = s.right_margin = Cm(2); s.top_margin = s.bottom_margin = Cm(1.8)
+# Forms' importer reads the layout: one question per block, options on their own lines, no extra marks.
+# Very wide page so no option wraps mid-line (a wrap after a hyphen shows up as "audit- ready" in Forms).
+s = qi.sections[0]; s.page_width = Cm(50); s.page_height = Cm(29.7); s.left_margin = s.right_margin = Cm(2); s.top_margin = s.bottom_margin = Cm(1.8)
 st = qi.styles["Normal"]; st.font.name = "Calibri"; st.font.size = Pt(11)
 t = qi.add_paragraph(); r = t.add_run(FORM_TITLE); r.bold = True; r.font.size = Pt(20)
-qi.add_paragraph("Grant Thornton Bahrain | AI Governance, Risk & Compliance")
+qi.add_paragraph(); qi.add_paragraph()
 LET = "ABCDEFGHIJKL"
 k = 0
 for pg in PAGES:
     for it in pg["items"]:
         if it["tag"] == "C0": continue
         k += 1
-        p = qi.add_paragraph(); p.paragraph_format.space_before = Pt(14); p.paragraph_format.keep_with_next = True
-        rr = p.add_run(f"{k}. {it['title']}"); rr.bold = True
-        if it["subtitle"]:
-            q = qi.add_paragraph(it["subtitle"]); q.runs[0].italic = True; q.runs[0].font.size = Pt(9); q.paragraph_format.keep_with_next = True
-        if it["options"]:
-            for i, o in enumerate(it["options"]):
-                op = qi.add_paragraph(f"{LET[i]}. {o}"); op.paragraph_format.left_indent = Cm(0.8); op.paragraph_format.space_after = Pt(0)
-        else:
-            a = qi.add_paragraph("Answer: ______________________________"); a.paragraph_format.left_indent = Cm(0.8)
-        qi.add_paragraph()
+        p = qi.add_paragraph(); p.paragraph_format.keep_with_next = bool(it["options"])
+        title = f"{k}. {it['title']}" + (f" {it['subtitle']}" if it["subtitle"] and it["options"] else "")
+        p.add_run(title)
+        for i, o in enumerate(it["options"]):
+            op = qi.add_paragraph(f"{LET[i]}. {o}"); op.paragraph_format.left_indent = Cm(0.8); op.paragraph_format.space_after = Pt(0)
+        qi.add_paragraph(); qi.add_paragraph()
 qi.save(os.path.join(OUT, "GT_AI_Readiness_Form_QuickImport.docx"))
 print("quick import questions:", k)
 
@@ -426,7 +424,7 @@ g.add_paragraph("The engine (GT_AI_Readiness_Assessment_Tool.xlsx) is never shar
 g.add_heading("2. Build the form", 1)
 step(1, "Create.", "Go to forms.office.com > New Form. Name it 'AI Readiness & Risk Assessment'.")
 step(2, "Fast path - Quick import.", "On the Forms home page choose Quick import and upload GT_AI_Readiness_Form_QuickImport.docx. Microsoft's documentation says Quick import converts titles, subtitles, multiple-choice and open-text questions from a Word or PDF file; "
-     "check the result, make sure each question is single-answer (not multi-select), and that the question title still starts with its tag, e.g. [Q5]. If Quick import is not offered on your account, add the questions manually - the layout table in section 3 and form_spec.json give every title, subtitle and option.")
+     "check the result (open-text questions are plain numbered lines in the file and should import as text questions), make sure each question is single-answer (not multi-select), and that the question title still starts with its tag, e.g. [Q5]. If Quick import is not offered on your account, add the questions manually - the layout table in section 3 and form_spec.json give every title, subtitle and option.")
 step(3, "Title and introduction.", "Paste the form title and description from section 4. Insert the cover banner image above the title (the image icon in the title area); if your Forms version does not offer that, add it to the first question with Insert media. "
      "The 'Ready to begin?' question carries the WHAT YOU GET block and makes page 1 a proper intro page with a Next button.")
 step(4, "Sections (pages).", "Add one section per row of the layout table in section 3 (Add new > Section) and drag the questions into them. Mark every assessment question Required; leave [P5] and [F1]-[F4] optional.")
