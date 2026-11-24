@@ -38,7 +38,7 @@ p = c.paragraphs[0]; r = p.add_run("AI Readiness & Risk Assessment - Questionnai
 p2 = c.add_paragraph(); r = p2.add_run("Grant Thornton Bahrain  |  AI Governance, Risk & Compliance"); r.font.size = Pt(11); r.font.color.rgb = RGBColor(0xE8, 0xE0, 0xF3)
 doc.add_paragraph()
 doc.add_heading("Before you start", 1)
-for txt in ["This questionnaire takes about 20-25 minutes. It has three parts: your organisation profile (14 questions), how AI is used (4 questions) and how AI is governed and managed (16 questions across 5 areas).",
+for txt in [f"This questionnaire takes about 25-30 minutes. It has three parts: your organisation profile (14 questions), how AI is used (4 questions) and how AI is governed and managed ({len(READINESS)} questions across {len(PILLARS)} areas, including AI privacy and data quality).",
             "For each question choose ONE answer - the statement that best describes the situation today. If you are unsure between two answers, choose the lower one: Grant Thornton may ask for supporting evidence for the answer selected.",
             "Answers are confidential and used only to prepare your AI Readiness & Risk Assessment report. Grant Thornton analyses the responses and sends the report to the email address you provide."]:
     doc.add_paragraph(txt)

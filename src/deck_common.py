@@ -11,7 +11,7 @@ from pptx.enum.chart import XL_CHART_TYPE, XL_LEGEND_POSITION, XL_LABEL_POSITION
 from pptx.oxml.ns import qn
 sys.path.insert(0, os.path.dirname(__file__))
 
-prs = S_COVER = S_AGENDA = S_DIVIDER = S_CONTENT = S_THANKS = None
+prs = S_COVER = S_AGENDA = S_DIVIDER = S_CONTENT = S_THANKS = S_DIV1 = S_DIV2 = None
 NEW = []
 
 
@@ -20,6 +20,18 @@ def init(template):
     prs = Presentation(template)
     orig = list(prs.slides)
     S_COVER, S_AGENDA, S_DIVIDER, S_CONTENT, S_THANKS = orig[0], orig[1], orig[5], orig[8], orig[18]
+    SW, SH = prs.slide_width, prs.slide_height
+    NEW = []
+    return prs
+
+
+def init_user(template):
+    """Use an existing, finished proposal deck as the template source: cover, agenda, content, two dividers, thank-you."""
+    global prs, S_COVER, S_AGENDA, S_DIVIDER, S_CONTENT, S_THANKS, S_DIV1, S_DIV2, NEW, SW, SH
+    prs = Presentation(template)
+    orig = list(prs.slides)
+    S_COVER, S_AGENDA, S_CONTENT, S_DIV1, S_DIV2, S_THANKS = orig[0], orig[1], orig[2], orig[8], orig[16], orig[22]
+    S_DIVIDER = S_DIV1
     SW, SH = prs.slide_width, prs.slide_height
     NEW = []
     return prs

@@ -40,7 +40,7 @@ QRE = re.compile(r"^(\d+)\.\s+\[(P\d+|A\d|Q\d+)\]\s+(.*)$")
 doc = Document(SRC)
 lines = [p.text.strip() for p in doc.paragraphs if p.text.strip()]
 questions, cur, area = {}, None, None
-AREAS = ["AI Governance", "AI Risk & Security", "Training & Awareness", "Strategy & Value", "Data & Technology"]
+AREAS = ["AI Governance", "AI Risk & Security", "Training & Awareness", "Strategy & Value", "Data & Technology", "AI Privacy & Data Quality"]
 for ln in lines:
     m = QRE.match(ln)
     if m:
@@ -57,7 +57,7 @@ for ln in lines:
     cur["hint"] = (cur["hint"] + " " + ln).strip() if not cur["options"] else cur["hint"]
 for t, q in questions.items():
     q["area"] = q["area"] or ("Part 1" if t.startswith("P") else "Part 2")
-assert len(questions) == 34, len(questions)
+assert len(questions) == 40, len(questions)
 for t, q in questions.items():
     assert q["text"] or len(q["options"]) >= 2, t
     assert not (q["text"] and q["options"]), t
@@ -74,7 +74,7 @@ def Q(tag, required=True, text=None, long=False):
 
 FORM_TITLE = "AI Readiness & Risk Assessment"
 INTRO = ("Grant Thornton Bahrain  |  AI Governance, Risk & Compliance\n\n"
-         "This assessment takes about 20-25 minutes. For each question choose ONE answer - the statement that best describes "
+         "This assessment takes about 25-30 minutes. For each question choose ONE answer - the statement that best describes "
          "your organisation today. If you are unsure between two answers, choose the lower one: Grant Thornton may ask for "
          "supporting evidence. Your answers are confidential and used only to prepare your report.\n\n"
          "Your report will be generated and sent to your email within 5 working days of submission.")
@@ -131,7 +131,7 @@ PAGES[-1]["items"][2]["subtitle"] = "Please use your company email address."
 for p in PAGES[-1]["items"]: p["type"] = "text"
 
 flat = [i for p in PAGES for i in p["items"]]
-assert len(flat) == 34 + 4, len(flat)
+assert len(flat) == 40 + 4, len(flat)
 spec = dict(title=FORM_TITLE, theme=dict(colour="#" + LAV, background="form_images/GT_Form_Background_2000x1200.png",
             banner="form_images/GT_Form_Cover_Banner_1600x500.png"), confirmation=CONFIRM, pages=PAGES)
 json.dump(spec, open(os.path.join(OUT, "form_spec.json"), "w"), indent=1, ensure_ascii=False)
@@ -196,7 +196,7 @@ dr.rounded_rectangle([96, 96, 176, 106], radius=5, fill=(255, 255, 255, 230))
 dr.text((96, 132), "AI Readiness", font=font(84, True), fill="white")
 dr.text((96, 232), "& Risk Assessment", font=font(84, True), fill="white")
 dr.text((98, 362), "Grant Thornton Bahrain  |  AI Governance, Risk & Compliance", font=font(30), fill=(240, 234, 255, 255))
-dr.text((98, 410), "About 20-25 minutes  -  Your report is sent within 5 working days", font=font(24), fill=(226, 217, 250, 255))
+dr.text((98, 410), "About 25-30 minutes  -  Your report is sent within 5 working days", font=font(24), fill=(226, 217, 250, 255))
 b.convert("RGB").save(os.path.join(IMG, "GT_Form_Cover_Banner_1600x500.png"), optimize=True)
 
 # ------------------------------------------------------------------ 4. Quick Import Word document
@@ -223,6 +223,23 @@ for pg in PAGES:
             op = qi.add_paragraph(f"{LET[i]}. {o}"); op.paragraph_format.left_indent = Cm(0.8); op.paragraph_format.space_after = Pt(0)
         qi.add_paragraph(); qi.add_paragraph()
 qi.save(os.path.join(OUT, "GT_AI_Readiness_Form_QuickImport.docx"))
+# the six AI Privacy & Data Quality questions on their own (for a form that already exists)
+nq = Document()
+s2 = nq.sections[0]; s2.page_width = Cm(50); s2.page_height = Cm(29.7); s2.left_margin = s2.right_margin = Cm(2); s2.top_margin = s2.bottom_margin = Cm(1.8)
+nq.styles["Normal"].font.name = "Calibri"; nq.styles["Normal"].font.size = Pt(11)
+t2 = nq.add_paragraph(); r2 = t2.add_run("AI Privacy & Data Quality"); r2.bold = True; r2.font.size = Pt(20)
+nq.add_paragraph(); nq.add_paragraph()
+k2 = 0
+for pg in PAGES:
+    for it in pg["items"]:
+        if it["tag"] not in ("Q21", "Q22", "Q23", "Q24", "Q25", "Q26"): continue
+        k2 += 1
+        nq.add_paragraph(f"{k2}. {it['title']} {it['subtitle']}")
+        for i, o in enumerate(it["options"]):
+            op = nq.add_paragraph(f"{LET[i]}. {o}"); op.paragraph_format.left_indent = Cm(0.8); op.paragraph_format.space_after = Pt(0)
+        nq.add_paragraph(); nq.add_paragraph()
+nq.save(os.path.join(OUT, "GT_AI_Readiness_Form_New_Privacy_Questions.docx"))
+
 print("quick import questions:", k)
 
 # ------------------------------------------------------------------ 5. response converter workbook
@@ -287,7 +304,7 @@ BLOCKS = [
     ("BLOCK 3  ->  engine sheet '2. Assessment', cells E10:E13",
      [(f"A{i}", questions[f"A{i}"]["title"][:52] + ("..." if len(questions[f'A{i}']['title']) > 52 else "")) for i in range(1, 5)], 10),
     ("BLOCK 4  ->  engine sheet '2. Assessment', cells E15:E30",
-     [(f"Q{i}", questions[f"Q{i}"]["title"][:52] + ("..." if len(questions[f'Q{i}']['title']) > 52 else "")) for i in range(5, 21)], 15),
+     [(f"Q{i}", questions[f"Q{i}"]["title"][:52] + ("..." if len(questions[f'Q{i}']['title']) > 52 else "")) for i in range(5, 27)], 15),
 ]
 first_val_rows = []
 check_cells = []
@@ -353,7 +370,7 @@ steps = [
     "In Microsoft Forms open the form > Responses > 'Open results in Excel' (or download). Select the whole table INCLUDING the header row.",
     "Paste it into the 'Forms export' sheet at cell A1 (it overwrites the example header row). Column order does not matter - answers are found by matching each column header to the question wording.",
     "Go to 'Load response', set the response number (1 = the first response under the header). Check that it says 'All required answers found'.",
-    "Open GT_AI_Readiness_Assessment_Tool.xlsx (the engine). Save a copy first: <Organisation>_Engine.xlsx.",
+    "Open GT_AI_Readiness_Tool_Detailed_Report.xlsx (the engine). Save a copy first: <Organisation>_Engine.xlsx.",
     "For each of the four yellow blocks: select the yellow range, Copy, go to the engine cell named in the block title, Paste Special > Values. The engine then scores the answers and the 3. Report sheet fills in.",
     "Fill the Grant Thornton contact (engine '1. Profile' C13) if needed, then export '3. Report' to PDF and email it. Do NOT send the engine or this converter to the client.",
     "Faster alternative for many responses: run src/generate_readiness_reports.py on the Forms export - it does steps 3-6 automatically and also writes the PDF and an Outlook draft.",
@@ -414,7 +431,7 @@ bullet(" 38 questions as numbered items with lettered options, in form order, fo
 bullet(" lavender background (2000 x 1200) and cover banner (1600 x 500).", "form_images/ -")
 bullet(" paste a Forms export, get the values to paste into the engine. No scoring logic, safe to keep open next to the engine.", "GT_AI_Readiness_Form_Response_Converter.xlsx -")
 bullet(" the complete form definition (pages, questions, options, required flags) as data.", "form_spec.json -")
-g.add_paragraph("The engine (GT_AI_Readiness_Assessment_Tool.xlsx) is never shared: clients only see the form and later receive the PDF report.")
+g.add_paragraph("The engine (GT_AI_Readiness_Tool_Detailed_Report.xlsx) is never shared: clients only see the form and later receive the PDF report.")
 
 g.add_heading("2. Build the form", 1)
 step(1, "Create.", "Go to forms.office.com > New Form. Name it 'AI Readiness & Risk Assessment'.")
@@ -432,16 +449,19 @@ g.add_heading("3. Page-by-page layout", 1)
 tb = g.add_table(rows=1, cols=4); tb.style = "Table Grid"
 for c, h_ in zip(tb.rows[0].cells, ["Page", "Section title", "Questions (tag)", "Notes"]):
     c.text = ""; rr = c.paragraphs[0].add_run(h_); rr.bold = True; rr.font.size = Pt(9.5); rr.font.color.rgb = RGBColor(255, 255, 255); shade(c, LAV_DARK)
-notes = {1: "Form header with the intro (WHEN TO USE, WHAT YOU GET, 5-day report promise), then the 11 profile questions. Name, organisation and email are collected on the last page instead.",
-         2: "AI use and inherent-risk questions (A1-A4).", 3: "Governance structure, policy, guardrails, incidents.",
-         4: "Risk framework, appetite, inventory, third parties, securing AI, AI-enabled threats.", 5: "AI literacy and skills.",
-         6: "Strategy, use-case portfolio.", 7: "Data governance, architecture, model risk.",
-         8: "Four optional open-ended questions: training, systems review, risk assessment, strategy and roadmap.",
-         9: "Name, organisation, company email only, then Submit."}
+notes = {None: "Form header with the intro (WHEN TO USE, WHAT YOU GET, 5-day report promise), then the 11 profile questions. Name, organisation and email are collected on the last page instead.",
+         "Part 2 - How AI is used in your organisation": "AI use and inherent-risk questions (A1-A4).",
+         "Part 3 - AI Governance": "Governance structure, policy, guardrails, incidents.",
+         "Part 3 - AI Risk & Security": "Risk framework, appetite, inventory, third parties, securing AI, AI-enabled threats.",
+         "Part 3 - Training & Awareness": "AI literacy and skills.", "Part 3 - Strategy & Value": "Strategy, use-case portfolio.",
+         "Part 3 - Data & Technology": "Data governance, architecture, model risk.",
+         "Part 3 - AI Privacy & Data Quality": "NEW: PDPL privacy governance, data minimisation and retention, privacy impact assessment and transfers, PIMS (ISO/IEC 27701 with 27001), data quality, data provenance and bias.",
+         "How we can help": "Four optional open-ended questions: training, systems review, risk assessment, strategy and roadmap.",
+         "Where should we send your report?": "Name, organisation, company email only, then Submit."}
 for pg in PAGES:
     r_ = tb.add_row().cells
     tags = ", ".join(i["tag"] for i in pg["items"])
-    for c, v in zip(r_, [str(pg["no"]), pg["section"] or "(form header)", tags, notes[pg["no"]]]):
+    for c, v in zip(r_, [str(pg["no"]), pg["section"] or "(form header)", tags, notes[pg["section"]]]):
         c.text = ""; rr = c.paragraphs[0].add_run(v); rr.font.size = Pt(9)
     shade(r_[0], LAV_PALE)
 for row_ in tb.rows:
@@ -471,7 +491,7 @@ step(3, "Check.", "The cell under the response number should read 'All answers f
 step(4, "Fill the engine.", "Save a copy of the engine as <Organisation>_Engine.xlsx. Copy each of the four yellow blocks and Paste Special > Values at the cell named in the block title: '1. Profile' C4:C13, '1. Profile' C16:C21, '2. Assessment' E10:E13, '2. Assessment' E15:E30. The date is the Forms completion date.")
 step(5, "Report.", "The '3. Report' sheet fills in. Save it as PDF and email it from your own mailbox; the report is due within 5 working days of the submission. Never send the engine or the converter.")
 g.add_paragraph("Option B - one command for one or many responses").runs[0].bold = True
-box("python src/generate_readiness_reports.py  FormsExport.xlsx  GT_AI_Readiness_Assessment_Tool.xlsx  OUT_DIR", mono=True)
+box("python src/generate_readiness_reports.py  FormsExport.xlsx  GT_AI_Readiness_Tool_Detailed_Report.xlsx  OUT_DIR", mono=True)
 g.add_paragraph("It reads the same export directly and writes, per organisation, the PDF report, an Outlook email draft with the PDF attached and a filled copy of the engine. "
                 "Both options were tested on a Forms-format export with the extra system columns and the follow-up questions: they give the same scores.")
 g.add_paragraph("The four open-ended answers are ignored by the engine. Read them on the 'Load response' sheet (FOLLOW-UP block) or in the export to follow up with training, systems review, risk assessment and strategy proposals.")

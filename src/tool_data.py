@@ -29,7 +29,7 @@ CONTEXT = [
                ("AI agents or automated AI decisions acting directly on systems, customers or transactions", "Highest exposure profile: autonomous actions require execution limits, human approval points, kill-switches and continuous monitoring.")]),
     dict(id="A2", topic="Decision impact", weight=3,
          q="What is the most significant type of decision or outcome your AI systems influence?",
-         guide="Answer for the highest-impact AI use case in scope (AIAF: 'worst credible harm').",
+         guide="Answer for the highest-impact AI use case in scope.",
          opts=[("None - AI is used only for drafting, research or personal productivity", "No direct decisions about people; impact limited to quality of internal work products."),
                ("Internal operational decisions with minor impact (e.g., scheduling, document triage)", "Errors cause inconvenience but are easily corrected."),
                ("Customer- or client-facing outputs with limited individual impact (e.g., FAQ chatbots, marketing content)", "External stakeholders see AI outputs - disclosure, accuracy and reputational controls apply (e.g., EU AI Act Art. 50 where relevant)."),
@@ -45,7 +45,7 @@ CONTEXT = [
                ("Sensitive personal data (health, biometric, financial account, children) or regulated / classified information", "Highest data exposure: strict minimisation, in-region hosting, enhanced security and privacy impact assessment required.")]),
     dict(id="A4", topic="Oversight & reversibility", weight=3,
          q="How much human oversight applies to AI outputs, and how reversible are the outcomes?",
-         guide="AIAF considers autonomy, human oversight and whether outputs are reversible or correctable.",
+         guide="Consider autonomy, human oversight and whether outputs are reversible or correctable.",
          opts=[("Humans make all decisions; AI outputs are advisory drafts only", "Strong human control; residual risk mainly automation bias."),
                ("A qualified human reviews and approves every AI output before it is used", "Effective 'human-in-charge' control if reviewers are trained and have time and authority to challenge."),
                ("Humans review samples or exceptions; errors are easily corrected", "Partial oversight - sampling design, thresholds and monitoring determine effectiveness."),
@@ -99,7 +99,7 @@ READINESS = [
          risk="Misuse of AI, data leakage and breach of legal or regulatory requirements, with exposure to penalties, licence conditions and reputational harm.",
          recs=["Issue an interim AI acceptable-use policy immediately (approved tools, prohibited data, output verification) and identify applicable regulations.",
                "Approve a formal AI policy; build an AI obligations register covering Bahrain PDPL, sector rules (e.g., CBB) and extraterritorial regimes (EU AI Act).",
-               "Map each obligation to controls and owners using the GT AI Risk Assessment Framework; require annual staff acknowledgement.",
+               "Map each obligation to controls and owners in an obligations register; require annual staff acknowledgement.",
                "Establish monthly regulatory horizon scanning and periodic compliance testing with evidence retention.",
                "Sustain: keep audit-ready evidence packs and consider ISO/IEC 42001 certification."]),
     dict(id="Q8", pillar="Governance & Ethics", topic="AI inventory & risk / impact assessment", r7="2.4, 2.5", rcm="GL-8, RM-2, RM-5, TP-2", type="⚠ Mandatory Requirement",
@@ -113,7 +113,7 @@ READINESS = [
                "Register reconciled quarterly; impact assessments (ISO/IEC 42005 / FRIA) for high-risk uses; re-assessment on change with KRIs monitored"],
          risk="Deployment of vulnerable, non-compliant or harmful AI systems and unknown AI exposure across the organisation and its supply chain.",
          recs=["Build an AI register (discover all AI incl. embedded and shadow AI) and assign business and technical owners.",
-               "Adopt the GT AI Risk Assessment Framework: prohibited-practice screening and inherent-risk tiering for every AI use case.",
+               "Adopt a structured AI risk assessment: prohibited-practice screening and inherent-risk tiering for every AI use case.",
                "Extend assessments to all AI systems and third-party AI; set approval authority by risk tier.",
                "Introduce ISO/IEC 42005-style impact assessments for High / Critical tiers and quarterly register reconciliation.",
                "Sustain: automate KRI monitoring and trigger-based re-assessment."]),
@@ -257,7 +257,8 @@ DOMAIN_MAP = {"Business Alignment": "Strategy & Value", "Governance & Ethics": "
               "Training & Development": "Training & Awareness", "Data & Quality": "Data & Technology",
               "Architecture & Technology": "Data & Technology", "Protect AI Systems": "AI Risk & Security",
               "Protection from AI Threats": "AI Risk & Security"}
-PILLARS = ["AI Governance", "AI Risk & Security", "Training & Awareness", "Strategy & Value", "Data & Technology"]
+from tool_data_privacy import *
+PILLARS = ["AI Governance", "AI Risk & Security", "Training & Awareness", "Strategy & Value", "Data & Technology", PRIVACY_DOMAIN]
 READY7_SOURCE = {"AI Governance": "Governance & Ethics", "AI Risk & Security": "Protect AI Systems + Protection from AI Threats",
                  "Training & Awareness": "Training & Development", "Strategy & Value": "Business Alignment",
                  "Data & Technology": "Data & Quality + Architecture & Technology"}
@@ -266,7 +267,8 @@ PILLAR_RISK = {
     "AI Risk & Security": "Without an AI risk framework, risk appetite, impact assessments, third-party controls and AI security, the organisation is exposed to unmanaged AI risk, prompt injection, data leakage, model compromise and deepfake-enabled fraud.",
     "Training & Awareness": "Low AI literacy and awareness increase unsafe use of AI tools, unchecked or biased outputs and susceptibility to AI-enabled phishing and deepfakes.",
     "Strategy & Value": "Without clear direction, ownership and value tracking, AI adoption is fragmented, duplicated and hard to justify.",
-    "Data & Technology": "Weak data governance, architecture and model validation lead to inaccurate or biased outputs, privacy breaches, undetected drift and unsustainable costs.",
+    "Data & Technology": "Weak data governance, architecture and model validation lead to inaccurate or biased outputs, undetected drift and unsustainable costs.",
+    PRIVACY_DOMAIN: PRIVACY_RISK,
 }
 _old = {q["id"]: q for q in READINESS}
 for _q in READINESS:
@@ -311,7 +313,7 @@ NEWQ = {
           "Approved AI risk framework aligned to ISO/IEC 23894 / NIST AI RMF, applied to all AI use cases and integrated with the enterprise risk register",
           "Framework reviewed annually; AI risk aggregated across the portfolio and used in decisions; treatment effectiveness tested"],
     risk="AI risks go unidentified or are rated inconsistently, so high-risk AI is approved without proportionate controls.",
-    recs=["Adopt an AI risk management framework (e.g., GT AI Risk Assessment Framework) with a risk taxonomy and scoring scales.",
+    recs=["Adopt an AI risk management framework (aligned to ISO/IEC 23894 / NIST AI RMF) with a risk taxonomy and scoring scales.",
           "Formalise the methodology, approve it at executive level and pilot it on current AI initiatives.",
           "Apply the framework to every AI use case, record results in an AI risk register and integrate it with enterprise risk management.",
           "Aggregate AI risk across the portfolio, review the framework annually and test the effectiveness of treatments.",
@@ -369,6 +371,7 @@ _DOM = {"G1": "AI Governance", "Q7": "AI Governance", "Q9": "AI Governance", "Q1
 for _k, _d in _DOM.items():
     (NEWQ if _k.startswith("G") else _old)[_k]["pillar"] = _d
 _old["Q9"]["topic"] = "Responsible-AI guardrails & human oversight"
+_old["Q11"]["topic"] = "Data governance & classification for AI"
 _old["Q10"]["topic"] = "AI training, literacy & awareness"
 _seq = ["G1", "Q7", "Q9", "Q15", "G2", "G3", "Q8", "G4", "Q13", "Q14", "Q10", "Q5", "Q6", "Q11", "Q12", "G5"]
 _order = [(f"Q{5 + i}", NEWQ[k] if k.startswith("G") else _old[k]) for i, k in enumerate(_seq)]
@@ -376,9 +379,12 @@ READINESS = []
 for _id, _q in _order:
     _q = dict(_q); _q["id"] = _id; READINESS.append(_q)
 
+READINESS += PRIV_QUESTIONS
+
 SERVICES = [
     ("AI Governance, Risk & Compliance", "AI Governance", "AI governance structure, policies and acceptable use, AI register, guardrails and human-oversight standards, framework-based compliance reviews, ISO/IEC 42001 readiness and internal audit."),
     ("AI Risk & Cyber Resilience", "AI Risk & Security", "AI risk management framework and risk appetite, use-case risk & impact assessments, third-party AI risk, AI security audits (GT AI Security & Agent Audit Checklist), AI red teaming, deepfake-resilient processes."),
+    PRIVACY_SERVICE,
     ("Training & Awareness", "Training & Awareness", "AI literacy programmes (EU AI Act Art. 4-aligned), role-based pathways, immersive labs, deepfake & AI-phishing simulations, board AI governance sessions."),
     ("AI Strategy & Roadmap", "Strategy & Value", "AI Opportunity Discovery (where AI and automation fit), AI strategy, use-case prioritisation, value-realisation KPIs and phased roadmap."),
     ("AI-Driven Automation & Data", "Data & Technology", "Technology evaluation, data readiness, reference architecture, model validation and integration. GT AI apps in preparation: AI-powered BCP tool and AI-powered Financial Statements tool."),

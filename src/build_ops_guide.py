@@ -64,11 +64,14 @@ title = doc.add_paragraph(); r = title.add_run("GT AI Readiness & Risk Assessmen
 sub = doc.add_paragraph(); r = sub.add_run("Operating guide - collecting answers and issuing reports without sharing the engine"); r.font.size = Pt(12); r.font.color.rgb = GT
 warn = doc.add_table(rows=1, cols=1); warn.style = "Table Grid"; c = warn.cell(0, 0); shade(c, "FCE4D6")
 c.text = ""; rr = c.paragraphs[0].add_run("GT INTERNAL - DO NOT SEND TO CLIENTS. "); rr.bold = True
-c.paragraphs[0].add_run("The Excel engine (GT_AI_Readiness_Assessment_Tool.xlsx) contains the scoring logic, weightings and content mapping. It never leaves GT. "
+c.paragraphs[0].add_run("The Excel engine (GT_AI_Readiness_Tool_Detailed_Report.xlsx) contains the scoring logic, weightings and content mapping. It never leaves GT. "
                         "Clients receive only the questionnaire link and the PDF report.")
 doc.add_paragraph()
 
 h("1. How the process works")
+para("Two report types come from the same responses. The Short Report (GT_AI_Readiness_Tool_Short_Report.xlsx) is what the free online assessment returns: scores, maturity, risk tier, exposure, domain radar, observations and the regulatory view. "
+     "The Detailed Report (GT_AI_Readiness_Tool_Detailed_Report.xlsx) is provided on request and adds findings, risks and recommendations per question, the AI privacy & data-quality section (Bahrain PDPL, ISO/IEC 27701 with ISO/IEC 27001), the NIST AI RMF view, priorities and a roadmap. "
+     "Paste the Forms export into '0. Paste Response' (columns follow the form order; the six privacy & data-quality questions follow Q20), pick the response in '2. Assessment' cell D3 and save the '3. Report' sheet as PDF.", "Short and detailed reports: ")
 para("Essential - report within 5 working days (Day 1 kick-off; questionnaire by Day 2; GT analysis Days 3-4; report Day 5). "
      "Standard - 2 weeks (multi-respondent questionnaire, evidence review and validation interviews in week 1-2; report and leadership debrief end of week 2). "
      "Plus - 6 weeks, extendable to 8 (readiness report week 2; AI inventory, risk & impact assessments, control review, ISO/IEC 42001 gap and AI security review; "
@@ -88,7 +91,7 @@ tbl([["File", "Location (repo)", "Share with client?"],
      ["GT_AI_Readiness_Responses_Template.xlsx", "1.3_.../client_questionnaire/", "Fallback only - if Forms cannot be used"],
      ["GT_AI_Readiness_Form_Build_Guide.docx, ..._QuickImport.docx, form_images/", "1.3_.../online_form/", "NO - GT internal: used to build the client's form"],
      ["GT_AI_Readiness_Form_Response_Converter.xlsx", "1.3_.../online_form/", "NO - GT internal: turns a Forms response into engine-ready values"],
-     ["GT_AI_Readiness_Assessment_Tool.xlsx (engine)", "1.3_AI_Readiness_Assessment_Tool/", "NO - GT internal"],
+     ["GT_AI_Readiness_Tool_Detailed_Report.xlsx (engine)", "1.3_AI_Readiness_Assessment_Tool/", "NO - GT internal"],
      ["generate_readiness_reports.py", "src/", "NO - GT internal"],
      ["<Client>_AI_Readiness_Report.pdf", "generated", "YES - the deliverable"],
      ["<Client>_AI_Readiness_Engine.xlsx", "generated", "NO - keep in the engagement file"]], [6.5, 5.5, 4.5])
@@ -110,7 +113,7 @@ h("3.3 Generate the report", 2)
 para("One-off set-up on the GT laptop: install Python 3.9+, LibreOffice (libreoffice.org) and the Python packages:", None)
 p = doc.add_paragraph(); r = p.add_run("pip install openpyxl pypdf"); r.font.name = "Consolas"
 para("Then run (paths in quotes if they contain spaces):", None)
-p = doc.add_paragraph(); r = p.add_run('python src/generate_readiness_reports.py "Responses.xlsx" "01_AI_Governance_Risk_Compliance/1.3_AI_Readiness_Assessment_Tool/GT_AI_Readiness_Assessment_Tool.xlsx" "Output" --gt-contact "Name, Grant Thornton Bahrain"')
+p = doc.add_paragraph(); r = p.add_run('python src/generate_readiness_reports.py "Responses.xlsx" "01_AI_Governance_Risk_Compliance/1.3_AI_Readiness_Assessment_Tool/GT_AI_Readiness_Tool_Detailed_Report.xlsx" "Output" --gt-contact "Name, Grant Thornton Bahrain"')
 r.font.name = "Consolas"; r.font.size = Pt(8.5)
 para("For each response row the script creates a folder Output/<Organisation>/ containing the PDF report, the filled engine (internal) and <Organisation>_email_draft.eml. "
      "The console shows the headline result, e.g. 'Grant Thornton Bahrain: readiness 60% (Informed), tier Medium, exposure Moderate, 7 report pages'. "

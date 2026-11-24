@@ -11,7 +11,7 @@
    "no": 1,
    "section": null,
    "title": "AI Readiness & Risk Assessment",
-   "desc": "Grant Thornton Bahrain  |  AI Governance, Risk & Compliance\n\nThis assessment takes about 20-25 minutes. For each question choose ONE answer - the statement that best describes your organisation today. If you are unsure between two answers, choose the lower one: Grant Thornton may ask for supporting evidence. Your answers are confidential and used only to prepare your report.\n\nYour report will be generated and sent to your email within 5 working days of submission.\n\nWHEN TO USE THIS TOOL\n- Before or early in your AI journey, to baseline readiness\n- Before scaling AI or deploying AI that affects customers or decisions\n- When AI is discovered in use without assessment (shadow AI)\n- When risk or context changes: new data, model, vendor, purpose or less human oversight\n- Annually, to track maturity progress\n\nPublic GenAI tools used for low-risk drafting may be governed by your Acceptable Use Policy instead (AIAF approach).\n\nWHAT YOU GET\n- Overall AI readiness score and maturity level\n- Inherent AI risk tier (Low / Medium / High / Critical)\n- Overall AI risk exposure and recommended oversight pathway\n- Domain radar chart and responsible-AI principle coverage\n- Findings, potential risks and recommendations per area\n- Top-5 priorities and a phased roadmap\n- Applicable regulations (Bahrain PDPL, CBB, EU AI Act, GCC)\n- Printable report you can save as PDF and email",
+   "desc": "Grant Thornton Bahrain  |  AI Governance, Risk & Compliance\n\nThis assessment takes about 25-30 minutes. For each question choose ONE answer - the statement that best describes your organisation today. If you are unsure between two answers, choose the lower one: Grant Thornton may ask for supporting evidence. Your answers are confidential and used only to prepare your report.\n\nYour report will be generated and sent to your email within 5 working days of submission.\n\nWHEN TO USE THIS TOOL\n- Before or early in your AI journey, to baseline readiness\n- Before scaling AI or deploying AI that affects customers or decisions\n- When AI is discovered in use without assessment (shadow AI)\n- When risk or context changes: new data, model, vendor, purpose or less human oversight\n- Annually, to track maturity progress\n\nPublic GenAI tools used for low-risk drafting may be governed by your Acceptable Use Policy instead (AIAF approach).\n\nWHAT YOU GET\n- Overall AI readiness score and maturity level\n- Inherent AI risk tier (Low / Medium / High / Critical)\n- Overall AI risk exposure and recommended oversight pathway\n- Domain radar chart and responsible-AI principle coverage\n- Findings, potential risks and recommendations per area\n- Top-5 priorities and a phased roadmap\n- Applicable regulations (Bahrain PDPL, CBB, EU AI Act, GCC)\n- Printable report you can save as PDF and email",
    "items": [
     {
      "tag": "P2",
@@ -167,7 +167,7 @@
     {
      "tag": "A2",
      "title": "What is the most significant type of decision or outcome your AI systems influence?",
-     "subtitle": "Answer for the highest-impact AI use case in scope (AIAF: 'worst credible harm').",
+     "subtitle": "Answer for the highest-impact AI use case in scope.",
      "required": true,
      "type": "choice",
      "options": [
@@ -195,7 +195,7 @@
     {
      "tag": "A4",
      "title": "How much human oversight applies to AI outputs, and how reversible are the outcomes?",
-     "subtitle": "AIAF considers autonomy, human oversight and whether outputs are reversible or correctable.",
+     "subtitle": "Consider autonomy, human oversight and whether outputs are reversible or correctable.",
      "required": true,
      "type": "choice",
      "options": [
@@ -469,6 +469,97 @@
   },
   {
    "no": 8,
+   "section": "Part 3 - AI Privacy & Data Quality",
+   "desc": "Choose the ONE statement that best describes the situation today. If unsure between two answers, choose the lower one.",
+   "items": [
+    {
+     "tag": "Q21",
+     "title": "Is there clear accountability for privacy in AI - a privacy lead or Data Protection Guardian, records of processing that cover AI, a lawful basis and privacy notices for AI use of personal data, and a process for data-subject rights (including requests about automated processing) in line with the Bahrain PDPL?",
+     "subtitle": "Examples of evidence: privacy lead or Data Protection Guardian appointment, records of processing covering AI, lawful-basis register, privacy notices, data-subject request log, process for objections to automated decisions.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No privacy ownership for AI; personal data used in AI is not mapped and PDPL obligations for AI are not considered",
+      "General privacy policy exists but AI is not covered; data-subject requests handled ad hoc",
+      "Privacy lead or Data Protection Guardian in place; AI use of personal data partly recorded; lawful basis and notices defined for some AI use cases",
+      "Records of processing and lawful basis cover all AI use of personal data; privacy notices updated for AI; data-subject requests (including on automated decisions) handled to a defined process",
+      "Privacy obligations for AI monitored and tested; rights requests and complaints tracked with metrics; regular privacy reporting to the board and regulator-ready evidence maintained"
+     ]
+    },
+    {
+     "tag": "Q22",
+     "title": "Is the personal data used by AI limited to what is necessary for a defined purpose (data minimisation and purpose limitation), with retention limits and de-identification - masking, pseudonymisation, anonymisation or synthetic data - applied to prompts, training or fine-tuning data and logs?",
+     "subtitle": "Examples of evidence: purpose register for AI data, minimisation check in the AI intake process, prompt-redaction or masking tools, retention schedule covering AI logs and training data, anonymisation / synthetic-data standard.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No limits: staff and systems can use any personal data in AI; no retention rules for prompts, logs or training data",
+      "General guidance to avoid sharing personal data with AI tools, not enforced; retention not defined for AI data",
+      "Purpose and data needs documented for some AI use cases; masking or anonymisation used occasionally; retention defined for some AI data",
+      "Minimisation and purpose limitation required for every AI use case; masking, pseudonymisation or synthetic data applied by default; retention and deletion rules cover prompts, logs and training data",
+      "Minimisation and de-identification enforced by technical controls (for example prompt redaction and data-loss prevention); re-identification risk tested; deletion verified and reported"
+     ]
+    },
+    {
+     "tag": "Q23",
+     "title": "Are privacy / data protection impact assessments and privacy-by-design reviews performed for AI before deployment and on material change, covering personal-data processors and vendors and transfers of personal data outside Bahrain (including AI services hosted abroad)?",
+     "subtitle": "Examples of evidence: impact-assessment template and completed assessments for AI, privacy-by-design checklist in the AI intake process, processor agreements, transfer assessments, list of AI services and hosting locations.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No privacy impact assessment for AI; cross-border transfers by AI services are not tracked",
+      "Impact assessments performed occasionally for general IT projects; AI not specifically covered",
+      "Impact assessment performed for some AI use cases using personal data; some processor agreements and transfer checks in place",
+      "Impact assessment and privacy-by-design review mandatory before any AI use of personal data; processor and transfer assessments completed; re-assessed on material change",
+      "Privacy impact assessments linked to the AI risk tier and KRIs; transfer mechanisms and vendor privacy assurance monitored continuously; lessons feed back into design standards"
+     ]
+    },
+    {
+     "tag": "Q24",
+     "title": "Is AI covered by a privacy information management system (PIMS) aligned to ISO/IEC 27701, operated alongside an ISO/IEC 27001 information security management system, with privacy breach response, internal audit and management review?",
+     "subtitle": "Examples of evidence: ISO/IEC 27001 certificate or ISMS scope, ISO/IEC 27701 PIMS scope or gap assessment, statement of applicability, breach response plan, internal audit reports, management review minutes.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No information security or privacy management system",
+      "Security controls in place but no formal ISMS or PIMS; AI not in scope",
+      "ISMS (for example ISO/IEC 27001) in place or planned; privacy management partly documented; AI systems not yet in scope",
+      "ISMS aligned to ISO/IEC 27001 and PIMS aligned to ISO/IEC 27701 cover AI systems; privacy breach response tested; internal audits performed",
+      "ISO/IEC 27001 and ISO/IEC 27701 certified (or certification-ready) with AI in scope; management review and continual improvement; combined with the AI management system (ISO/IEC 42001)"
+     ]
+    },
+    {
+     "tag": "Q25",
+     "title": "Are data-quality standards defined, owned and monitored for the data used by AI - accuracy, completeness, consistency, timeliness and validity - with profiling, validation rules and correction of defects at source?",
+     "subtitle": "Examples of evidence: data-quality policy and dimensions, data owners and stewards, data-quality dashboards and thresholds, validation rules in AI pipelines, defect log, data-readiness check in the AI intake.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "No data-quality standards or checks for data used by AI",
+      "Data quality checked informally by project teams when problems appear",
+      "Data-quality dimensions defined and profiling performed for some AI data sets; owners partly assigned",
+      "Data-quality standards, owners and thresholds defined for AI data; automated validation in pipelines; defects tracked and fixed at source; data readiness checked before approval",
+      "Continuous data-quality monitoring with alerts tied to model performance; quality metrics reported to the AI committee; data-quality objectives reviewed annually"
+     ]
+    },
+    {
+     "tag": "Q26",
+     "title": "Are the source, lineage, licence or consent status and representativeness of AI training, testing and retrieval data documented and checked for bias, with documentation for each data set and change control?",
+     "subtitle": "Examples of evidence: data lineage records, data-set documentation (datasheets), licence and consent checks, bias and representativeness tests, drift monitoring, change log for data sets.",
+     "required": true,
+     "type": "choice",
+     "options": [
+      "Data origin and usage rights are not recorded; no bias or representativeness checks",
+      "Source known informally; no documentation or bias checks",
+      "Source and licence recorded for some data sets; bias checks performed on some higher-risk AI",
+      "Provenance, lineage and consent / licence status documented for all AI data sets; representativeness and bias tested before use; changes controlled",
+      "Automated lineage and drift monitoring; bias and representativeness re-tested on every data change; data-set documentation shared with affected teams and reviewed independently"
+     ]
+    }
+   ]
+  },
+  {
+   "no": 9,
    "section": "How we can help",
    "desc": "Optional - a few open questions so we can tailor our follow-up. A short answer such as 'Yes, for all staff' or 'Not at this time' is fine.",
    "items": [
@@ -507,7 +598,7 @@
    ]
   },
   {
-   "no": 9,
+   "no": 10,
    "section": "Where should we send your report?",
    "desc": "Last step. We use these details only to prepare and send your report and to respond to the requests you made on the previous page.",
    "items": [
