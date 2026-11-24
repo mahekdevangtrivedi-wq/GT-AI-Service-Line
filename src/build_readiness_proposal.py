@@ -92,24 +92,23 @@ add(s)
 
 # =========================================================== 4 what AI unlocks
 s = content("What AI Unlocks", "AI delivers measurable outcomes across the organisation - when it is adopted with the right foundations.")
-unl = [("Automate", "-27%", "operational costs", "JPM Coin turns deposits into on-chain, programmable, always-on digital money.", "ex_automate", "ic_gears"),
-       ("Analyze", "-31%", "downtime", "Shell scales AI-fuelled predictive maintenance to 10,000 assets.", "ex_analyze", "ic_search"),
-       ("Generate", "+26-60%", "developer productivity", "AI coding assistants accelerate software delivery.", "ex_generate", "ic_bulb"),
-       ("Predict", "22%", "efficiency gains", "UPS ORION optimises delivery routes with advanced analytics.", "ex_predict", "ic_data"),
-       ("Assist", "<2 min", "resolution time  |  +$40M profit", "Klarna's AI assistant handled two-thirds of customer-service chats in its first month.", "ex_assist", "ic_person")]
-uw = (CW - 4 * 110000) // 5
-for i, (h, big, unit, ex, img, ic) in enumerate(unl):
-    x = L + i * (uw + 110000); col = [GT, GT2, TEAL, DARK, CORAL][i]
-    box(s, x, TOP - 100000, uw, 560000, fill=col)
-    icon(s, ic, x + 70000, TOP - 50000, 460000)
-    txt(s, x + 560000, TOP - 20000, uw - 600000, 420000, [[(h, True)]], size=17, color=WHITE, anchor=MSO_ANCHOR.MIDDLE)
-    box(s, x, TOP + 460000, uw, 1380000, fill=LAV)
-    asset(s, img, x + 40000, TOP + 500000, w=uw - 80000, h=1300000)
-    txt(s, x, TOP + 1880000, uw, 560000, [[(big, True)]], size=28 if len(big) < 7 else 22, color=col, align=PP_ALIGN.CENTER)
-    txt(s, x, TOP + 2420000, uw, 330000, unit, size=11, bold=True, color=GREY, align=PP_ALIGN.CENTER)
-    box(s, x, TOP + 2780000, uw, 950000, fill=WHITE, line=LAV2, text=ex, size=11.5, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP)
-box(s, L, TOP + 3830000, CW, 500000, fill=DARK, text=[[("The same capabilities create new risks ", True), ("- to data, decisions, customers and compliance - unless governance keeps pace. That is what this assessment measures.", False)]],
-    size=12, color=WHITE)
+unl = [("Automate", "-27%", "operational costs", "JPM Coin turns deposits into on-chain, programmable, always-on digital money.", "ic_gears", GT),
+       ("Analyze", "-31%", "downtime", "Shell scales AI-fuelled predictive maintenance to 10,000 assets.", "ic_search", GT2),
+       ("Generate", "+26-60%", "developer productivity", "AI coding assistants accelerate software delivery.", "ic_bulb", TEAL),
+       ("Predict", "22%", "efficiency gains", "UPS ORION optimises delivery routes with advanced analytics.", "ic_data", DARK),
+       ("Assist", "<2 min", "resolution time", "Klarna's AI assistant handled two-thirds of customer-service chats in its first month (+$40M profit).", "ic_person", CORAL)]
+uw = (CW - 4 * 140000) // 5; ch_ = 3750000
+for i, (h, big, unit, ex, ic, col) in enumerate(unl):
+    x = L + i * (uw + 140000); y = TOP - 100000
+    box(s, x, y, uw, ch_, fill=WHITE, line=LAV2, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.04)
+    box(s, x, y, uw, 90000, fill=col)
+    icon(s, ic, x + (uw - 640000) // 2, y + 250000, 640000, fill=col)
+    txt(s, x, y + 960000, uw, 400000, [[(h, True)]], size=16, color=GT, align=PP_ALIGN.CENTER)
+    txt(s, x, y + 1380000, uw, 620000, [[(big, True)]], size=30 if len(big) < 7 else 24, color=col, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    txt(s, x, y + 2000000, uw, 300000, unit, size=11, bold=True, color=GREY, align=PP_ALIGN.CENTER)
+    box(s, x + uw // 2 - 250000, y + 2380000, 500000, 18000, fill=LAV2)
+    txt(s, x + 100000, y + 2480000, uw - 200000, ch_ - 2520000, ex, size=11, color=BLACK, align=PP_ALIGN.CENTER)
+box(s, L, TOP + 3800000, CW, 520000, fill=DARK, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.2, text=[[("The same capabilities create new risks ", True), ("- to data, decisions, customers and compliance - unless governance keeps pace. That is what this assessment measures.", False)]], size=12, color=WHITE)
 txt(s, L, TOP + 4400000, CW, 300000, SRC_NOTE, size=8.5, color=GREY)
 add(s)
 
@@ -137,36 +136,36 @@ add(s)
 
 # =========================================================== 6 moving fast
 s = content("Why Organisations Are Moving Fast", "The commercial pressure for AI adoption is becoming difficult to ignore - but adoption is moving faster than governance.")
-import math
-pres = ["Faster decision cycles", "Productivity pressure", "Cost optimisation", "Customer expectations", "Data volume growth", "Competitive pressure"]
-cx, cy = L + 2550000, TOP + 1350000
-box(s, cx - 620000, cy - 360000, 1240000, 720000, fill=LAV2, text="AI adoption", size=13, bold=True, color=GT, shape=MSO_SHAPE.HEXAGON)
-for i, p in enumerate(pres):
-    a = math.radians(-90 + i * 60)
-    x = int(cx + 1750000 * math.cos(a)) - 700000; y = int(cy + 1080000 * math.sin(a)) - 300000
-    box(s, x, y, 1400000, 600000, fill=[GT, GT2, TEAL, DARK, CORAL, GT2][i], text=p, size=10.5, bold=True, color=WHITE, shape=MSO_SHAPE.HEXAGON)
-x2 = L + 5500000; w2 = R - x2
-box(s, x2, TOP - 100000, w2, 460000, fill=CORAL, text="But adoption is moving faster than governance.", size=14, bold=True, color=WHITE)
-box(s, x2, TOP + 420000, w2, 1150000, fill=LAV, text=[[("Example: ", True), ("Morgan Stanley deployed Microsoft 365 Copilot and AI assistants to thousands of financial advisors - less time searching "
-    "internal documents, more time serving clients and faster responses.", False)]], size=11, align=PP_ALIGN.LEFT)
-box(s, x2, TOP + 1650000, w2, 1050000, fill=WHITE, line=GT, text=[[("“Bahrain's National AI Strategy promotes embedding AI in finance and operations while requiring governance to support economic "
-    "diversification and regulatory compliance.”", False)], [("Information & eGovernment Authority (iGA), Bahrain AI Report, 2025", True)]], size=10.5, color=GT, align=PP_ALIGN.LEFT)
-box(s, L, TOP + 2850000, CW, 360000, fill=DARK, text="When governance lags behind adoption", size=12, bold=True, color=WHITE, align=PP_ALIGN.LEFT)
+box(s, L, TOP - 100000, 5300000, 380000, fill=GT, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.3, text="Six pressures driving adoption", size=12.5, bold=True, color=WHITE, align=PP_ALIGN.LEFT)
+pres = [("Faster decision cycles", GT), ("Productivity pressure", GT2), ("Cost optimisation", TEAL), ("Customer expectations", CORAL), ("Data volume growth", DARK), ("Competitive pressure", GT2)]
+pw_ = (5300000 - 120000) // 2
+for i, (p_, col) in enumerate(pres):
+    x = L + (i % 2) * (pw_ + 120000); y = TOP + 360000 + (i // 2) * 560000
+    box(s, x, y, pw_, 480000, fill=LAV, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.3)
+    box(s, x + 130000, y + 150000, 180000, 180000, fill=col, shape=MSO_SHAPE.OVAL)
+    txt(s, x + 380000, y, pw_ - 420000, 480000, [[(p_, True)]], size=12, color=GT, anchor=MSO_ANCHOR.MIDDLE)
+x2 = L + 5600000; w2 = R - x2
+box(s, x2, TOP - 100000, w2, 380000, fill=CORAL, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.3, text="But adoption is moving faster than governance.", size=13, bold=True, color=WHITE)
+box(s, x2, TOP + 360000, w2, 880000, fill=LAV, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.08, text=[[("Example: ", True), ("Morgan Stanley deployed Microsoft 365 Copilot and AI assistants to thousands of financial advisors - less time searching "
+    "internal documents, more time serving clients.", False)]], size=11, align=PP_ALIGN.LEFT)
+box(s, x2, TOP + 1320000, w2, 880000, fill=WHITE, line=GT, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.08, text=[[("\u201cBahrain's National AI Strategy promotes embedding AI in finance and operations while requiring governance to support economic "
+    "diversification and regulatory compliance.\u201d", False)], [("Information & eGovernment Authority (iGA), Bahrain AI Report, 2025", True)]], size=10.5, color=GT, align=PP_ALIGN.LEFT)
+box(s, L, TOP + 2450000, CW, 380000, fill=DARK, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.3, text="When governance lags behind adoption", size=12.5, bold=True, color=WHITE, align=PP_ALIGN.LEFT)
 risks = [("ic_eye", "Shadow AI & data leakage", "Staff paste confidential or personal data into public AI tools."),
          ("ic_risk", "Unreliable or biased outputs", "Errors and bias reach customers and decisions unchecked."),
          ("ic_doccheck", "Regulatory exposure", "PDPL, sector-regulator and EU AI Act obligations missed."),
          ("ic_ai", "AI-enabled fraud", "Deepfake payment requests and AI-crafted phishing succeed.")]
-rw = (CW - 3 * 110000) // 4
+rw = (CW - 3 * 130000) // 4
 for i, (ic, h, d) in enumerate(risks):
-    x = L + i * (rw + 110000)
-    box(s, x, TOP + 3260000, rw, 1300000, fill=LAV)
-    icon(s, ic, x + 70000, TOP + 3340000, 520000, fill=[GT, CORAL, TEAL, DARK][i])
-    txt(s, x + 660000, TOP + 3300000, rw - 700000, 600000, [[(h, True)]], size=12, color=GT, anchor=MSO_ANCHOR.MIDDLE)
-    txt(s, x + 90000, TOP + 3920000, rw - 180000, 620000, d, size=10.5)
+    x = L + i * (rw + 130000); y = TOP + 2900000; col = [GT, CORAL, TEAL, DARK][i]
+    box(s, x, y, rw, 1600000, fill=WHITE, line=LAV2, shape=MSO_SHAPE.ROUNDED_RECTANGLE, radius=0.06)
+    icon(s, ic, x + 130000, y + 150000, 520000, fill=col)
+    txt(s, x + 740000, y + 100000, rw - 800000, 620000, [[(h, True)]], size=12.5, color=GT, anchor=MSO_ANCHOR.MIDDLE)
+    txt(s, x + 130000, y + 850000, rw - 260000, 700000, d, size=11.5)
 add(s)
 
 # =========================================================== design helpers (clean card style used by the redesigned slides)
-CHECK = "✓  "
+CHECK = "\u2713  "
 
 
 def card(s, x, y, w, h, head, body, accent, ic=None, size=11.5, head_size=13.5, bullet=False, spacing=4, head_h=520000):
